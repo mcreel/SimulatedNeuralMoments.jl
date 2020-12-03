@@ -9,7 +9,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     datadesign = 0.0
     nParams = size(model.lb,1)
     # training and testing
-    TrainTestSize == 1 ? TrainTestSize = Int64(2*nParams*1e4) : # use a default size if none provided
+    if (TrainTestSize == 1) TrainTestSize = Int64(2*nParams*1e4); end # use a default size if none provided
     params = zeros(TrainTestSize,nParams)
     statistics = zeros(TrainTestSize,size(model.auxstat(model.lb,1),2))
     @inbounds Threads.@threads for s = 1:TrainTestSize
