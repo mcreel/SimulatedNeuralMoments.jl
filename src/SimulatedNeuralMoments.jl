@@ -14,5 +14,6 @@ end
 include("MakeNeuralMoments.jl")
 include("FromEconometrics.jl")
 include("SNM.jl")
-export SNMmodel, MakeNeuralMoments, prettyprint, dstats, TransformStats
+export SNMmodel, MakeNeuralMoments, prettyprint, dstats
+export TransformStats, NeuralMoments, EstimateΣ, H
 end

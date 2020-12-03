@@ -4,7 +4,7 @@
 using Statistics, Flux
 using Base.Iterators
 
-function MakeNeuralMoments(model::SNMmodel, TrainTestSize=1, Epochs=1000)
+function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     data = 0.0
     datadesign = 0.0
     nParams = size(model.lb,1)

@@ -10,4 +10,7 @@ include("examples/MN/MNlib.jl")
 lb, ub = PriorSupport()
 # fill in the structure
 model = SNMmodel("Mixture of Normals example model", lb, ub, InSupport, Prior, PriorDraw, auxstat)
-nnmodel, nninfo = MakeNeuralMoments(model, 10000, 20) # the trained net and the transformation info are added to the nnmodel and nninfo fields.
+# get the trained net and the transformation info
+nnmodel, nninfo = MakeNeuralMoments(model, Epochs=100)
+θ = model.priordraw()
+m = NeuralMoments(θ, 10, model, nnmodel, nninfo)
