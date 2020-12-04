@@ -1,11 +1,11 @@
 # functions from github.com/mcreel/Econometrics, extracted to not depend on the whole thing.
 
 using PrettyTables, Statistics, Printf, Random
-
+#=
 function PrintDivider()
 println("____________________________________________________________")
 end
-
+=#
 function prettyprint(a, cnames="", rnames="")
 if rnames !=""
     rnames = rnames[:]
@@ -121,7 +121,7 @@ function mcmc(θ, reps::Int64, burnin::Int64, Prior::Function, lnL::Function, Pr
 end
 
 
-
+#=
 """
     samin(obj_fn, x, lb, ub)
 
@@ -472,3 +472,4 @@ function samin(obj_fn, x, lb, ub; nt=5, ns=5, rt=0.5, maxevals=1e6, neps=5, func
     end
     return xopt, fopt, converge, details
 end
+=#
