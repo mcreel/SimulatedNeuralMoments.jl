@@ -10,7 +10,7 @@ lb, ub = PriorSupport()
 model = SNMmodel("Mixture of Normals example model", lb, ub, InSupport, Prior, PriorDraw, auxstat)
 
 # get the trained net and the transformation info
-nnmodel, nninfo = MakeNeuralMoments(model, Epochs=10)
+#nnmodel, nninfo = MakeNeuralMoments(model, Epochs=10)
 
 # illustrate basic NN estimation
 θ = model.priordraw() # true parameter
@@ -20,4 +20,4 @@ println("Basic NN estimation, true parameters (a draw from prior) and estimates"
 prettyprint([θ m], cnames)
 
 # do MCMC with NN estimator as the statistic, to do interence
-chain, θhat = MCMC(m, SNMmodel, nnmodel, nninfo, verbosity=false)
+chain, θhat = MCMC(m, model, nnmodel, nninfo, verbosity=false)

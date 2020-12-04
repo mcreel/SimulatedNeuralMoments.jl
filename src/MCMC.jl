@@ -9,7 +9,7 @@ function MCMC(θnn, model::SNMmodel, nnmodel, nninfo; verbosity = false, nthread
     reps = 10 # replications at each trial parameter (the S in the paper, eqn. 6)
     covreps = 500 # replications used to compute weight matrix (the R in the paper, eqn. 5)
     # use a rapid SAMIN to get good initialization values for chain
-    obj = θ -> -1.0*H(θ, θnn, 10, model.auxstat, nnmodel, nninfo) # define the SAMIN criterion
+    obj = θ -> -1.0*H(θ, θnn, 10, model, nnmodel, nninfo) # define the SAMIN criterion
     if verbosity == true
         sa_verbosity = 2
     else
@@ -20,7 +20,7 @@ function MCMC(θnn, model::SNMmodel, nnmodel, nninfo; verbosity = false, nthread
     Σ = EstimateΣ(θsa, covreps, model.auxstat, nnmodel, nninfo) 
     Σinv = inv((1.0+1/reps).*Σ)
     # define things for MCMC
-    lnL = θ -> H(θ, θnn, reps, model.auxstat, nnmodel, nninfo, Σinv)
+    lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
     ChainLength = Int(1000/nthreads) # usually, nthreads will be 1, this is only for costly models
     # set up the proposal
     P = 0.0
