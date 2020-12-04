@@ -22,7 +22,7 @@ function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     for r = 1:reps
         zs[r,:] = NeuralMoments(θ, 1, model, nnmodel, nninfo)
     end
-    cov(z)
+    cov(zs)
 end
 
 # method with identity weight
