@@ -419,8 +419,8 @@ deps = ["Distributed", "Mmap", "Random", "Serialization"]
 uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
 
 [[SimulatedNeuralMoments]]
-deps = ["BSON", "Flux", "LinearAlgebra", "PrettyTables", "Random", "Statistics", "StatsBase"]
-git-tree-sha1 = "1e780c6ba6e5077f00aacfe6f3f4ed6ffabdbc6f"
+deps = ["Flux", "LinearAlgebra", "PrettyTables", "Random", "Statistics", "StatsBase"]
+git-tree-sha1 = "1e2393eb543dfad0de5fa0b4d3ba0b3b6a9b7767"
 repo-rev = "main"
 repo-url = "/home/michael/git/SimulatedNeuralMoments.jl"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
