@@ -15,7 +15,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     else
         sa_verbosity = 0
     end    
-    θsa, junk, junk, junk = samin(obj, θnn, model.lb, model.ub; coverage_ok=0, maxevals=1000, verbosity = sa_verbosity, rt = rt)
+    θsa, junk, junk, junk = samin(obj, θnn, model.lb, model.ub; coverage_ok=0, maxevals=100000, verbosity = sa_verbosity, rt = rt)
     # get covariance estimate using the consistent estimator
     Σ = EstimateΣ(θsa, covreps, model, nnmodel, nninfo) 
     Σinv = inv((1.0+1/reps).*Σ)

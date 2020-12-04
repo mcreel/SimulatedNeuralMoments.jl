@@ -3,19 +3,24 @@ using BSON:@save
 using BSON:@load
 
 # get the things to define the structure for the model
+# For your own models, you will need to supply the functions
+# found in MNlib.jl, using the same formats
 include("MNlib.jl")
 lb, ub = PriorSupport()
 
 # fill in the structure that defines the model
 model = SNMmodel("Mixture of Normals example model", lb, ub, InSupport, Prior, PriorDraw, auxstat)
 
-# get the trained net and the transformation info
+# train the net, and save it and the transformation info
 nnmodel, nninfo = MakeNeuralMoments(model, Epochs=10)
 #@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 #@load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
+# define the true parameter vector (either a specific design or a random value
+# θ = model.priordraw() # true parameter is a draw from prior
+θ = TrueParameters() # this is defined in MNlib.jl
+
 # illustrate basic NN point estimation
-θ = model.priordraw() # true parameter
 m = NeuralMoments(θ, 10, model, nnmodel, nninfo) # the estimate
 cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters (a draw from prior) and estimates")
@@ -25,6 +30,10 @@ prettyprint([θ m], cnames)
 chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=true)
 
 # visualize results
-chn = Chains(chain, [μ1,μ2,σ1,σ2,p])
+chn = Chains(chain, ["μ₁","μ₂","σ₁","σ₂","p"])
 display(chn)
 plot(chn)
+println("SNM estimation, true parameters (a draw from prior) and extremum estimates")
+prettyprint([θ θhat], cnames)
+
+
