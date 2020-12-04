@@ -4,7 +4,7 @@ using LinearAlgebra, Statistics
 
 # the main MCMC routine, does several short chains to tune proposal
 # then a longer final chain
-function MCMC(θnn, model::SNMmodel, nnmodel, nninfo; verbosity = false, nthreads=1, rt=0.5)
+function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false, rt=0.5)
     nParams = size(model.lb,1)
     reps = 10 # replications at each trial parameter (the S in the paper, eqn. 6)
     covreps = 500 # replications used to compute weight matrix (the R in the paper, eqn. 5)
@@ -32,7 +32,7 @@ function MCMC(θnn, model::SNMmodel, nnmodel, nninfo; verbosity = false, nthread
     tuning = 1.0
     Proposal = θ -> θ + tuning*P*randn(size(θ))
     # initial short chain to tune proposal
-    chain = mcmc(θsa, ChainLength, 0, model.prior, lnL, Proposal, verbosity, nthreads)
+    chain = mcmc(θsa, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
     # loops to tune proposal
     Σ = NeweyWest(chain[:,1:nParams])
     MC_loops = 5
@@ -44,10 +44,10 @@ function MCMC(θnn, model::SNMmodel, nnmodel, nninfo; verbosity = false, nthread
         end    
         Proposal = θ -> θ + tuning*P*randn(size(θ))
         if j == MC_loops
-            ChainLength = Int(10000/nthreads)
+            ChainLength = length
         end    
         θinit = mean(chain[:,1:nParams],dims=1)[:] # start where last chain left off
-        chain = mcmc(θinit, ChainLength, 0, model.prior, lnL, Proposal, verbosity, nthreads)
+        chain = mcmc(θinit, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
         # adjust tuning to try to keep acceptance rate between 0.23 - 0.35
         if j < MC_loops
             accept = mean(chain[:,end])
