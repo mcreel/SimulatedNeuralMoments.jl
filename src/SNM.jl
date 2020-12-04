@@ -20,7 +20,7 @@ end
 function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     zs = zeros(reps, size(θ,1))
     for r = 1:reps
-        zs[i,:] = NeuralMoments(θ, 1, model, nnmodel, nninfo)
+        zs[r,:] = NeuralMoments(θ, 1, model, nnmodel, nninfo)
     end
     cov(z)
 end
