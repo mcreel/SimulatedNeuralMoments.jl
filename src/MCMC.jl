@@ -19,7 +19,8 @@ function MCMC(θnn, model::SNMmodel, nnmodel, nninfo; verbosity = false, nthread
     # get covariance estimate using the consistent estimator
     Σ = EstimateΣ(θsa, covreps, model, nnmodel, nninfo) 
     Σinv = inv((1.0+1/reps).*Σ)
-    # define things for MCMC
+@show Σ
+# define things for MCMC
     lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
     ChainLength = Int(1000/nthreads) # usually, nthreads will be 1, this is only for costly models
     # set up the proposal
