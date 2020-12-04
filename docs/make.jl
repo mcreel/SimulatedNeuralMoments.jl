@@ -12,9 +12,7 @@ makedocs(;
         assets = String[],
     ),
     pages = [
-        "Home" => "index.md",
-#        "Example: Gaussian Mixture" => "example_1.md",
-        #"Reference" => "reference.md",
+        "Example: Gaussian Mixture" => "Example1.md",
     ],
 )
 
