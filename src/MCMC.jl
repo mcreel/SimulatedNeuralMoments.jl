@@ -15,8 +15,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     else
         sa_verbosity = 0
     end    
-    res = Optim.optimize(obj, model.lb, model.ub, θnn, SAMIN(rt=rt),Optim.Options(iterations=10^6))
-    θsa = minimizer(res)
+    θsa = (Optim.optimize(obj, model.lb, model.ub, θnn, SAMIN(rt=rt),Optim.Options(iterations=10^6))).minimizer
     # get covariance estimate using the consistent estimator
     Σ = EstimateΣ(θsa, covreps, model, nnmodel, nninfo) 
     Σinv = inv((1.0+1/reps).*Σ)
