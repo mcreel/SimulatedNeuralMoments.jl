@@ -1,4 +1,4 @@
-using SimulatedNeuralMoments
+using SimulatedNeuralMoments, MCMCChains, StatsPlots
 using BSON:@save
 using BSON:@load
 
@@ -11,15 +11,20 @@ model = SNMmodel("Mixture of Normals example model", lb, ub, InSupport, Prior, P
 
 # get the trained net and the transformation info
 nnmodel, nninfo = MakeNeuralMoments(model, Epochs=10)
-@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
+#@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 #@load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
-# illustrate basic NN estimation
+# illustrate basic NN point estimation
 θ = model.priordraw() # true parameter
 m = NeuralMoments(θ, 10, model, nnmodel, nninfo) # the estimate
 cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters (a draw from prior) and estimates")
 prettyprint([θ m], cnames)
 
-# draw a chain of length 10000
-chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=false)
+# draw a chain of length 10000, and get the extremum estimator
+chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=true)
+
+# visualize results
+chn = Chains(chain, [μ1,μ2,σ1,σ2,p])
+display(chn)
+plot(chn)

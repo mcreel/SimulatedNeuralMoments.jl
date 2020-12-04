@@ -2,6 +2,10 @@
 
 using PrettyTables, Statistics, Printf, Random
 
+function PrintDivider()
+println("____________________________________________________________")
+end
+
 function prettyprint(a, cnames="", rnames="")
 if rnames !=""
     rnames = rnames[:]
