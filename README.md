@@ -4,6 +4,8 @@ package for estimation and inference based on statistics that are filtered throu
 [![Build Status](https://travis-ci.org/mcreel/SimulatedNeuralMoments.jl.svg?branch=main)](https://travis-ci.org/mcreel/SimulatedNeuralMoments.jl)
 [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/src/Example1.md)
 
+Here's a run through the MNexample.jl file, in examples/MN, which estimates the parameters of a Gaussian Mixture model.
+
 First, we train a neural net to recognize the parameters, given a vector of statistics:
 
 ```
