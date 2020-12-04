@@ -97,7 +97,7 @@ Quantiles
 ```
 
 A plot of the chain, and nonparametric plots of marginal posteriors are
-![MNchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/master/examples/MN/chain.png)
+![MNchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/chain.png)
 
 
 
