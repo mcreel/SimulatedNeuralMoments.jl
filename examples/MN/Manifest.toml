@@ -420,7 +420,7 @@ uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
 
 [[SimulatedNeuralMoments]]
 deps = ["Flux", "LinearAlgebra", "PrettyTables", "Random", "Statistics", "StatsBase"]
-git-tree-sha1 = "1e2393eb543dfad0de5fa0b4d3ba0b3b6a9b7767"
+git-tree-sha1 = "72ca48dca6b8efb498be352d57f139f5f84a3b74"
 repo-rev = "main"
 repo-url = "/home/michael/git/SimulatedNeuralMoments.jl"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"

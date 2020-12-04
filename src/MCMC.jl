@@ -1,5 +1,5 @@
 # This does extremum GMM and then MCMC using the NN estimate as the statistic
-using Flux, Econometrics, LinearAlgebra, Statistics, DelimitedFiles
+using LinearAlgebra, Statistics
 
 
 # the main MCMC routine, does several short chains to tune proposal
