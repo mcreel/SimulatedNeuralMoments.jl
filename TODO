@@ -1,0 +1,4 @@
+add MCMC sampling
+add docs (two examples: MN and SV)
+add tests
+register package

@@ -1,0 +1,4 @@
+[deps]
+BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
+SimulatedNeuralMoments = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
