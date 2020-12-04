@@ -18,7 +18,11 @@ end
 
 # estimate covariance
 function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
-    cov(NeuralMoments(θ, reps, model, nnmodel, nninfo))
+    zs = zeros(reps, size(θ,1)
+    for r = 1:reps
+        zs[i,:] = NeuralMoments(θ, 1, model, nnmodel, nninfo))
+    end
+    cov(z)
 end
 
 # method with identity weight
@@ -31,6 +35,7 @@ end
 # log likelihood (GMM-form) with fixed weight matrix
 function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo, invΣ)
     x = m - NeuralMoments(θ, reps, model, nnmodel, nninfo)
+
     -0.5*dot(x,invΣ*x)
 end
 
