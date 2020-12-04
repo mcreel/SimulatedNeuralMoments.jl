@@ -21,7 +21,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     Σinv = inv((1.0+1/reps).*Σ)
     # define things for MCMC
     lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
-    ChainLength = Int(1000/nthreads) # usually, nthreads will be 1, this is only for costly models
+    ChainLength = 1000
     # set up the proposal
     P = 0.0
     try
@@ -48,7 +48,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
         end    
         θinit = mean(chain[:,1:nParams],dims=1)[:] # start where last chain left off
         chain = mcmc(θinit, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
-        # adjust tuning to try to keep acceptance rate between 0.23 - 0.35
+        # adjust tuning to try to keep acceptance rate between 0.25 - 0.35
         if j < MC_loops
             accept = mean(chain[:,end])
             if accept > 0.35
