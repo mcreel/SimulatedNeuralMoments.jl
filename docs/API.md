@@ -33,8 +33,13 @@ minimization to obtain the extremum estimator of the model's parameters.
 * auxstat is called as ```auxstat(theta, reps)```, where reps is Int64.
   * It returns reps draws of the statistics drawn at theta, in a reps X p array of Float64.
 
-The files MNexample.jl and MNlib.jl show how to use this type.
+The files MNexample.jl and MNlib.jl in the examples/MN directory show how to use this type.
 
 ## The function MakeNeuralMoments
+```function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)```
+ 
+
 ## The function MCMC
+```function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false, rt=0.5)```
+ 
 
