@@ -6,6 +6,8 @@ A package for estimation and inference based on statistics that are filtered thr
 
 By way of documentation, there is an explanation of the API in the docs directory, and here's a run through the MNexample.jl file, in examples/MN, which estimates the parameters of a Gaussian Mixture model. This example can serve as a template of how to use the package.
 
+To use the MNexample.jl file, start Julia from its directory, and activate the environment with ```] activate .``` 
+
 First, we train a neural net to recognize the parameters, given a vector of statistics:
 
 ```
