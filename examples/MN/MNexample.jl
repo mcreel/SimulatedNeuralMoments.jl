@@ -21,7 +21,7 @@ nnmodel, nninfo = MakeNeuralMoments(model, Epochs=10)
 θ = TrueParameters() # this is defined in MNlib.jl
 
 # illustrate basic NN point estimation
-m = NeuralMoments(θ, 10, model, nnmodel, nninfo) # the estimate
+m = NeuralMoments(θ, 1, model, nnmodel, nninfo) # the estimate
 cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters (a draw from prior) and estimates")
 prettyprint([θ m], cnames)
