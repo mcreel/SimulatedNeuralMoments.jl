@@ -2,7 +2,7 @@
 A package for estimation and inference based on statistics that are filtered through a trained neural net. The methods lead to reliable inferences, in the sense that confidence intervals or credible intervals based on quantiles of MCMC chains contain true parameters at a proportion close to the nominal level, in addition to point estimators having low bias and RMSE. From a Bayesian perspective, the methods can be interpreted as a properly calibrated ABC estimator. From a classical perspective, the methods satisfy the assumptions of Theorem 3 of V. Chernozhukov, H. Hong / Journal of Econometrics 115 (2003) 293 – 346. The evidence is reported in the working paper !["Inference Using Simulated Neural Moments"](https://www.barcelonagse.eu/research/working-papers/inference-using-simulated-neural-moments).
 
 [![Build Status](https://travis-ci.org/mcreel/SimulatedNeuralMoments.jl.svg?branch=main)](https://travis-ci.org/mcreel/SimulatedNeuralMoments.jl)
-[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/)
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/API.md)
 
 By way of documentation, there is an explanation of the API in the docs directory, and here's a run through the MNexample.jl file, in examples/MN, which estimates the parameters of a Gaussian Mixture model. This example can serve as a template of how to use the package.
 
