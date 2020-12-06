@@ -20,7 +20,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     Σ = EstimateΣ(θsa, covreps, model, nnmodel, nninfo) 
     Σinv = inv((1.0+1/reps).*Σ)
     # define things for MCMC
-    lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
+    lnL = θ -> H(θ, θsa, reps, model, nnmodel, nninfo, Σinv)
     ChainLength = 1000
     # set up the proposal
     P = 0.0
