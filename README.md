@@ -33,7 +33,7 @@ Then we can make one sample draw of the statistics at a given parameter vector, 
 θ = TrueParameters() # this is defined in MNlib.jl
 
 # illustrate basic NN point estimation
-m = NeuralMoments(θ, 10, model, nnmodel, nninfo) # the estimate
+m = NeuralMoments(θ, 1, model, nnmodel, nninfo) # the estimate
 cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters (a draw from prior) and estimates")
 prettyprint([θ m], cnames)
@@ -45,11 +45,11 @@ Basic NN estimation, true parameters and estimates
 ┌──────────────┬──────────────┐
 │         true │     estimate │
 ├──────────────┼──────────────┤
-│      1.00000 │      0.92253 │
-│      1.00000 │      0.97220 │
-│      0.20000 │      0.21032 │
-│      1.80000 │      1.81367 │
-│      0.40000 │      0.41895 │
+│      1.00000 │      0.73289 │
+│      1.00000 │      0.88155 │
+│      0.20000 │      0.25068 │
+│      1.80000 │      1.72031 │
+│      0.40000 │      0.44932 │
 └──────────────┴──────────────┘
 ```
 
@@ -82,24 +82,34 @@ Summary Statistics
   parameters      mean       std   naive_se      mcse        ess      rhat 
       Symbol   Float64   Float64    Float64   Float64    Float64   Float64 
 
-          μ₁    1.0013    0.0648     0.0006    0.0028   428.0129    1.0003
-          μ₂    0.9914    0.1372     0.0014    0.0066   382.2044    1.0016
-          σ₁    0.1920    0.0357     0.0004    0.0018   282.3489    1.0024
-          σ₂    1.8005    0.1047     0.0010    0.0049   409.7620    1.0030
-           p    0.3911    0.0485     0.0005    0.0024   304.8917    1.0001
+          μ₁    0.8922    0.0587     0.0006    0.0037   156.7766    1.0049
+          μ₂    0.9412    0.1248     0.0012    0.0046   696.6367    1.0002
+          σ₁    0.2350    0.0378     0.0004    0.0023   188.1651    1.0056
+          σ₂    1.7322    0.0967     0.0010    0.0049   291.5987    1.0019
+           p    0.4162    0.0428     0.0004    0.0023   248.6760    1.0039
 
 Quantiles
   parameters      2.5%     25.0%     50.0%     75.0%     97.5% 
       Symbol   Float64   Float64   Float64   Float64   Float64 
 
-          μ₁    0.8790    0.9594    1.0009    1.0440    1.1281
-          μ₂    0.7338    0.8964    0.9862    1.0811    1.2720
-          σ₁    0.1168    0.1694    0.1950    0.2167    0.2563
-          σ₂    1.5918    1.7289    1.7991    1.8685    2.0128
-           p    0.2974    0.3572    0.3929    0.4240    0.4787
-
+          μ₁    0.7733    0.8535    0.8939    0.9322    1.0001
+          μ₂    0.7042    0.8562    0.9406    1.0250    1.1972
+          σ₁    0.1600    0.2121    0.2338    0.2586    0.3137
+          σ₂    1.5542    1.6682    1.7288    1.7920    1.9381
+           p    0.3343    0.3877    0.4154    0.4423    0.5037 
 ```
-
+The extremum estimator results are:
+```
+┌──────────────┬──────────────┐
+│         true │     estimate │
+├──────────────┼──────────────┤
+│      1.00000 │      0.96377 │
+│      1.00000 │      0.92010 │
+│      0.20000 │      0.17996 │
+│      1.80000 │      1.77447 │
+│      0.40000 │      0.40204 │
+└──────────────┴──────────────┘
+```
 A plot of the chain, and nonparametric plots of marginal posteriors are
 ![MNchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/chain.png)
 
