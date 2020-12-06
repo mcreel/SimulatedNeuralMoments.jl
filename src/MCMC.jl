@@ -33,7 +33,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     Proposal = θ -> θ + tuning*P*randn(size(θ))
     # initial short chain to tune proposal
     chain = mcmc(θsa, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
-#    Σ = NeweyWest(chain[:,1:nParams])
+    Σ = NeweyWest(chain[:,1:nParams])
     # loops to tune proposal
     MC_loops = 5
     @inbounds for j = 1:MC_loops
@@ -50,7 +50,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
             elseif accept < 0.25
                 tuning *= 0.25
             end
- #           Σ = 0.5*Σ + 0.5*NeweyWest(chain[:,1:nParams]) # gradual adjustment to stay on tracks
+            Σ = 0.5*Σ + 0.5*NeweyWest(chain[:,1:nParams]) # gradual adjustment to stay on tracks
         end    
     end
     return chain[:,1:nParams], θsa
