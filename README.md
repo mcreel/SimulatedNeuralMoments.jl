@@ -6,7 +6,7 @@ A package for estimation and inference based on statistics that are filtered thr
 
 By way of documentation, there is an explanation of the API in the docs directory, and here's a run through the MNexample.jl file, in examples/MN, which estimates the parameters of a Gaussian Mixture model. This example can serve as a template of how to use the package.
 
-To use the MNexample.jl file, start Julia from its directory, and activate the environment with ```] activate .``` 
+To use the MNexample.jl file, start Julia from its directory, and, if you do not have MCMCChains and/or StatsPlots installed, activate the environment with ```] activate .``` 
 
 First, we train a neural net to recognize the parameters, given a vector of statistics:
 
@@ -15,7 +15,7 @@ using SimulatedNeuralMoments, MCMCChains, StatsPlots
 using BSON:@save
 using BSON:@load
 
-# get the things to define the structure for the model
+# get the things to define the structure for the statistical model we wish to estimate
 # For your own models, you will need to supply the functions
 # found in MNlib.jl, using the same formats
 include("MNlib.jl")
@@ -28,7 +28,7 @@ model = SNMmodel("Mixture of Normals example model", lb, ub, InSupport, Prior, P
 nnmodel, nninfo = MakeNeuralMoments(model, Epochs=10)
 ```
 
-Then we can make one sample draw of the statistics at a given parameter vector, and use the statistics to estimate the parameters:
+Then we can make one sample draw of the statistics at a given parameter vector, and use the statistics to estimate the parameters, to see how well we do:
 ```
 θ = TrueParameters() # this is defined in MNlib.jl
 
