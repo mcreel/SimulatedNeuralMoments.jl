@@ -43,10 +43,13 @@ net to recognize the parameters, given the statistic. It returns the trained net
 array of information for transforming a raw statistic vector to use it as an input to the
 net.
   * TrainTestSize is an optional argument. If omitted, then 20000 samples per parameter
-  will be used to train an test the net. The default gives fairly quick training for
-  models that are not costly to simulate.
+  will be used to train and test the net. The default gives fairly quick training for
+  models that are not costly to simulate. For important research results, this number should
+  be increased, if computational resources permit.
   * Epochs is the number of Flux epochs that will be used to train the net. The default
-  gives fairly quick training for models that are not costly to simulate.
+  gives fairly quick training for models that are not costly to simulate. For important
+  results, it is suggested to increase this to 1000 or more, if computational resources
+  permit.
 
 ## The function MCMC
 ```function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false, rt=0.5)```
