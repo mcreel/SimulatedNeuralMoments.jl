@@ -1,5 +1,6 @@
 using Statistics, Random
 
+# method that generates the sample
 function auxstat(θ, reps)
     stats = zeros(reps,11)
     n = 500
@@ -23,6 +24,26 @@ function auxstat(θ, reps)
         stats[rep,:] = vcat(m, s, s2, k, c, c1, HAR(y))'
     end
     sqrt(n).*stats
+end
+
+# method for a given sample
+function auxstat(y)
+	s = std(y)
+	y = abs.(y)
+	m = mean(y)
+	s2 = std(y)
+	y = y ./ s2
+	k = std((y).^2.0)
+	c = cor(y[1:end-1],y[2:end])
+	# ratios of quantiles of moving averages to detect clustering
+	q = try
+	    q = quantile((ma(y,3)[3:end]), [0.25, 0.75])
+	catch
+	    q = [1.0, 1.0]
+	end
+	c1 = log(q[2]/q[1])
+	stats = vcat(m, s, s2, k, c, c1, HAR(y))'
+    sqrt(size(y,1)).*stats
 end
 
 function SVmodel(θ, n, burnin)

@@ -1,6 +1,7 @@
-using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots
+using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots, DelimitedFiles
 using BSON:@save
 using BSON:@load
+using DelimitedFiles
 
 # get the things to define the structure for the model
 # For your own models, you will need to supply the functions
@@ -16,12 +17,15 @@ model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, Prio
 #@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
-# define the true parameter vector (either a specific design or a random value
-# θ = model.priordraw() # true parameter is a draw from prior
-θ = TrueParameters() # this is defined in MNlib.jl
+# draw a sample at the design parameters
+θ = TrueParameters()
+y = SVmodel(θ, 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
+#writedlm("svdata.txt", y)
 
 # illustrate basic NN point estimation
-m = NeuralMoments(θ, 1, model, nnmodel, nninfo) # the estimate
+z = auxstat(y)
+m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
+
 cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters (a draw from prior) and estimates")
 prettyprint([θ m], cnames)
@@ -35,4 +39,4 @@ display(chn)
 println("SNM estimation, true parameters (a draw from prior) and extremum estimates")
 prettyprint([θ θhat], cnames)
 plot(chn)
-
+#savefig("chain.png")
