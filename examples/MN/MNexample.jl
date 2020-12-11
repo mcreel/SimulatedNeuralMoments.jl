@@ -23,7 +23,7 @@ nnmodel, nninfo = MakeNeuralMoments(model; Epochs=100)
 # illustrate basic NN point estimation
 m = NeuralMoments(θ, 1, model, nnmodel, nninfo) # the estimate
 cnames = ["true", "estimate"]
-println("Basic NN estimation, true parameters (a draw from prior) and estimates")
+println("Basic NN estimation, true parameters and estimates")
 prettyprint([θ m], cnames)
 
 # draw a chain of length 10000, and get the extremum estimator
@@ -33,7 +33,7 @@ chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=true)
 chn = Chains(chain, ["μ₁","μ₂","σ₁","σ₂","p"])
 display(chn)
 plot(chn)
-println("SNM estimation, true parameters (a draw from prior) and extremum estimates")
+println("SNM estimation, true parameters and extremum estimates")
 prettyprint([θ θhat], cnames)
 
 

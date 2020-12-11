@@ -18,20 +18,18 @@ model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, Prio
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
 # draw a sample at the design parameters
-θ = TrueParameters()
-y = SVmodel(θ, 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
+#θ = TrueParameters()
+#y = SVmodel(θ, 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
+#writedlm("svdata.txt", y)
+y = readdlm("svdata.txt") # load a data set
 p1 = plot(y)
 p2 = density(y)
 plot(p1, p2, layout=(2,1))
 #savefig("data.png")
-#writedlm("svdata.txt", y)
+
+# define the neural moments using the real data
 z = auxstat(y)
 m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
-
-# illustrate basic NN point estimation
-cnames = ["true", "estimate"]
-println("Basic NN estimation, true parameters (a draw from prior) and estimates")
-prettyprint([θ m], cnames)
 
 # draw a chain of length 10000, and get the extremum estimator
 chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=false)
@@ -39,8 +37,8 @@ chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=false)
 # visualize results
 chn = Chains(chain, ["ϕ", "ρ", "σ"])
 display(chn)
-println("SNM estimation, true parameters (a draw from prior) and extremum estimates")
-prettyprint([θ θhat], cnames)
+println("SNM estimation, extremum estimates")
+prettyprint([θhat'], cnames)
 plot(chn)
 #savefig("chain.png")
 

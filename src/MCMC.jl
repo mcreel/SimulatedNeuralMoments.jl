@@ -4,10 +4,10 @@ using LinearAlgebra, Statistics, Optim
 
 # the main MCMC routine, does several short chains to tune proposal
 # then a longer final chain
-function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false, rt=0.5)
+function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false, rt=0.25)
     nParams = size(model.lb,1)
     reps = 10 # replications at each trial parameter (the S in the paper, eqn. 6)
-    covreps = 500 # replications used to compute weight matrix (the R in the paper, eqn. 5)
+    covreps = 1000 # replications used to compute weight matrix (the R in the paper, eqn. 5)
     # use a rapid SAMIN to get good initialization values for chain
     obj = θ -> -1.0*H(θ, θnn, 10, model, nnmodel, nninfo) # define the SAMIN criterion
     if verbosity == true
