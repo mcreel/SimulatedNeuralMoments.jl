@@ -1,5 +1,5 @@
 # SVexample.jl
-The main purpose of this example is to show how to use the methods with real data. To run the file, go to its direectory, start Julia, and activate the environment with ```] activate .```  (unless you happen to have all of the dependencies installed in your main environment).
+The main purpose of this example is to show how to use the methods with real data. To run the file, go to its directory, start Julia, and activate the environment with ```] activate .```  (unless you happen to have all of the dependencies installed in your main environment).
 
 The first block loads packages and sets up the structure that defines the SV model:
 
