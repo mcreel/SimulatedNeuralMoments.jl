@@ -1,3 +1,9 @@
+# SVexample.jl
+The main purpose of this example is to show how to use the methods with real data. To run the file, go to its direectory, start Julia, and activate the environment with ```] activate .```  (unless you happen to have all of the dependencies installed in your main environment).
+
+The first block loads packages and sets up the structure that defines the SV model:
+
+```
 using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots, DelimitedFiles
 using BSON:@save
 using BSON:@load
@@ -11,36 +17,35 @@ lb, ub = PriorSupport()
 
 # fill in the structure that defines the model
 model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, PriorDraw, auxstat)
+```
 
+Next, we train the net, or use the pre-trained net which I have kindly provided you:
+```
 # train the net, and save it and the transformation info
 #nnmodel, nninfo = MakeNeuralMoments(model)
 #@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
-
+```
+Next, we call the model at the design parameters to generate some sample data. This is
+where you can see how to use real data. You would just replace the y drawn from the model 
+with your own data. Once we have the data, we make some plots, and then we compute the neural
+moments:
+```
 # draw a sample at the design parameters
 θ = TrueParameters()
 y = SVmodel(θ, 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
 p1 = plot(y)
 p2 = density(y)
 plot(p1, p2, layout=(2,1))
-#savefig("data.png")
-#writedlm("svdata.txt", y)
+savefig("data.png")
+writedlm("svdata.txt", y)
 z = auxstat(y)
 m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
+```
 
-# illustrate basic NN point estimation
-cnames = ["true", "estimate"]
-println("Basic NN estimation, true parameters (a draw from prior) and estimates")
-prettyprint([θ m], cnames)
+The rest of the example is like the mixture of normals example. In the end, we get a MCMC
+chain that looks something like
+![SVchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/SV/chain.png)
 
-# draw a chain of length 10000, and get the extremum estimator
-chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=false)
 
-# visualize results
-chn = Chains(chain, ["ϕ", "ρ", "σ"])
-display(chn)
-println("SNM estimation, true parameters (a draw from prior) and extremum estimates")
-prettyprint([θ θhat], cnames)
-plot(chn)
-#savefig("chain.png")
 
