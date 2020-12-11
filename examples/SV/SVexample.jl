@@ -20,7 +20,11 @@ model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, Prio
 # draw a sample at the design parameters
 θ = TrueParameters()
 y = SVmodel(θ, 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
-#writedlm("svdata.txt", y)
+p1 = plot(y)
+p2 = density(y)
+plot(p1, p2, layout=(2,1))
+savefig("data.png")
+writedlm("svdata.txt", y)
 
 # illustrate basic NN point estimation
 z = auxstat(y)
@@ -39,4 +43,5 @@ display(chn)
 println("SNM estimation, true parameters (a draw from prior) and extremum estimates")
 prettyprint([θ θhat], cnames)
 plot(chn)
-#savefig("chain.png")
+savefig("chain.png")
+
