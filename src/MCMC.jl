@@ -6,8 +6,7 @@ using LinearAlgebra, Statistics, Optim
 # then a longer final chain
 function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false, rt=0.25)
     nParams = size(model.lb,1)
-    reps = 10 # replications at each trial parameter (the S in the paper, eqn. 6)
-    covreps = 500 # replications used to compute weight matrix (the R in the paper, eqn. 5)
+    reps = 50 # replications at each trial parameter (the S in the paper, eqn. 6)
     # use a rapid SAMIN to get good initialization values for chain
     obj = θ -> -1.0*H(θ, θnn, reps, model, nnmodel, nninfo) # define the SAMIN criterion
     if verbosity == true
@@ -17,7 +16,9 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     end
     θsa = (Optim.optimize(obj, model.lb, model.ub, θnn, SAMIN(rt=rt, verbosity=sa_verbosity),Optim.Options(iterations=10^6))).minimizer
     # get covariance estimate using the consistent estimator
+    covreps = 1000 # replications used to compute weight matrix (the R in the paper, eqn. 5)
     Σ = EstimateΣ(θsa, covreps, model, nnmodel, nninfo) 
+    reps = 10 # fewer for the MC chain
     Σinv = inv((1.0+1/reps).*Σ)
     # define things for MCMC
     lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
