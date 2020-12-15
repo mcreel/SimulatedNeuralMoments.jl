@@ -1,14 +1,45 @@
+# The library of functions for the simple SV model
+
 using Statistics, Random
 
 # method that generates the sample
 function auxstat(θ, reps)
     stats = zeros(reps,11)
-    n = 500
-    burnin = 100
-    for rep = 1:reps
-        y = SVmodel(θ, n, burnin)
-        stats[rep,:] = auxstat(y)
-    end
+    if InSupport(θ)
+        n = 500
+        burnin = 100
+        for rep = 1:reps
+            y = SVmodel(θ, n, burnin)
+            stats[rep,:] = auxstat(y)
+        end
+    end    
+    stats
+end
+
+# method that uses pre-generated shocks
+function auxstat(θ, ϵ, u)
+    ϕ = θ[1]
+    ρ = θ[2]
+    σ = θ[3]
+    reps = size(ϵ,2)
+    stats = zeros(reps,11)
+    if InSupport(θ)
+        n = 500
+        burnin = 100
+        for rep = 1:reps
+            hlag = 0.0
+            ys = zeros(n)
+            @inbounds for t = 1:burnin+n
+                h = ρ*hlag + σ*u[t, rep]
+                y = ϕ*exp(h/2.0)*ϵ[t, rep]
+                if t > burnin 
+                    ys[t-burnin] = y
+                end    
+                hlag = h
+            end
+            stats[rep,:] = auxstat(ys)
+        end
+    end    
     stats
 end
 
@@ -37,14 +68,16 @@ function SVmodel(θ, n, burnin)
     σ = θ[3]
     hlag = 0.0
     ys = zeros(n)
-    @inbounds for t = 1:burnin+n
-        h = ρ*hlag + σ*randn()
-        y = ϕ*exp(h/2.0)*randn()
-        if t > burnin 
-            ys[t-burnin] = y
-        end    
-        hlag = h
-    end
+    if InSupport(θ)
+        @inbounds for t = 1:burnin+n
+            h = ρ*hlag + σ*randn()
+            y = ϕ*exp(h/2.0)*randn()
+            if t > burnin 
+                ys[t-burnin] = y
+            end    
+            hlag = h
+        end
+    end    
     ys
 end
 

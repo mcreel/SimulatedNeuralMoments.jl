@@ -30,15 +30,16 @@ plot(p1, p2, layout=(2,1))
 # define the neural moments using the real data
 z = auxstat(y)
 m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
-
-# draw a chain of length 10000, and get the extremum estimator
-chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=false)
+@show m
+# draw a chain of length 10000, and get the extremum estimator (SV model seems to need slow cooling)
+chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=false, rt = 0.9)
 
 # visualize results
 chn = Chains(chain, ["ϕ", "ρ", "σ"])
 display(chn)
 println("SNM estimation, extremum estimates")
-prettyprint([θhat'], cnames)
+cnames = ["estimate"] 
+prettyprint(θhat, cnames)
 plot(chn)
 #savefig("chain.png")
 
