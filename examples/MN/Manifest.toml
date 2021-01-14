@@ -50,12 +50,6 @@ git-tree-sha1 = "a0c202d58f0f99156bd77972fe75ae8498fd9f4b"
 uuid = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
 version = "2.14.13"
 
-[[ArrayLayouts]]
-deps = ["Compat", "FillArrays", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "a577e27915fdcb3f6b96118b56655b38e3b466f2"
-uuid = "4c555306-a7a7-4459-81d9-ec55ddd5c99a"
-version = "0.4.12"
-
 [[Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 
@@ -116,9 +110,9 @@ version = "1.16.0+6"
 
 [[ChainRules]]
 deps = ["ChainRulesCore", "Compat", "LinearAlgebra", "Random", "Reexport", "Requires", "Statistics"]
-git-tree-sha1 = "31b28f5123afa5e5ca0c885e4051896032754578"
+git-tree-sha1 = "b287f130a0f32011a8f08ab4c8e5d797b4c16117"
 uuid = "082447d4-558c-5d27-93f4-14fc19e9eca2"
-version = "0.7.45"
+version = "0.7.46"
 
 [[ChainRulesCore]]
 deps = ["LinearAlgebra", "SparseArrays"]
@@ -338,9 +332,9 @@ version = "0.8.4"
 
 [[Flux]]
 deps = ["AbstractTrees", "Adapt", "CUDA", "CodecZlib", "Colors", "DelimitedFiles", "Functors", "Juno", "LinearAlgebra", "MacroTools", "NNlib", "Pkg", "Printf", "Random", "Reexport", "SHA", "Statistics", "StatsBase", "Test", "ZipFile", "Zygote"]
-git-tree-sha1 = "b96dbd0954415f52279f7ef9b52c5a54ec3cf72d"
+git-tree-sha1 = "f688d61b40b345aa9f0a4a41d3ca7750ad9cb1f6"
 uuid = "587475ba-b771-5e3f-ad9e-33799f191a9c"
-version = "0.11.2"
+version = "0.11.4"
 
 [[Fontconfig_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Expat_jll", "FreeType2_jll", "JLLWrappers", "Libdl", "Libuuid_jll", "Pkg", "Zlib_jll"]
@@ -441,28 +435,11 @@ git-tree-sha1 = "c7ec02c4c6a039a98a15f955462cd7aea5df4508"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 version = "0.8.19"
 
-[[Hwloc]]
-deps = ["Hwloc_jll"]
-git-tree-sha1 = "2f32147444692235ad4ccc5e03e2d8e9a6b5d247"
-uuid = "0e44f5e4-bd66-52a0-8798-143a42290a1d"
-version = "1.1.0"
-
-[[Hwloc_jll]]
-deps = ["Libdl", "Pkg"]
-git-tree-sha1 = "d9de29482e0a9efb0639328e208d02e01554fa9b"
-uuid = "e33a78d0-f292-5ffc-b300-72abe9b543c8"
-version = "2.2.0+0"
-
 [[IRTools]]
 deps = ["InteractiveUtils", "MacroTools", "Test"]
 git-tree-sha1 = "c67e7515a11f726f44083e74f218d134396d6510"
 uuid = "7869d1d1-7146-5819-86e3-90919afe41df"
 version = "0.4.2"
-
-[[IfElse]]
-git-tree-sha1 = "28e837ff3e7a6c3cdb252ce49fb412c8eb3caeef"
-uuid = "615f187c-cbe4-4ef1-ba3b-2fcf58d6d173"
-version = "0.1.0"
 
 [[IniFile]]
 deps = ["Test"]
@@ -667,17 +644,11 @@ git-tree-sha1 = "03289aba73c0abc25ff0229bed60f2a4129cd15c"
 uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
 version = "0.4.2"
 
-[[LoopVectorization]]
-deps = ["ArrayInterface", "DocStringExtensions", "IfElse", "LinearAlgebra", "OffsetArrays", "Requires", "SLEEFPirates", "UnPack", "VectorizationBase"]
-git-tree-sha1 = "011f1dc8b2a0259ec68dee596758e9014b627bf1"
-uuid = "bdcacae8-1622-11e9-2a5c-532679323890"
-version = "0.9.19"
-
 [[MCMCChains]]
 deps = ["AbstractFFTs", "AbstractMCMC", "AxisArrays", "Compat", "Distributions", "Formatting", "IteratorInterfaceExtensions", "LinearAlgebra", "MLJModelInterface", "NaturalSort", "PrettyTables", "Random", "RecipesBase", "Serialization", "SpecialFunctions", "Statistics", "StatsBase", "TableTraits", "Tables"]
-git-tree-sha1 = "1915b448ec72dcd7adc87e957500976e1c07cd62"
+git-tree-sha1 = "8df14e3546bfb4fc05acfb1e932cb67387efa201"
 uuid = "c7f686f2-ff18-58e9-bc7b-31028e88f75d"
-version = "4.3.1"
+version = "4.4.0"
 
 [[MKL_jll]]
 deps = ["IntelOpenMP_jll", "Libdl", "Pkg"]
@@ -687,9 +658,9 @@ version = "2020.2.254+0"
 
 [[MLJModelInterface]]
 deps = ["Random", "ScientificTypes"]
-git-tree-sha1 = "6ac897581ef6e949cf3a4ca28f7bcee4674538e7"
+git-tree-sha1 = "dc9af7178bdbe2619623be56fc127fe8b0d30c78"
 uuid = "e80e1ace-859a-464e-9ed9-23947d8ae3ea"
-version = "0.3.7"
+version = "0.3.8"
 
 [[MacroTools]]
 deps = ["Markdown", "Random"]
@@ -979,12 +950,6 @@ version = "0.2.2+1"
 [[SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 
-[[SLEEFPirates]]
-deps = ["IfElse", "Libdl", "VectorizationBase"]
-git-tree-sha1 = "598e7a7fc1a0a72eecc7edd080722be92ec9c712"
-uuid = "476501e8-09a2-5ece-8869-fb82de89a1fa"
-version = "0.6.6"
-
 [[ScientificTypes]]
 git-tree-sha1 = "1d3f5f8bdf5dd0c9951eb9c595ee08a728aec331"
 uuid = "321657f4-b219-11e9-178b-2701a2544e81"
@@ -1041,10 +1006,10 @@ deps = ["LinearAlgebra", "Random"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[SpecialFunctions]]
-deps = ["OpenSpecFun_jll"]
-git-tree-sha1 = "d8d8b8a9f4119829410ecd706da4cc8594a1e020"
+deps = ["ChainRulesCore", "OpenSpecFun_jll"]
+git-tree-sha1 = "75394dbe2bd346beeed750fb02baa6445487b862"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "0.10.3"
+version = "1.2.1"
 
 [[SplittablesBase]]
 deps = ["Setfield", "Test"]
@@ -1155,12 +1120,6 @@ version = "1.0.2"
 
 [[Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
-
-[[VectorizationBase]]
-deps = ["ArrayInterface", "Hwloc", "IfElse", "Libdl", "LinearAlgebra"]
-git-tree-sha1 = "3db657eb4536cddb887a59a07fbdeb6fb15e8b9a"
-uuid = "3d5dd08c-fd9d-11e8-17fa-ed2836048c2f"
-version = "0.15.3"
 
 [[Wayland_jll]]
 deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg", "XML2_jll"]
@@ -1341,10 +1300,10 @@ uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
 version = "1.4.5+2"
 
 [[Zygote]]
-deps = ["AbstractFFTs", "ArrayLayouts", "ChainRules", "DiffRules", "Distributed", "FillArrays", "ForwardDiff", "IRTools", "InteractiveUtils", "LinearAlgebra", "LoopVectorization", "MacroTools", "NNlib", "NaNMath", "Random", "Requires", "SpecialFunctions", "Statistics", "ZygoteRules"]
-git-tree-sha1 = "18f758f28ca2c236e449be64e366e201965129a7"
+deps = ["AbstractFFTs", "ChainRules", "DiffRules", "Distributed", "FillArrays", "ForwardDiff", "IRTools", "InteractiveUtils", "LinearAlgebra", "MacroTools", "NaNMath", "Random", "Requires", "SpecialFunctions", "Statistics", "ZygoteRules"]
+git-tree-sha1 = "d88a7e71fc2eef9510187b1c7d4af7a5177633d0"
 uuid = "e88e6eb3-aa80-5325-afca-941959d7151f"
-version = "0.5.17"
+version = "0.6.0"
 
 [[ZygoteRules]]
 deps = ["MacroTools"]
