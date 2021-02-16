@@ -33,6 +33,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     # loops to tune proposal
     tuning = 1.0
     MC_loops = 5
+    chain = 0.0
     @inbounds for j = 1:MC_loops
         Proposal = θ -> θ + tuning*P*randn(size(θ))
         if j == MC_loops
