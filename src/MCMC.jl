@@ -27,7 +27,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     P = ((cholesky(Σ)).U)' # transpose it here 
     # loops to tune proposal
     tuning = 1.0
-    MC_loops = 10
+    MC_loops = 30
     chain = 0.0
     @inbounds for j = 1:MC_loops
         Proposal = θ -> θ + tuning*P*randn(size(θ))
@@ -39,9 +39,9 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
         if j < MC_loops
             accept = mean(chain[:,end])
             if accept > 0.3
-                tuning *= 1.2
+                tuning *= 1.1
             elseif accept < 0.2
-                tuning /= 1.2
+                tuning /= 1.1
             end
         end    
     end
