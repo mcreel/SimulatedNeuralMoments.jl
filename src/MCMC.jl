@@ -30,18 +30,19 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     catch
         P = diagm(sqrt.(diag(Σ)))
     end
-    tuning = 1.0
-    Proposal = θ -> θ + tuning*P*randn(size(θ))
-    # initial short chain to tune proposal
-    chain = mcmc(θsa, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
-    Σ = NeweyWest(chain[:,1:nParams])
     # loops to tune proposal
+    tuning = 1.0
     MC_loops = 5
     @inbounds for j = 1:MC_loops
+        Proposal = θ -> θ + tuning*P*randn(size(θ))
         if j == MC_loops
             ChainLength = length
         end    
-        θinit = mean(chain[:,1:nParams],dims=1)[:] # start where last chain left off
+        if j==1
+            θinit = θsa
+        else
+            θinit = mean(chain[:,1:nParams],dims=1)[:] # start where last chain left off
+        end
         chain = mcmc(θinit, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
         # adjust tuning to try to keep acceptance rate between 0.25 - 0.35
         if j < MC_loops
@@ -51,7 +52,6 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
             elseif accept < 0.25
                 tuning *= 0.25
             end
-            Σ = 0.5*Σ + 0.5*NeweyWest(chain[:,1:nParams]) # gradual adjustment to stay on tracks
         end    
     end
     return chain[:,1:nParams], θsa

@@ -986,12 +986,6 @@ git-tree-sha1 = "ee010d8f103468309b8afac4abb9be2e18ff1182"
 uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "0.3.2"
 
-[[SimulatedNeuralMoments]]
-deps = ["Flux", "LinearAlgebra", "Optim", "PrettyTables", "Printf", "Random", "Statistics", "StatsBase"]
-git-tree-sha1 = "200bcf4e38a9333a8b302baed55b5a449a1954bc"
-uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
-version = "0.1.0"
-
 [[Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 
