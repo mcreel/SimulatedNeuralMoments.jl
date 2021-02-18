@@ -32,7 +32,7 @@ z = auxstat(y)
 m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
 @show m
 # draw a chain of length 10000, and get the extremum estimator (SV model seems to need slow cooling)
-chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=false, rt = 0.9)
+chain, θhat, junk, junk = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=false, rt = 0.9)
 
 # visualize results
 chn = Chains(chain, ["ϕ", "ρ", "σ"])
