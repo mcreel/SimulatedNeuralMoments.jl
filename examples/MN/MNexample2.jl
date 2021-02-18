@@ -20,7 +20,7 @@ function main()
     results = zeros(R, 20)
     Threads.@threads for r = 1:R
         m = NeuralMoments(TrueParameters(), 1, model, nnmodel, nninfo) # the estimate
-        chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo)
+        chain, θhat, junk, junk = MCMC(m, 10000, model, nnmodel, nninfo)
         println("r: ", r)
         @show results[r,:] = vcat(θhat, Analyze(chain))
     end

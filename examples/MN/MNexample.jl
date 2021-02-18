@@ -27,7 +27,7 @@ println("Basic NN estimation, true parameters and estimates")
 prettyprint([θ m], cnames)
 
 # draw a chain of length 10000, and get the extremum estimator
-chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=true)
+chain, θhat, junk, junk = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=true)
 
 # visualize results
 chn = Chains(chain, ["μ₁","μ₂","σ₁","σ₂","p"])
