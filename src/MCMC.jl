@@ -34,7 +34,12 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
         if j == MC_loops
             ChainLength = length
         end    
-        chain = mcmc(θsa, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
+        if j > 1 
+            θinit = mean(chain[:,1:nParams], dims=1)
+        else
+            θinit = θsa
+        end    
+        chain = mcmc(θinit, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
         # adjust tuning to try to keep acceptance rate between 0.25 - 0.35
         if j < MC_loops
             accept = mean(chain[:,end])
