@@ -35,7 +35,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
             ChainLength = length
         end    
         if j > 1 
-            θinit = mean(chain[:,1:nParams], dims=1)
+            θinit = mean(chain[:,1:nParams], dims=1)[:]
         else
             θinit = θsa
         end    
