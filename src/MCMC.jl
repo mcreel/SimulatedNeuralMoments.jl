@@ -4,7 +4,8 @@ using LinearAlgebra, Statistics, Optim
 
 # the main MCMC routine, does several short chains to tune proposal
 # then a longer final chain
-function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false, rt=0.25)
+# covreps: replications used to compute weight matrix (the R in the paper, eqn. 5)
+function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false, rt=0.25)
     nParams = size(model.lb,1)
     reps = 50 # replications at each trial parameter (the S in the paper, eqn. 6)
     # use a rapid SAMIN to get good initialization values for chain
@@ -16,7 +17,6 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
     end
     θsa = (Optim.optimize(obj, model.lb, model.ub, θnn, SAMIN(rt=rt, verbosity=sa_verbosity),Optim.Options(iterations=10^6))).minimizer
     # get covariance estimate using the consistent estimator
-    covreps = 1000 # replications used to compute weight matrix (the R in the paper, eqn. 5)
     Σ = EstimateΣ(θsa, covreps, model, nnmodel, nninfo) 
     reps = 10 # fewer for the MC chain
     Σinv = inv((1.0+1/reps).*Σ)
@@ -50,5 +50,5 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false,
             end
         end    
     end
-    return chain[:,1:nParams], θsa
+    return chain[:,1:nParams], θsa, P, tuning
 end
