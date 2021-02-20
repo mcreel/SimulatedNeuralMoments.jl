@@ -1,5 +1,5 @@
-# This does extremum GMM and then MCMC using the NN estimate as the statistic
-using LinearAlgebra, Statistics, Optim
+# does MCMC using the NN estimate as the statistic
+using LinearAlgebra, Statistics #, Optim
 
 
 # the main MCMC routine, does several short chains to tune proposal
@@ -7,7 +7,7 @@ using LinearAlgebra, Statistics, Optim
 # covreps: replications used to compute weight matrix (the R in the paper, eqn. 5)
 function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false, rt=0.25)
     nParams = size(model.lb,1)
-    reps = 50 # replications at each trial parameter (the S in the paper, eqn. 6)
+#=    reps = 50 # replications at each trial parameter (the S in the paper, eqn. 6)
     # use a rapid SAMIN to get good initialization values for chain
     obj = θ -> -1.0*H(θ, θnn, reps, model, nnmodel, nninfo) # define the SAMIN criterion
     if verbosity == true
@@ -16,8 +16,9 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, ve
         sa_verbosity = 0
     end
     θsa = (Optim.optimize(obj, model.lb, model.ub, θnn, SAMIN(rt=rt, verbosity=sa_verbosity),Optim.Options(iterations=10^6))).minimizer
+=#
     # get covariance estimate using the consistent estimator
-    Σ = EstimateΣ(θsa, covreps, model, nnmodel, nninfo) 
+    Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
     reps = 10 # fewer for the MC chain
     Σinv = inv((1.0+1/reps).*Σ)
     # define things for MCMC
@@ -37,7 +38,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, ve
         if j > 1 
             θinit = mean(chain[:,1:nParams], dims=1)[:]
         else
-            θinit = θsa
+            θinit = θnn
         end    
         chain = mcmc(θinit, ChainLength, 0, model.prior, lnL, Proposal, verbosity)
         # adjust tuning to try to keep acceptance rate between 0.25 - 0.35
@@ -50,5 +51,5 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, ve
             end
         end    
     end
-    return chain[:,1:nParams], θsa, P, tuning
+    return chain[:,1:nParams], θnn, P, tuning
 end
