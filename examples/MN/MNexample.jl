@@ -26,14 +26,15 @@ cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters and estimates")
 prettyprint([θ m], cnames)
 
-# draw a chain of length 10000, and get the extremum estimator
-chain, θhat, junk, junk = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=true)
-
+# draw a chain of length 10000
+chain, θnn, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
+chain = chain[501:end,:]
 # visualize results
 chn = Chains(chain, ["μ₁","μ₂","σ₁","σ₂","p"])
 display(chn)
 plot(chn)
-println("SNM estimation, true parameters and extremum estimates")
-prettyprint([θ θhat], cnames)
+println("SNM estimation: true params and posterior median")
+cnames = ["true", "pos. median"] 
+prettyprint([θ median(chain,dims=1)[:]], cnames)
 
 

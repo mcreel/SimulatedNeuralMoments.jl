@@ -22,7 +22,7 @@ function main()
         m = NeuralMoments(TrueParameters(), 1, model, nnmodel, nninfo) # the estimate
         chain, θhat, junk, junk = MCMC(m, 10000, model, nnmodel, nninfo)
         println("r: ", r)
-        @show results[r,:] = vcat(θhat, Analyze(chain))
+        @show results[r,:] = vcat(median(chain, dims=1)[:], Analyze(chain))
     end
     return results
 end
@@ -32,7 +32,7 @@ end
 theta = TrueParameters()
 nParams = size(theta,1)
 println("Results")
-println("parameter estimates")
+println("parameter estimates (pos. median)")
 est = results[:,1:nParams]
 err = est .- TrueParameters()'
 b = mean(err, dims=1)
