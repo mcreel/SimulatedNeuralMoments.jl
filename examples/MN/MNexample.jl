@@ -26,8 +26,8 @@ cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters and estimates")
 prettyprint([θ m], cnames)
 
-# draw a chain of length 10000
-chain, θnn, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
+# draw a chain of length 10000 plus 500 burnin
+chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
 chain = chain[501:end,:]
 # visualize results
 chn = Chains(chain, ["μ₁","μ₂","σ₁","σ₂","p"])
@@ -36,5 +36,4 @@ plot(chn)
 println("SNM estimation: true params and posterior median")
 cnames = ["true", "pos. median"] 
 prettyprint([θ median(chain,dims=1)[:]], cnames)
-
 
