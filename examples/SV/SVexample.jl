@@ -37,7 +37,7 @@ chain, θhat, junk, junk = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=fals
 # visualize results
 chn = Chains(chain, ["ϕ", "ρ", "σ"])
 display(chn)
-println("SNM estimation, extremum estimates")
+println("SNM estimation, NN estimates")
 cnames = ["estimate"] 
 prettyprint(θhat, cnames)
 plot(chn)
