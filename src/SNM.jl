@@ -19,7 +19,7 @@ end
 # estimate covariance
 function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     zs = zeros(reps, size(θ,1))
-    for r = 1:reps
+    Threads.@threads for r = 1:reps
         zs[r,:] = NeuralMoments(θ, 1, model, nnmodel, nninfo)
     end
     cov(zs)
