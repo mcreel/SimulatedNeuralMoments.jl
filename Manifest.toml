@@ -2,15 +2,14 @@
 
 [[AbstractFFTs]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "8ed9de2f1b1a9b1dee48582ad477c6e67b83eb2c"
+git-tree-sha1 = "485ee0867925449198280d4af84bdb46a2a404d0"
 uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
-version = "1.0.0"
+version = "1.0.1"
 
 [[AbstractTrees]]
-deps = ["Markdown"]
-git-tree-sha1 = "33e450545eaf7699da1a6e755f9ea65f14077a45"
+git-tree-sha1 = "03e0550477d86222521d254b741d470ba17ea0b5"
 uuid = "1520ce14-60c1-5f80-bbc7-55ef81b5835c"
-version = "0.3.3"
+version = "0.3.4"
 
 [[Adapt]]
 deps = ["LinearAlgebra"]
@@ -22,10 +21,10 @@ version = "3.2.0"
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
 
 [[ArrayInterface]]
-deps = ["IfElse", "LinearAlgebra", "Requires", "SparseArrays"]
-git-tree-sha1 = "ee07ae00e3cc277dcfa5507ce25be522313ecc3e"
+deps = ["IfElse", "LinearAlgebra", "Requires", "SparseArrays", "Static"]
+git-tree-sha1 = "da557609446152beb6ee134683d7b79ece129eae"
 uuid = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
-version = "3.1.1"
+version = "3.1.5"
 
 [[Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
@@ -52,9 +51,9 @@ version = "2.6.1"
 
 [[ChainRules]]
 deps = ["ChainRulesCore", "Compat", "LinearAlgebra", "Random", "Reexport", "Requires", "Statistics"]
-git-tree-sha1 = "8cb44c68fcc2a6eef1ed603110251a5cd81dd3af"
+git-tree-sha1 = "e01f521443e3700f40ad3c7c1c6aa3a6940aaea1"
 uuid = "082447d4-558c-5d27-93f4-14fc19e9eca2"
-version = "0.7.52"
+version = "0.7.54"
 
 [[ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
@@ -70,9 +69,9 @@ version = "0.7.0"
 
 [[ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "4bffea7ed1a9f0f3d1a131bbcd4b925548d75288"
+git-tree-sha1 = "32a2b8af383f11cbb65803883837a149d10dfe8a"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.10.9"
+version = "0.10.12"
 
 [[Colors]]
 deps = ["ColorTypes", "FixedPointNumbers", "InteractiveUtils", "Reexport"]
@@ -152,9 +151,9 @@ version = "0.1.3"
 
 [[FillArrays]]
 deps = ["LinearAlgebra", "Random", "SparseArrays"]
-git-tree-sha1 = "bed538ad14d132aa8240bb2e8ab82fcd2fd2f548"
+git-tree-sha1 = "dd4ab4257c257532003eb9836eea07473fcc732e"
 uuid = "1a297f60-69ca-5386-bcde-b61e274b549b"
-version = "0.11.3"
+version = "0.11.6"
 
 [[FiniteDiff]]
 deps = ["ArrayInterface", "LinearAlgebra", "Requires", "SparseArrays", "StaticArrays"]
@@ -182,9 +181,9 @@ version = "0.4.2"
 
 [[ForwardDiff]]
 deps = ["CommonSubexpressions", "DiffResults", "DiffRules", "NaNMath", "Random", "SpecialFunctions", "StaticArrays"]
-git-tree-sha1 = "d48a40c0f54f29a5c8748cfb3225719accc72b77"
+git-tree-sha1 = "c68fb7481b71519d313114dca639b35262ff105f"
 uuid = "f6369f11-7733-5829-9624-2563aa707210"
-version = "0.10.16"
+version = "0.10.17"
 
 [[Functors]]
 deps = ["MacroTools"]
@@ -323,9 +322,9 @@ version = "7.7.1"
 
 [[NNlib]]
 deps = ["ChainRulesCore", "Compat", "LinearAlgebra", "Pkg", "Requires", "Statistics"]
-git-tree-sha1 = "df42d0816edfc24f5b82a728f46381613c4dff79"
+git-tree-sha1 = "ab1d43fead2ecb9aa5ae460d3d547c2cf8d89461"
 uuid = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
-version = "0.7.14"
+version = "0.7.17"
 
 [[NaNMath]]
 git-tree-sha1 = "bfe47e760d60b82b66b61d2d44128b62e3a369fb"
@@ -359,7 +358,7 @@ uuid = "d96e819e-fc66-5662-9728-84c9c7592b0a"
 version = "0.12.2"
 
 [[Pkg]]
-deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs"]
+deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [[PositiveFactorizations]]
@@ -398,9 +397,9 @@ version = "0.2.0"
 
 [[Requires]]
 deps = ["UUIDs"]
-git-tree-sha1 = "cfbac6c1ed70c002ec6361e7fd334f02820d6419"
+git-tree-sha1 = "4036a3bd08ac7e968e27c203d45f5fff15020621"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
-version = "1.1.2"
+version = "1.1.3"
 
 [[SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -433,9 +432,15 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[SpecialFunctions]]
 deps = ["ChainRulesCore", "OpenSpecFun_jll"]
-git-tree-sha1 = "75394dbe2bd346beeed750fb02baa6445487b862"
+git-tree-sha1 = "5919936c0e92cff40e57d0ddf0ceb667d42e5902"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "1.2.1"
+version = "1.3.0"
+
+[[Static]]
+deps = ["IfElse"]
+git-tree-sha1 = "ddec5466a1d2d7e58adf9a427ba69763661aacf6"
+uuid = "aedffcd0-7271-4cad-89d0-dc628f76c6d3"
+version = "0.2.4"
 
 [[StaticArrays]]
 deps = ["LinearAlgebra", "Random", "Statistics"]
@@ -465,9 +470,9 @@ version = "1.0.0"
 
 [[Tables]]
 deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "TableTraits", "Test"]
-git-tree-sha1 = "a716dde43d57fa537a19058d044b495301ba6565"
+git-tree-sha1 = "f03fc113290ee7726b173fc7ea661260d204b3f2"
 uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-version = "1.3.2"
+version = "1.4.0"
 
 [[Tar]]
 deps = ["ArgTools", "SHA"]
@@ -479,9 +484,9 @@ uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[TimerOutputs]]
 deps = ["Printf"]
-git-tree-sha1 = "3318281dd4121ecf9713ce1383b9ace7d7476fdd"
+git-tree-sha1 = "32cdbe6cd2d214c25a0b88f985c9e0092877c236"
 uuid = "a759f4b9-e2f1-59dc-863e-4aeb61b1ea8f"
-version = "0.5.7"
+version = "0.5.8"
 
 [[TranscodingStreams]]
 deps = ["Random", "Test"]
@@ -513,9 +518,9 @@ uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
 
 [[Zygote]]
 deps = ["AbstractFFTs", "ChainRules", "DiffRules", "Distributed", "FillArrays", "ForwardDiff", "IRTools", "InteractiveUtils", "LinearAlgebra", "MacroTools", "NaNMath", "Random", "Requires", "SpecialFunctions", "Statistics", "ZygoteRules"]
-git-tree-sha1 = "52835a83f7c899cfcb95f796d584201812887ea8"
+git-tree-sha1 = "47dd50e831959f8785f8a9854783a2eebac8e1bd"
 uuid = "e88e6eb3-aa80-5325-afca-941959d7151f"
-version = "0.6.3"
+version = "0.6.4"
 
 [[ZygoteRules]]
 deps = ["MacroTools"]
@@ -526,3 +531,7 @@ version = "0.2.1"
 [[nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+
+[[p7zip_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
