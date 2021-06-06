@@ -5,7 +5,7 @@ using LinearAlgebra, Statistics #, Optim
 # the main MCMC routine, does several short chains to tune proposal
 # then a longer final chain
 # covreps: replications used to compute weight matrix (the R in the paper, eqn. 5)
-function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false, rt=0.25)
+function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false) #, rt=0.25)
     nParams = size(model.lb,1)
 #=    reps = 50 # replications at each trial parameter (the S in the paper, eqn. 6)
     # use a rapid SAMIN to get good initialization values for chain
@@ -51,5 +51,5 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, ve
             end
         end    
     end
-    return chain[:,1:nParams], θnn, P, tuning
+    return chain[:,1:nParams], P, tuning
 end

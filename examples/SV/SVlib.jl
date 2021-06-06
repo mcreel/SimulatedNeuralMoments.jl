@@ -121,42 +121,28 @@ function PriorDraw()
 end    
 
 # taken from https://github.com/mcreel/Econometrics  
-# # returns the variable (or matrix), lagged p times,
+# returns the variable (or matrix), lagged p times,
 # with the first p rows filled with ones (to avoid divide errors)
 # remember to drop those rows before doing analysis
-function lag(x::Array{Float64,2},p::Int64)
-	n,k = size(x)
+function lag(x,p)
+	n = size(x,1)
+        k = size(x,2)
 	lagged_x = [ones(p,k); x[1:n-p,:]]
 end
 
-function lag(x::Array{Float64,1},p::Int64)
-	n = size(x,1)
-	lagged_x = [ones(p); x[1:n-p]]
-end	
-
-# taken from https://github.com/mcreel/Econometrics  
 # returns the variable (or matrix), lagged from 1 to p times,
 # with the first p rows filled with ones (to avoid divide errors)
 # remember to drop those rows before doing analysis
-function  lags(x::Array{Float64,2},p)
-	n, k = size(x)
+function  lags(x,p)
+	n = size(x,1)
+	k = size(x,2)
 	lagged_x = zeros(eltype(x),n,p*k)
 	for i = 1:p
 		lagged_x[:,i*k-k+1:i*k] = lag(x,i)
 	end
     return lagged_x
 end	
-
-function  lags(x::Array{Float64,1},p)
-	n = size(x,1)
-	lagged_x = zeros(eltype(x), n,p)
-	for i = 1:p
-		lagged_x[:,i] = lag(x,i)
-	end
-    return lagged_x
-end
-
-# taken from https://github.com/mcreel/Econometrics  
+ 
 # compute moving average using p most recent values, including current value
 function ma(x, p)
     m = zeros(size(x))
