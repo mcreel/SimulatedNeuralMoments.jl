@@ -6,6 +6,11 @@ processed_filename = "CK_processed.txt"
 processed_path =  joinpath(@__DIR__,processed_filename)
 dsge = retrieve_processed_model(processed_path)
 
+function bad_data(data)
+    any(isnan.(data)) || any(isinf.(data)) || any(std(data,dims=1) .==0.0) || any(data .< 0.0)
+end
+
+
 function CKdgp(θ, dsge, rndseed=1234)
     p, ss = ParamsAndSS(θ)
     dsge = assign_parameters(dsge, p)
