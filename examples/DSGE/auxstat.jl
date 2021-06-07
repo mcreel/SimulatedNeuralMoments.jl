@@ -50,20 +50,15 @@ function auxstat(data)
         lagwages = lagdata[:,5];    # wages
         lagcapital = lagdata[:,6]
 
-        n = size(data,1)
         # rho1, sig1
-        x = [ones(n) logcapital loghours]
-        y = logoutput
-        b = x\y
-        e = y-x*b
-        junk = [e lag(e,1)][2:end,:]
-        y = junk[:,1]
-        x = junk[:,2]
+        e = logoutput-α*logcapital-(1.0-α)*loghours 
+        y = e[2:end]
+        x = e[1:end-1]
         rho1 = cor(x,y)
-        e = y-x*rho1
-        sig1 = e'*e/n
-        Z = vcat(1.0-b[3], rho1, sig1)
-
+        u = y-x*rho1
+        sig1 = u'*u/size(u,1)
+        Z = vcat(rho1, sig1)
+#E-Examing tis
         # gam, rho2, sig2 (1/MRS=wage)
         x = [ones(n,1) logcons]
         y = logwages
@@ -81,17 +76,16 @@ function auxstat(data)
         data = data[:,1:5]
         data, m, s = stnorm(data) # keep means and std. devs., the VAR uses standardized and normalized
 
+#HERE           
         # AR(1)
         maxlag = 1
-        data = [data lags(data, 1)] # add lags
-        data = data[2:end,:] # drop rows with missing
-        y = data[:,1:5]
-        x = data[:,6:end]
+        y = logdata[2:end,:]
+        x = logdata[1:end-1,:]
         n = size(y,1)
         rhos = zeros(5,1)
         es = zeros(n,5)
         for i = 1:5
- HERE           
+
             [rho, junk, e] = ols(y(:,i),x(:,i));
             rhos(i,:) = rho;
             es(:,i) = e;
