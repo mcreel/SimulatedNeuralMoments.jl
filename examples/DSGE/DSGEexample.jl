@@ -6,7 +6,6 @@ using BSON:@load
 # For your own models, you will need to supply the functions
 # found in MNlib.jl, using the same formats
 include("CKlib.jl")
-include("auxstat.jl")
 lb, ub = PriorSupport()
 
 # fill in the structure that defines the model
@@ -17,15 +16,14 @@ nnmodel, nninfo = MakeNeuralMoments(model)
 @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
-# draw a sample at the design parameters
-#data = dgp(TrueParameters()) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
-#data = dgp(PriorDraw()) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
+# draw a sample at the design parameters, or use the official "real" data
+#data = dgp(TrueParameters())
 data = readdlm("dsgedata.txt")
 
 # define the neural moments using the real data
-z = auxstat(data)
-m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
-@show m
+#z = auxstat(data)
+#m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
+#@show m
 #=
 # draw a chain of length 10000 plus 500 burnin
 chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=false)
