@@ -29,9 +29,9 @@ plot(p1, p2, layout=(2,1))
 
 # define the neural moments using the real data
 z = auxstat(y)
-m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
-@show m
-# draw a chain of length 10000 plus 500 burnin
+m = mean(min.(max.(Float64.(nnmodel(TransformStats(z', nninfo)')),model.lb),model.ub),dims=2)
+
+## draw a chain of length 10000 plus 500 burnin
 chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=false)
 chain = chain[501:end,:]
 # visualize results
