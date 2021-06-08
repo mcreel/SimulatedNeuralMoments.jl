@@ -24,7 +24,7 @@ data = readdlm("dsgedata.txt")
 z = auxstat(data)
 m = min.(max.(Float64.(nnmodel(TransformStats(z', nninfo)')),model.lb),model.ub)
 # draw a chain of length 10000 plus 500 burnin
-chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=false)
+chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
 chain = chain[501:end,:]
 # visualize results
 chn = Chains(chain, ["β", "γ", "ρ₁", "σ₁", "ρ₂", "σ₂", "nss"])
