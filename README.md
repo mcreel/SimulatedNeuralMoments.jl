@@ -69,47 +69,8 @@ prettyprint([θ θhat], cnames)
 
 We obtain
 
-```
-Chains MCMC chain (10000×5×1 Array{Float64,3}):
+![MNresults](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/results.png)
 
-Iterations        = 1:10000
-Thinning interval = 1
-Chains            = 1
-Samples per chain = 10000
-parameters        = μ₁, μ₂, σ₁, σ₂, p
-
-Summary Statistics
-  parameters      mean       std   naive_se      mcse        ess      rhat 
-      Symbol   Float64   Float64    Float64   Float64    Float64   Float64 
-
-          μ₁    0.8922    0.0587     0.0006    0.0037   156.7766    1.0049
-          μ₂    0.9412    0.1248     0.0012    0.0046   696.6367    1.0002
-          σ₁    0.2350    0.0378     0.0004    0.0023   188.1651    1.0056
-          σ₂    1.7322    0.0967     0.0010    0.0049   291.5987    1.0019
-           p    0.4162    0.0428     0.0004    0.0023   248.6760    1.0039
-
-Quantiles
-  parameters      2.5%     25.0%     50.0%     75.0%     97.5% 
-      Symbol   Float64   Float64   Float64   Float64   Float64 
-
-          μ₁    0.7733    0.8535    0.8939    0.9322    1.0001
-          μ₂    0.7042    0.8562    0.9406    1.0250    1.1972
-          σ₁    0.1600    0.2121    0.2338    0.2586    0.3137
-          σ₂    1.5542    1.6682    1.7288    1.7920    1.9381
-           p    0.3343    0.3877    0.4154    0.4423    0.5037 
-```
-The extremum estimator results are:
-```
-┌──────────────┬──────────────┐
-│         true │     estimate │
-├──────────────┼──────────────┤
-│      1.00000 │      0.96377 │
-│      1.00000 │      0.92010 │
-│      0.20000 │      0.17996 │
-│      1.80000 │      1.77447 │
-│      0.40000 │      0.40204 │
-└──────────────┴──────────────┘
-```
 A plot of the chain, and nonparametric plots of marginal posteriors are
 ![MNchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/chain.png)
 
