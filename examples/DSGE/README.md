@@ -1,5 +1,5 @@
-# SVexample.jl
-The main purpose of this example is to show how to use the methods with real data. To run the file, go to its directory, start Julia, and activate the environment with ```] activate .```  (unless you happen to have all of the dependencies installed in your main environment).
+# DSGEexample.jl
+This example shows how a small DSGE model may be estimated. The model is presented in Chapter 14 of the document https://github.com/mcreel/Econometrics/blob/master/econometrics.pdf  This model has two shock, and 7 parameters to estimate. The model is solved and simulated using !["SolveDSGE.jl"(https://github.com/RJDennis/SolveDSGE.jl)
 
 The first block loads packages and sets up the structure that defines the SV model:
 
