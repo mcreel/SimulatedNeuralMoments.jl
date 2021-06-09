@@ -1,5 +1,22 @@
 # DSGEexample.jl
-This example shows how a small DSGE model may be estimated. The model is presented in Chapter 14 of the document https://github.com/mcreel/Econometrics/blob/master/econometrics.pdf  This model has two shock, and 7 parameters to estimate. The model is solved and simulated using !["SolveDSGE.jl"(https://github.com/RJDennis/SolveDSGE.jl)
+This example shows how a small DSGE model may be estimated. The model is presented in Chapter 14 of the document https://github.com/mcreel/Econometrics/blob/master/econometrics.pdf  This model has two shock, and 7 parameters to estimate. The model is solved and simulated using https://github.com/RJDennis/SolveDSGE.jl
+
+The model description file, CK.txt, contains the lines
+```
+equations:
+MUC = c^(-γ)
+MUL = ψ*exp(η)
+rate = α * exp(z) * k^(α-1) * n^(1-α)
+w = (1-α)*exp(z)* k^α * n^(-α)
+MUC = β*MUC(+1) * (1 + rate(+1) - δ)
+w = MUL/MUC
+z(+1) = ρ₁*z + σ₁ * u
+η(+1) = ρ₂*η + σ₂ * ϵ
+y = exp(z) * (k^α) * (n^(1-α))
+k(+1) = y - c + (1-δ)*k
+end
+```
+which should give a pretty good idea about the model being estimated.
 
 The first block loads packages and sets up the structure that defines the SV model:
 
