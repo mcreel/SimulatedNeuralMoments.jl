@@ -34,27 +34,9 @@ Then we can make one sample draw of the statistics at a given parameter vector, 
 
 # illustrate basic NN point estimation
 m = NeuralMoments(θ, 1, model, nnmodel, nninfo) # the estimate
-cnames = ["true", "estimate"]
-println("Basic NN estimation, true parameters (a draw from prior) and estimates")
-prettyprint([θ m], cnames)
-
-```
-The point estimates are:
-```
-Basic NN estimation, true parameters and estimates
-┌──────────────┬──────────────┐
-│         true │     estimate │
-├──────────────┼──────────────┤
-│      1.00000 │      0.73289 │
-│      1.00000 │      0.88155 │
-│      0.20000 │      0.25068 │
-│      1.80000 │      1.72031 │
-│      0.40000 │      0.44932 │
-└──────────────┴──────────────┘
 ```
 
 Then, we sample from the posterior, using the neural net point estimate as the statistic for ABC or GMM-like inference:
-
 ```
 # draw a chain of length 10000, and get the extremum estimator
 chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=true)
@@ -66,7 +48,6 @@ plot(chn)
 println("SNM estimation, true parameters (a draw from prior) and extremum estimates")
 prettyprint([θ θhat], cnames)
 ```
-
 We obtain
 
 ![MNresults](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/results.png)
