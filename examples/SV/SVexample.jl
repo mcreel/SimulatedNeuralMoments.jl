@@ -9,6 +9,12 @@ using DelimitedFiles
 include("SVlib.jl")
 lb, ub = PriorSupport()
 
+ get the things to define the structure for the model
+# For your own models, you will need to supply the functions
+# found in MNlib.jl, using the same formats
+include("SVlib.jl")
+lb, ub = PriorSupport()
+
 # fill in the structure that defines the model
 model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, PriorDraw, auxstat)
 
@@ -18,9 +24,7 @@ model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, Prio
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
 # draw a sample at the design parameters
-#θ = TrueParameters()
-#y = SVmodel(θ, 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
-#writedlm("svdata.txt", y)
+#y = SVmodel(TrueParameters(), 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
 y = readdlm("svdata.txt") # load a data set
 p1 = plot(y)
 p2 = density(y)
@@ -29,8 +33,8 @@ plot(p1, p2, layout=(2,1))
 
 # define the neural moments using the real data
 z = auxstat(y)
-m = mean(min.(max.(Float64.(nnmodel(TransformStats(z', nninfo)')),model.lb),model.ub),dims=2)
-
+m = NeuralMoments(z, model, nnmodel, nninfo)
+@show m
 ## draw a chain of length 10000 plus 500 burnin
 chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=false)
 chain = chain[501:end,:]
@@ -42,4 +46,5 @@ cnames = ["pos. median"]
 prettyprint(median(chain,dims=1)[:], cnames)
 plot(chn)
 #savefig("chain.png")
+#writedlm("chain.txt", chain)
 

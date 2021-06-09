@@ -21,7 +21,7 @@ model = SNMmodel("Mixture of Normals example model", lb, ub, InSupport, Prior, P
 θ = TrueParameters() # this is defined in MNlib.jl
 z = auxstat(θ,1) # statistic from sample generated at θ 
 # illustrate basic NN point estimation
-m = min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub)
+m = NeuralMoments(z, model, nnmodel, nninfo)
 cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters and estimates")
 prettyprint([θ m], cnames)

@@ -30,21 +30,16 @@ Next, we load some data.  The data was created using the commented lines. Once w
 moments:
 ```
 # draw a sample at the design parameters
-#θ = TrueParameters()
-#y = SVmodel(θ, 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
-#writedlm("svdata.txt", y)
+#y = SVmodel(TrueParameters(), 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
 y = readdlm("svdata.txt") # load a data set
 p1 = plot(y)
 p2 = density(y)
 plot(p1, p2, layout=(2,1))
 #savefig("data.png")
-```
-We define the neural moments:
-```
+
 # define the neural moments using the real data
 z = auxstat(y)
-m = mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
-```
+m = NeuralMoments(z, model, nnmodel, nninfo)```
 
 The rest of the example is like the mixture of normals example. In the end, we get a MCMC
 chain that looks something like
