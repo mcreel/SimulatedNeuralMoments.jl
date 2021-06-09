@@ -16,19 +16,21 @@ model = SNMmodel("DSGE example", lb, ub, InSupport, Prior, PriorDraw, auxstat)
 #@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
-# draw a sample at the design parameters, or use the official "real" data
+# draw a sample at the design parameters, from the prior, or use the official "real" data
 #data = dgp(TrueParameters())
+#data = dgp(PriorDraw())
 data = readdlm("dsgedata.txt")
 
-# define the neural moments using the real data
+# define the neural moments using the data
 z = auxstat(data)
-m = min.(max.(Float64.(nnmodel(TransformStats(z', nninfo)')),model.lb),model.ub)
+#m = min.(max.(Float64.(nnmodel(TransformStats(z', nninfo)')),model.lb),model.ub)
+m = NeuralMoments(z, model, nnmodel, nninfo)
 # draw a chain of length 10000 plus 500 burnin
-chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
+#chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
 chain = chain[501:end,:]
 # visualize results
 chn = Chains(chain, ["β", "γ", "ρ₁", "σ₁", "ρ₂", "σ₂", "nss"])
 display(chn)
 plot(chn)
-savefig("chain.png")
-writedlm("chain.txt", chain)
+#savefig("chain.png")
+#writedlm("chain.txt", chain)

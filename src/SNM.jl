@@ -15,6 +15,12 @@ function NeuralMoments(θ, reps, model::SNMmodel, nnmodel, nninfo)
     end
     mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
 end        
+# neural moments given statistic
+function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
+    z = (z[:])' # ensure it's a row vector
+    min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub)
+end        
+
 
 # estimate covariance
 function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
