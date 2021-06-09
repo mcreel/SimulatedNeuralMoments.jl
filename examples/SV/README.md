@@ -39,7 +39,8 @@ plot(p1, p2, layout=(2,1))
 
 # define the neural moments using the real data
 z = auxstat(y)
-m = NeuralMoments(z, model, nnmodel, nninfo)```
+m = NeuralMoments(z, model, nnmodel, nninfo)
+```
 
 The rest of the example is like the mixture of normals example. In the end, we get a MCMC
 chain that looks something like
