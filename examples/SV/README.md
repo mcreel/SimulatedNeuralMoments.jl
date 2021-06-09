@@ -43,6 +43,7 @@ m = NeuralMoments(z, model, nnmodel, nninfo)```
 
 The rest of the example is like the mixture of normals example. In the end, we get a MCMC
 chain that looks something like
+
 ![SVchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/SV/chain.png)
 
 
