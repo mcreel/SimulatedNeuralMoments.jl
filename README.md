@@ -48,7 +48,12 @@ plot(chn)
 println("SNM estimation, true parameters (a draw from prior) and extremum estimates")
 prettyprint([θ θhat], cnames)
 ```
-We obtain
+For reference, the true parameter values are
+```julia> TrueParameters()'
+1×5 adjoint(::Vector{Float64}) with eltype Float64:
+ 1.0  1.0  0.2  1.8  0.4``
+
+The estimation results are
 
 ![MNresults](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/results.png)
 
