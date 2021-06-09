@@ -1,4 +1,4 @@
-using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots
+using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots, DelimitedFiles
 using BSON:@save
 using BSON:@load
 
@@ -32,6 +32,8 @@ chain = chain[501:end,:]
 chn = Chains(chain, ["μ₁","μ₂","σ₁","σ₂","p"])
 display(chn)
 plot(chn)
+savefig("chain.png")
+writedlm("chain.txt", chain)
 println("SNM estimation: true params and posterior median")
 cnames = ["true", "pos. median"] 
 prettyprint([θ median(chain,dims=1)[:]], cnames)
