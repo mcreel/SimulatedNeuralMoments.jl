@@ -12,9 +12,9 @@ function main()
     model = SNMmodel("Mixture of Normals example model", lb, ub, InSupport, Prior, PriorDraw, auxstat)
 
     # train the net, and save it and the transformation info
-    nnmodel, nninfo = MakeNeuralMoments(model)
-    @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
-    #@load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
+#    nnmodel, nninfo = MakeNeuralMoments(model)
+#    @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
+    @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
     R = 1000
     results = zeros(R, 20)
