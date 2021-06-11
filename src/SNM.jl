@@ -9,26 +9,20 @@ end
 
 # draw neural moments
 function NeuralMoments(θ, reps, model::SNMmodel, nnmodel, nninfo)
-    z = model.auxstat(θ, reps)
-    while any(isnan.(z))
-        z = model.auxstat(θ, reps)
-    end
-    mean(min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub),dims=2)
+    z = auxstat(θ, reps) 
+    mean([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end        
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
     z = (z[:])' # ensure it's a row vector
-    min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub)
+    min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub)[1]
 end        
 
 
 # estimate covariance
 function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
-    zs = zeros(reps, size(θ,1))
-    Threads.@threads for r = 1:reps
-        zs[r,:] = NeuralMoments(θ, 1, model, nnmodel, nninfo)
-    end
-    cov(zs)
+    z = auxstat(θ, reps) 
+    cov([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end
 
 # method with identity weight
