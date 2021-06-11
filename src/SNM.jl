@@ -15,7 +15,7 @@ end
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
     z = (z[:])' # ensure it's a row vector
-    min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub)[1]
+    min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub)
 end        
 
 
