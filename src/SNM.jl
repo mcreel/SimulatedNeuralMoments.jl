@@ -8,19 +8,19 @@ function TransformStats(data, info)
 end
 
 # draw neural moments
-function NeuralMoments(θ, reps, model::SNMmodel, nnmodel, nninfo)
+Threads.@threads function NeuralMoments(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
     mean([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end        
 # neural moments given statistic
-function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
+Threads.@threads function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
     z = (z[:])' # ensure it's a row vector
     min.(max.(Float64.(nnmodel(TransformStats(z, nninfo)')),model.lb),model.ub)
 end        
 
 
 # estimate covariance
-function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
+Threads.@threads function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
     cov([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end
