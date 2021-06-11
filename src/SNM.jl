@@ -9,7 +9,7 @@ end
 
 # draw neural moments
 function NeuralMoments(θ, reps, model::SNMmodel, nnmodel, nninfo)
-    z = auxstat(θ, reps) 
+    z = model.auxstat(θ, reps) 
     mean([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end        
 # neural moments given statistic
@@ -21,7 +21,7 @@ end
 
 # estimate covariance
 function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
-    z = auxstat(θ, reps) 
+    z = model.auxstat(θ, reps) 
     cov([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end
 
