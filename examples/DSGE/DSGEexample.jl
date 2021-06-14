@@ -27,10 +27,9 @@ data = dgp(TrueParameters())[1]
 
 # define the neural moments using the data
 m = NeuralMoments(auxstat(data), model, nnmodel, nninfo)
-
 # Here, you can create a new chain, or use the results from a previous run
 # draw a chain of length 10000 plus 500 burnin
-chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
+chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=false)
 chain = chain[501:end,:]
 #chain = readdlm("chain.txt")
 

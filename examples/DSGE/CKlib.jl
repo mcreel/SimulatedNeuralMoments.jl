@@ -14,7 +14,7 @@ function CKdgp(θ, dsge, reps, rndseed=1234)
     dsge = assign_parameters(dsge, p)
     scheme = PerturbationScheme(ss, 1.0, "third")
     solution = solve_model(dsge, scheme)
-    burnin = 1000
+    burnin = 100
     nobs = 160
     data = simulate(solution, ss[1:3], reps*(burnin+nobs); rndseed = rndseed)
     # the next returns reps data sets, in an array of arrays
@@ -35,7 +35,7 @@ end
 
 # These are the candidate auxiliary statistics for ABC estimation of
 # the simple DSGE model of Creel and Kristensen (2013)
-function auxstat(data)
+@views function auxstat(data)
     # check for nan, inf, no variation, or negative, all are reasons to reject
     if bad_data(data)
         return zeros(39)

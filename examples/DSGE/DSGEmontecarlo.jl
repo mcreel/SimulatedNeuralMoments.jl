@@ -16,9 +16,10 @@ function main()
     R = 200
     results = zeros(R, 28)
     Threads.@threads for r = 1:R
-        m = NeuralMoments(TrueParameters(), 1, model, nnmodel, nninfo) # the estimate
-        chain, junk, junk = MCMC(m, 2500, model, nnmodel, nninfo; covreps=200, verbosity=true)
-        println("r: ", r)
+        data = dgp(TrueParameters())[1]
+        m = NeuralMoments(auxstat(data), model, nnmodel, nninfo)
+        chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo; verbosity=false)
+        @show println("r: ", r)
         @show results[r,:] = vcat(median(chain[501:end,:], dims=1)[:], Analyze(chain))
     end
     return results
