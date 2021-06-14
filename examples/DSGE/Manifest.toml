@@ -1047,7 +1047,7 @@ version = "1.0.3"
 
 [[SimulatedNeuralMoments]]
 deps = ["Flux", "LinearAlgebra", "Optim", "PrettyTables", "Printf", "Random", "Statistics", "StatsBase"]
-git-tree-sha1 = "ecbdbb71ced725241d7874a39ac22e0d1316fc3d"
+git-tree-sha1 = "628b98f4bad190ff904c67d07902f3eefa8cd3be"
 repo-rev = "broadcasting"
 repo-url = "/home/michael/git/SimulatedNeuralMoments.jl"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
