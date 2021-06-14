@@ -87,8 +87,8 @@ end
         rhos = zeros(6)
         es = zeros(n,6)
         for i = 1:6
-            rho = x[:,i]\y[:,i]
-            rhos[i] = rho;
+            rho = [ones(n) x[:,i]]\y[:,i]
+            rhos[i] = rho[2]
             es[:,i] = y[:,i]-rho*x[:,i]
         end        
         varv = vech(cov(es)) # AR(1) error covariance elements 
