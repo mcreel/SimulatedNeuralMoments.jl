@@ -15,14 +15,13 @@ model = SNMmodel("DSGE example", lb, ub, InSupport, Prior, PriorDraw, auxstat)
 
 # Here, you can train the net from scratch, or use a previous run
 # train the net, and save it and the transformation info
-#nnmodel, nninfo = MakeNeuralMoments(model)
-#@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
+nnmodel, nninfo = MakeNeuralMoments(model)
+@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
+#=
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
 # draw a sample at the design parameters, from the prior, or use the official "real" data
-
-data = dgp(TrueParameters())[1]
-#data = dgp(PriorDraw())[1]
+data = CKdgp(TrueParameters(), dsge, 1)[1]
 #data = readdlm("dsgedata.txt")
 
 # define the neural moments using the data
@@ -39,3 +38,4 @@ chain = chain[501:end,:]
 #plot(chn)
 #savefig("chain.png")
 #writedlm("chain.txt", chain)
+=#

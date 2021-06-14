@@ -21,21 +21,18 @@ function CKdgp(θ, dsge, reps, rndseed=1234)
     data = [data[4:8, (nobs+burnin)*i-(nobs+burnin)+1+burnin:i*(nobs+burnin)]' for i = 1:reps]
 end
 
-dgp = θ -> CKdgp(θ, dsge, 1, rand(1:Int64(1e12)))
-
 function bad_data(data)
     any(isnan.(data)) || any(isinf.(data)) || any(std(data,dims=1) .==0.0) || any(data .< 0.0)
 end
 
 # this gives a vector of vectors, each a statistic drawn at the parameter value
 function auxstat(θ, reps)
-    dgp = θ -> CKdgp(θ, dsge, reps, rand(1:Int64(1e12)))
-    auxstat.(dgp(θ))
+    auxstat.(CKdgp(θ, dsge, reps, rand(1:Int64(1e12))))
 end    
 
 # These are the candidate auxiliary statistics for ABC estimation of
 # the simple DSGE model of Creel and Kristensen (2013)
-@views function auxstat(data)
+function auxstat(data)
     # check for nan, inf, no variation, or negative, all are reasons to reject
     if bad_data(data)
         return zeros(39)
@@ -87,9 +84,9 @@ end
         rhos = zeros(6)
         es = zeros(n,6)
         for i = 1:6
-            rho = [ones(n) x[:,i]]\y[:,i]
-            rhos[i] = rho[2]
-            es[:,i] = y[:,i]-rho*x[:,i]
+            rho = x[:,i]\y[:,i]
+            rhos[i] = rho
+            es[:,i] = y[:,i]-rho.*x[:,i]
         end        
         varv = vech(cov(es)) # AR(1) error covariance elements 
         Z = vcat(Z, m[:], s[:], varv)
