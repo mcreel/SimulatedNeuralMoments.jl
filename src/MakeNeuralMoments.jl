@@ -15,7 +15,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     @inbounds Threads.@threads for s = 1:TrainTestSize
         ok = false
         θ = model.priordraw()
-        W = model.auxstat(θ,1)[1]
+        @show W = model.auxstat(θ,1)[1]
         # repeat draw if necessary
         while any(isnan.(W))
             θ = model.priordraw()
