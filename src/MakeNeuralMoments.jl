@@ -16,12 +16,11 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
         ok = false
         θ = model.priordraw()
         W = (model.auxstat(θ,1))[1]
-        @show W
         # repeat draw if necessary
-        #while any(isnan.(W))
-        #    θ = model.priordraw()
-        #    W = model.auxstat(θ,1)[1]
-        #end    
+        while any(isnan.(W))
+            θ = model.priordraw()
+            W = model.auxstat(θ,1)[1]
+        end    
         params[s,:] = θ
         statistics[s,:] = W
     end
