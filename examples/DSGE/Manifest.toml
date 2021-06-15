@@ -670,9 +670,9 @@ uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
 [[LoggingExtras]]
 deps = ["Dates", "Logging"]
-git-tree-sha1 = "59b45fd91b743dff047313bb7af0f84167aef80d"
+git-tree-sha1 = "dfeda1c1130990428720de0024d4516b1902ce98"
 uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
-version = "0.4.6"
+version = "0.4.7"
 
 [[MCMCChains]]
 deps = ["AbstractFFTs", "AbstractMCMC", "AxisArrays", "Compat", "Dates", "Distributions", "Formatting", "IteratorInterfaceExtensions", "LinearAlgebra", "MLJModelInterface", "NaturalSort", "PrettyTables", "Random", "RecipesBase", "Serialization", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "TableTraits", "Tables"]
@@ -1047,7 +1047,7 @@ version = "1.0.3"
 
 [[SimulatedNeuralMoments]]
 deps = ["Flux", "LinearAlgebra", "Optim", "PrettyTables", "Printf", "Random", "Statistics", "StatsBase"]
-git-tree-sha1 = "628b98f4bad190ff904c67d07902f3eefa8cd3be"
+git-tree-sha1 = "1a51847e9724f26cce91d7ff25f73bafa87fce2b"
 repo-rev = "broadcasting"
 repo-url = "/home/michael/git/SimulatedNeuralMoments.jl"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
