@@ -1,15 +1,11 @@
 using Statistics, LinearAlgebra, SolveDSGE
 
 # this block reads and processes the file, leave it be
-filename = "CK.txt"
-path = joinpath(@__DIR__,filename)
-process_model(path)
-processed_filename = "CK_processed.txt"
-processed_path =  joinpath(@__DIR__,processed_filename)
-dsge = retrieve_processed_model(processed_path)
+#const process_model("CK.txt")
+const dsge = retrieve_processed_model("CK_processed.txt")
 
 # solve model and simulate data
-function CKdgp(θ, dsge, reps, rndseed=1234)
+function dgp(θ, dsge, reps, rndseed=1234)
     p, ss = ParamsAndSS(θ)
     dsge = assign_parameters(dsge, p)
     scheme = PerturbationScheme(ss, 1.0, "third")
@@ -27,8 +23,8 @@ end
 
 # this gives a vector of vectors, each a statistic drawn at the parameter value
 function auxstat(θ, reps)
-    auxstat.(CKdgp(θ, dsge, reps, rand(1:Int64(1e12))))
-end    
+    auxstat.(dgp(θ, dsge, reps, rand(1:Int64(1e12))))
+end
 
 # These are the candidate auxiliary statistics for ABC estimation of
 # the simple DSGE model of Creel and Kristensen (2013)

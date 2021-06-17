@@ -8,6 +8,7 @@ using BSON:@load
 # I recommend starting julia with "julia --project -t X" where X is 
 # the number of physical cores available, then, include this file.
 include("CKlib.jl") # contains the functions for the DSGE model
+function main()
 lb, ub = PriorSupport()
 
 # fill in the structure that defines the model
@@ -37,4 +38,5 @@ chn = Chains(chain, ["β", "γ", "ρ₁", "σ₁", "ρ₂", "σ₂", "nss"])
 plot(chn)
 #savefig("chain.png")
 display(chn)
-
+end
+main()
