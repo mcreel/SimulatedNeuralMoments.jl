@@ -10,7 +10,7 @@ function dgp(θ, dsge, reps, rndseed=1234)
     dsge = assign_parameters(dsge, p)
     scheme = PerturbationScheme(ss, 1.0, "third")
     solution = solve_model(dsge, scheme)
-    burnin = 100
+    burnin = 200
     nobs = 160
     data = simulate(solution, ss[1:3], reps*(burnin+nobs); rndseed = rndseed)
     # the next returns reps data sets, in an array of arrays

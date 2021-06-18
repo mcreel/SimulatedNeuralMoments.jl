@@ -12,7 +12,7 @@ function Wrapper()
     lb, ub = PriorSupport()
     model = SNMmodel("DSGE example", lb, ub, InSupport, Prior, PriorDraw, auxstat)
     @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
-    data = dgp(TrueParameters(), dsge, 1)[1]
+    data = dgp(TrueParameters(), dsge, 1, rand(1:Int64(1e12)))[1]
     m = NeuralMoments(auxstat(data), model, nnmodel, nninfo)
     @time chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo; verbosity=false)
     Analyze(chain)
@@ -20,10 +20,7 @@ end
 
 function Monitor(sofar, results)
     if mod(sofar,1) == 0
-        theta = TrueParameters()
-        nParams = size(theta,1)
         println("__________ replication: ", sofar, "_______________")
-        println("Results so far")
         clabels = ["99%", "95%", "90%"]
         prettyprint(reshape(mean(results[1:sofar,:],dims=1),7,3),clabels)
     end
