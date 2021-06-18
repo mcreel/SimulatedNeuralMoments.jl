@@ -8,6 +8,7 @@ A package for estimation and inference based on statistics that are filtered thr
 For the Mixture of Normals model presented below, the confidence interval coverage for
 1000 replications is 
 ![MNmontecarlo](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/montecarlo.png)
+
 which verifies that, for this model and this experimental design, the methods lead to
 reliable inferences on parameters. These results can be replicated using the MNexample2.jl
 script in the examples/MN directory.
