@@ -31,7 +31,7 @@ function main()
         MPI.Init()
     end
     comm = MPI.COMM_WORLD
-    reps = 500
+    reps = 200
     n_returns = 21 
     pooled = 1
     montecarlo(Wrapper, Monitor, comm, reps, n_returns, pooled)
