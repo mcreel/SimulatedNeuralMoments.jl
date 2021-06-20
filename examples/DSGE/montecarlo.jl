@@ -1,4 +1,4 @@
-import MPI, LinearAlgebra
+import MPI, LinearAlgebra, DelimitedFiles
 
 function montecarlo(mc_eval::Function, mc_monitor::Function,
         comm::MPI.Comm, # MPI communicator
@@ -7,6 +7,7 @@ function montecarlo(mc_eval::Function, mc_monitor::Function,
         batchsize::Integer=1) # transmission size
     rank = MPI.Comm_rank(comm)
     commsize = MPI.Comm_size(comm)
+    results = 0.0
     # bookkeeping
     if mod(n_evals, commsize-1) != 0
         if rank == 0
