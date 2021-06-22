@@ -1,21 +1,26 @@
 using Statistics, StatsBase
-function auxstat(θ, reps)
+
+function dgp(θ, rndseed=1234)
     n = 1000
-    stats = zeros(reps, 15)
-    r = 0.0 : 0.1 : 1.0
     μ1, μ2, σ1, σ2, prob = θ
-    for i = 1:reps
-        d1=randn(n).*σ1 .+ μ1
-        d2=randn(n).*(σ1+σ2) .+ (μ1 - μ2) # second component lower mean and higher variance
-        ps=rand(n).<prob
-        data=zeros(n)
-        data[ps].=d1[ps]
-        data[.!ps].=d2[.!ps]
-        stats[i,:] = vcat(mean(data), std(data), skewness(data), kurtosis(data),
+    d1=randn(n).*σ1 .+ μ1
+    d2=randn(n).*(σ1+σ2) .+ (μ1 - μ2) # second component lower mean and higher variance
+    ps=rand(n).<prob
+    data=zeros(n)
+    data[ps].=d1[ps]
+    data[.!ps].=d2[.!ps]
+    return data
+end
+
+function auxstat(data)
+    r = 0.0 : 0.1 : 1.0
+    sqrt(1000.).*vcat(mean(data), std(data), skewness(data), kurtosis(data),
         quantile.(Ref(data),r))
-    end
-    sqrt(n).*stats
-end    
+end
+
+function auxstat(θ, reps)
+    auxstat.([dgp(θ, rand(1:Int64(1e12))) for i = 1:reps]) 
+end
 
 function TrueParameters()
     [1.0, 1.0, 0.2, 1.8, 0.4] # first component N(1,0.2) second component N(0,2)

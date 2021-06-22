@@ -10,19 +10,17 @@ include("Analyze.jl")
 function main()
     lb, ub = PriorSupport()
     model = SNMmodel("Mixture of Normals example model", lb, ub, InSupport, Prior, PriorDraw, auxstat)
-
     # train the net, and save it and the transformation info
-#    nnmodel, nninfo = MakeNeuralMoments(model)
-#    @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
+    # nnmodel, nninfo = MakeNeuralMoments(model)
+    # @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
     @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
-
     R = 1000
     results = zeros(R, 20)
     Threads.@threads for r = 1:R
         m = NeuralMoments(TrueParameters(), 1, model, nnmodel, nninfo) # the estimate
         chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo)
         println("r: ", r)
-        @show results[r,:] = vcat(median(chain[501:end,:], dims=1)[:], Analyze(chain))
+        results[r,:] = vcat(median(chain[501:end,:], dims=1)[:], Analyze(chain))
     end
     return results
 end
