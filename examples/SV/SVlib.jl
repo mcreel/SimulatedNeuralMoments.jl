@@ -4,43 +4,8 @@ using Statistics, Random
 
 # method that generates the sample
 function auxstat(θ, reps)
-    stats = zeros(reps,11)
-    if InSupport(θ)
-        n = 500
-        burnin = 100
-        for rep = 1:reps
-            y = SVmodel(θ, n, burnin)
-            stats[rep,:] = auxstat(y)
-        end
-    end    
-    stats
-end
-
-# method that uses pre-generated shocks
-function auxstat(θ, ϵ, u)
-    ϕ = θ[1]
-    ρ = θ[2]
-    σ = θ[3]
-    reps = size(ϵ,2)
-    stats = zeros(reps,11)
-    if InSupport(θ)
-        n = 500
-        burnin = 100
-        for rep = 1:reps
-            hlag = 0.0
-            ys = zeros(n)
-            @inbounds for t = 1:burnin+n
-                h = ρ*hlag + σ*u[t, rep]
-                y = ϕ*exp(h/2.0)*ϵ[t, rep]
-                if t > burnin 
-                    ys[t-burnin] = y
-                end    
-                hlag = h
-            end
-            stats[rep,:] = auxstat(ys)
-        end
-    end    
-    stats
+    data = [SVmodel(θ, rand(1:Int64(1e12))) for i = 1:reps]  # reps draws of data
+    auxstat.(data)
 end
 
 # method for a given sample
@@ -62,7 +27,10 @@ function auxstat(y)
 	stats = sqrt(size(y,1)) .* vcat(m, s, s2, k, c, c1, HAR(y))
 end
 
-function SVmodel(θ, n, burnin)
+function SVmodel(θ, rndseed=1234)
+    Random.seed!(rndseed)
+    n = 500
+    burnin = 100
     ϕ = θ[1]
     ρ = θ[2]
     σ = θ[3]
