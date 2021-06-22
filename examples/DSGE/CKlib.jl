@@ -1,46 +1,33 @@
 using Statistics, LinearAlgebra, SolveDSGE
 
 # this block reads and processes the file, leave it be
-filename = "CK.txt"
-path = joinpath(@__DIR__,filename)
-process_model(path)
-processed_filename = "CK_processed.txt"
-processed_path =  joinpath(@__DIR__,processed_filename)
-dsge = retrieve_processed_model(processed_path)
+#const process_model("CK.txt")
+const dsge = retrieve_processed_model("CK_processed.txt")
 
 # solve model and simulate data
-function CKdgp(θ, dsge, rndseed=1234)
+function dgp(θ, dsge, reps, rndseed=1234)
     p, ss = ParamsAndSS(θ)
     dsge = assign_parameters(dsge, p)
     scheme = PerturbationScheme(ss, 1.0, "third")
     solution = solve_model(dsge, scheme)
-    burnin = 1000
+    burnin = 200
     nobs = 160
-    data = simulate(solution, ss[1:3], burnin+nobs; rndseed = rndseed)
-    data = data[4:8, burnin+1:end]'
+    data = simulate(solution, ss[1:3], reps*(burnin+nobs); rndseed = rndseed)
+    # the next returns reps data sets, in an array of arrays
+    data = [data[4:8, (nobs+burnin)*i-(nobs+burnin)+1+burnin:i*(nobs+burnin)]' for i = 1:reps]
 end
-# dgp in form for neural moments
-dgp = θ -> CKdgp(θ, dsge, rand(1:Int64(1e12)))
-
-# These are the candidate auxiliary statistics for ABC estimation of
-# the simple DSGE model of Creel and Kristensen (2013)
-
 
 function bad_data(data)
     any(isnan.(data)) || any(isinf.(data)) || any(std(data,dims=1) .==0.0) || any(data .< 0.0)
 end
 
+# this gives a vector of vectors, each a statistic drawn at the parameter value
 function auxstat(θ, reps)
-    Z = auxstat(dgp(θ))
-    stats = zeros(reps, size(Z,1))
-    stats[1,:] = Z
-    Threads.@threads for rep = 2:reps
-        data = dgp(θ)
-        stats[rep, :] = auxstat(dgp(θ))
-    end
-    stats
-end    
+    auxstat.(dgp(θ, dsge, reps, rand(1:Int64(1e12))))
+end
 
+# These are the candidate auxiliary statistics for ABC estimation of
+# the simple DSGE model of Creel and Kristensen (2013)
 function auxstat(data)
     # check for nan, inf, no variation, or negative, all are reasons to reject
     if bad_data(data)
@@ -94,8 +81,8 @@ function auxstat(data)
         es = zeros(n,6)
         for i = 1:6
             rho = x[:,i]\y[:,i]
-            rhos[i] = rho;
-            es[:,i] = y[:,i]-rho*x[:,i]
+            rhos[i] = rho
+            es[:,i] = y[:,i]-rho.*x[:,i]
         end        
         varv = vech(cov(es)) # AR(1) error covariance elements 
         Z = vcat(Z, m[:], s[:], varv)
