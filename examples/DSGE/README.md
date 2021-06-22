@@ -41,7 +41,7 @@ The chain and marginal posteriors are
 ![chain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/DSGE/chain.png)
 
 
-Doing 500 Monte Carlo replications, by running ```mpirun -np 21 julia --project DSGEmontecarlo.jl``` the following results were obtained for the coverage of confidence intervals defined by quantiles of the MCMC chain.
+Doing 500 Monte Carlo replications, by running ```mpirun -np 21 julia --project DSGEmontecarlo.jl``` the following results were obtained for the coverage of confidence intervals defined by quantiles of the MCMC chain, for each of the seven estimated parameters:
 ![CIs](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/DSGE/mcresults.png)
 
 Some of these coverage values are statistically significantly different from what is expected for truly accurate confidence intervals, but most are not, and the departures from correct coverage are not large.
