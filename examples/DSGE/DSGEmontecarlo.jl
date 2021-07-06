@@ -22,7 +22,7 @@ function Monitor(sofar, results)
     if mod(sofar,1) == 0
         println("__________ replication: ", sofar, "_______________")
         clabels = ["99%", "95%", "90%"]
-        prettyprint(reshape(mean(results[1:sofar,:],dims=1),7,3),clabels)
+        prettyprint(reshape(mean(results[1:sofar,8:end],dims=1),7,3),clabels)
         if size(results,1)==sofar
             writedlm("mcresults.txt", results)
         end    
@@ -35,7 +35,7 @@ function main()
     end
     comm = MPI.COMM_WORLD
     reps = 500
-    n_returns = 21 
+    n_returns = 28 
     pooled = 1
     montecarlo(Wrapper, Monitor, comm, reps, n_returns, pooled)
     MPI.Finalize()

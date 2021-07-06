@@ -20,6 +20,6 @@ function Analyze(chain)
         upper[i] = quantile(chain[:,i],0.95)
         inci10[i] = θtrue[i] >= lower[i] && θtrue[i] <= upper[i]
     end
-    return vcat(inci01[:], inci05[:], inci10[:])
+    return vcat(mean(chain,dims=1)[:], inci01[:], inci05[:], inci10[:])
 end   
 
