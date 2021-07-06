@@ -28,7 +28,7 @@ data = readdlm("dsgedata.txt")
 m = NeuralMoments(auxstat(data), model, nnmodel, nninfo)
 # Here, you can create a new chain, or use the results from a previous run
 # draw a chain of length 10000 plus 500 burnin
-chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=false)
+chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
 chain = chain[501:end,:]
 writedlm("chain.txt", chain)
 #chain = readdlm("chain.txt")
