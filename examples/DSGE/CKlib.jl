@@ -31,7 +31,7 @@ end
 function auxstat(data)
     # check for nan, inf, no variation, or negative, all are reasons to reject
     if bad_data(data)
-        return zeros(39)
+        return zeros(45)
     else    
         # known parameters
         α = 0.33
@@ -42,7 +42,7 @@ function auxstat(data)
         wages = data[:,5]
         capital = α /(1.0-α )*hours.*wages./intrate
         # treat all variables
-        logdata = log.([data capital])[2:end,:]
+        logdata = log.([data capital])
         # logs
         logoutput = logdata[:,1];   # output
         logcons = logdata[:,2];     # consumption
@@ -54,9 +54,9 @@ function auxstat(data)
         e = logoutput-α*logcapital-(1.0-α)*loghours 
         y = e[2:end]
         x = e[1:end-1]
-        rho1 = cor(x,y)
+        rho1 = x\y
         u = y-x*rho1
-        sig1 = sqrt(u'*u/size(u,1))
+        sig1 = sqrt(mean(u .^2))
         Z = vcat(rho1, sig1)
         # gam, rho2, sig2 (1/MRS=wage)
         x = [ones(size(logcons,1)) logcons]
@@ -64,10 +64,9 @@ function auxstat(data)
         e = logwages-x*b
         y = e[2:end]
         x = e[1:end-1]
-        rho2 = cor(y,x)
+        rho2 = x\y
         u = y-x*rho2
-        sig2 = sqrt(u'*u/size(u,1))
-        Z = vcat(Z, b, rho2, sig2)
+        sig2 = sqrt(mean(u .^2))
         # standard devs. and correlations
         m = mean(logdata, dims=1)
         s = std(logdata, dims=1)
@@ -84,8 +83,7 @@ function auxstat(data)
             rhos[i] = rho
             es[:,i] = y[:,i]-rho.*x[:,i]
         end        
-        varv = vech(cov(es)) # AR(1) error covariance elements 
-        Z = vcat(Z, m[:], s[:], varv)
+        Z = vcat(rho1, sig1, b, rho2, sig2, m[:], s[:], rhos, vech(cov(es)))
     end
     Z
 end
