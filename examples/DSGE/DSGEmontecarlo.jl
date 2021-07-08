@@ -15,7 +15,7 @@ function Wrapper()
     data = dgp(TrueParameters(), dsge, 1, rand(1:Int64(1e12)))[1]
     m = NeuralMoments(auxstat(data), model, nnmodel, nninfo)
     @time chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo; verbosity=false)
-    Analyze(chain)
+    Analyze(chain[501:end,:])
 end
 
 function Monitor(sofar, results)
@@ -23,6 +23,7 @@ function Monitor(sofar, results)
         println("__________ replication: ", sofar, "_______________")
         clabels = ["99%", "95%", "90%"]
         prettyprint(reshape(mean(results[1:sofar,8:end],dims=1),7,3),clabels)
+        dstats(results[1:sofar,1:7])
         if size(results,1)==sofar
             writedlm("mcresults.txt", results)
         end    
