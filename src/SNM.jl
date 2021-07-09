@@ -23,7 +23,14 @@ function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
     cov([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end
-   
+
+# moments and covariance
+function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
+    z = model.auxstat(θ, reps) 
+    Zs = [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
+    mean(Zs), cov(Zs)
+end
+    
 # method with identity weight
 function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo)
     k = size(θ,1)
@@ -39,8 +46,8 @@ end
 
 # this is for CUE version
 function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo, do_cue::Bool)
-    Zs = [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
-    x = m - mean(Zs)
-    -0.5*dot(x,inv(cov(Zs)))
+    mbar, Σ = mΣ(θ, reps, model, nnmodel, nninfo)  
+    x = m - mbar
+    -0.5*dot(x,inv(Σ))
 end    
  
