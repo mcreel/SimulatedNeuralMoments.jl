@@ -6,10 +6,11 @@ using LinearAlgebra, Statistics #, Optim
 # covreps: replications used to compute weight matrix (the R in the paper, eqn. 5)
 function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false, do_cue = false) #, rt=0.25)
     nParams = size(model.lb,1)
-    # get covariance estimate using the consistent estimator
-    Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
-    reps = 10 # fewer for the MC chain
-    Σinv = inv((1.0+1/reps).*Σ)
+    # make sure these are defined at this scope
+    Σ = 1.0 
+    reps = covreps
+    Σinv = 1.0
+    lnl = θ -> 1.0
     # define things for MCMC
     if !do_cue
         Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
