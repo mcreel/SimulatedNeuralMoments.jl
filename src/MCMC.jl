@@ -7,10 +7,10 @@ using LinearAlgebra, Statistics #, Optim
 function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false, do_cue = false) #, rt=0.25)
     nParams = size(model.lb,1)
     # make sure these are defined at this scope
-    #Σ = 1.0 
-    #reps = covreps
-    #Σinv = 1.0
-    #lnL = θ -> 1.0
+    Σ = 1.0 
+    reps = covreps
+    Σinv = 1.0
+    lnL = θ -> 1.0
     # define things for MCMC
     if !do_cue
         Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
