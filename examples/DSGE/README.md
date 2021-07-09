@@ -46,3 +46,7 @@ Doing 500 Monte Carlo replications, by running ```mpirun -np 21 julia --project 
 
 Some of these coverage values are statistically significantly different from what is expected for truly accurate confidence intervals, but most are not, and the departures from correct coverage are not large.
 
+The Monte Carlo means, medians, and standard deviations are:
+![rmses](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/DSGE/mcresults2.png)
+So, the estimator has extremely low bias, and thus, RMSE is essentially the same as the
+std. dev.
