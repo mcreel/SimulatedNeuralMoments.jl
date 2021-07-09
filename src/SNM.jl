@@ -48,6 +48,6 @@ end
 function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo, do_cue::Bool)
     mbar, Σ = mΣ(θ, reps, model, nnmodel, nninfo)  
     x = m - mbar
-    -0.5*dot(x,inv(Σ))
+    -0.5*dot(x,inv(Σ)*x)
 end    
  
