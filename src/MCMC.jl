@@ -10,7 +10,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, ve
     Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
     # set up the proposal
     P = ((cholesky(Σ)).U)' # transpose it here 
-    reps = 10
+    reps = 1.0
     Σinv = 1.0
     lnL = θ -> 1.0
     # define things for MCMC
@@ -19,6 +19,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, ve
         Σinv = inv((1.0+1/reps).*Σ)
         lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
     else
+        reps = 100
         lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, true)
     end    
     ChainLength = 200
