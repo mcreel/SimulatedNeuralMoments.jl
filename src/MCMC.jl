@@ -4,14 +4,21 @@ using LinearAlgebra, Statistics #, Optim
 # the main MCMC routine, does several short chains to tune proposal
 # then a longer final chain
 # covreps: replications used to compute weight matrix (the R in the paper, eqn. 5)
-function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false) #, rt=0.25)
+function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false, do_cue = false) #, rt=0.25)
     nParams = size(model.lb,1)
     # get covariance estimate using the consistent estimator
     Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
     reps = 10 # fewer for the MC chain
     Σinv = inv((1.0+1/reps).*Σ)
     # define things for MCMC
-    lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
+    if !do_cue
+        Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
+        reps = 10 # fewer for the MC chain
+        Σinv = inv((1.0+1/reps).*Σ)
+        lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
+    else
+        lnl = θ -> H(θ, θnn, covreps, model, nnmodel, nninfo, true)
+    end    
     ChainLength = 200
     # set up the proposal
     P = ((cholesky(Σ)).U)' # transpose it here 

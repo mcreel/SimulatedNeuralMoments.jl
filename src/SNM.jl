@@ -23,7 +23,7 @@ function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
     cov([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end
-
+   
 # method with identity weight
 function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo)
     k = size(θ,1)
@@ -32,8 +32,15 @@ function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo)
 end    
 
 # log likelihood (GMM-form) with fixed weight matrix
-function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo, invΣ)
+function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo, invΣ::Matrix)
     x = m - NeuralMoments(θ, reps, model, nnmodel, nninfo)
     -0.5*dot(x,invΣ*x)
 end
 
+# this is for CUE version
+function H(θ, m, reps, model::SNMmodel, nnmodel, nninfo, do_cue::Bool)
+    Zs = [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
+    x = m - mean(Zs)
+    -0.5*dot(x,inv(cov(Zs)))
+end    
+ 
