@@ -7,13 +7,14 @@ using LinearAlgebra, Statistics #, Optim
 function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, verbosity = false, do_cue = false) #, rt=0.25)
     nParams = size(model.lb,1)
     # make sure these are defined at this scope
-    Σ = 1.0 
+    Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
+    # set up the proposal
+    P = ((cholesky(Σ)).U)' # transpose it here 
     reps = covreps
     Σinv = 1.0
     lnL = θ -> 1.0
     # define things for MCMC
     if !do_cue
-        Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
         reps = 10 # fewer for the MC chain
         Σinv = inv((1.0+1/reps).*Σ)
         lnL = θ -> H(θ, θnn, reps, model, nnmodel, nninfo, Σinv)
@@ -21,8 +22,6 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, ve
         lnL = θ -> H(θ, θnn, covreps, model, nnmodel, nninfo, true)
     end    
     ChainLength = 200
-    # set up the proposal
-    P = ((cholesky(Σ)).U)' # transpose it here 
     # loops to tune proposal
     tuning = 1.0
     MC_loops = 10
