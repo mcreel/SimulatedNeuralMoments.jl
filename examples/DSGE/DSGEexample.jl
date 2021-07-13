@@ -26,13 +26,13 @@ m = NeuralMoments(auxstat(data), model, nnmodel, nninfo)
 # draw a chain of length 10000 plus 500 burnin
 chain, junk, junk = MCMC(m, 1500, model, nnmodel, nninfo, covreps = 100, verbosity=true, do_cue = true)
 chain = chain[501:end,:]
-#writedlm("chain.txt", chain)
+writedlm("chain.txt", chain)
 #chain = readdlm("chain.txt")
 
 # visualize results
 chn = Chains(chain, ["β", "γ", "ρ₁", "σ₁", "ρ₂", "σ₂", "nss"])
 plot(chn)
-#savefig("chain.png")
+savefig("chain.png")
 display(chn)
 end
 main()
