@@ -6,6 +6,8 @@ using BSON:@load
 # For your own models, you will need to supply the functions
 # found in MNlib.jl, using the same formats
 include("MNlib.jl")
+
+function main()
 lb, ub = PriorSupport()
 
 # fill in the structure that defines the model
@@ -31,3 +33,5 @@ savefig("chain.png")
 println("SNM estimation: true params and posterior median")
 cnames = ["true", "pos. median"] 
 prettyprint([θ median(chain,dims=1)[:]], cnames)
+end
+main()
