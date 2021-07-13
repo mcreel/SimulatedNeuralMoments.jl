@@ -77,7 +77,7 @@ end
 
 # MH method for symmetric proposal (as is the case with SNM methods)
 # the main loop
-function mcmc(θ, reps::Int64, burnin::Int64, Prior::Function, lnL::Function, Proposal::Function, report::Bool=true)
+@views function mcmc(θ, reps::Int64, burnin::Int64, Prior::Function, lnL::Function, Proposal::Function, report::Bool=true)
     reportevery = Int((reps+burnin)/10)
     lnLθ = lnL(θ)
     chain = zeros(reps, size(θ,1)+1)
@@ -107,7 +107,8 @@ function mcmc(θ, reps::Int64, burnin::Int64, Prior::Function, lnL::Function, Pr
             naccept = naccept - naccept
         end    
         if rep > burnin
-            chain[rep-burnin,:] = [θ; accept]
+            chain[rep-burnin,1:end-1] .= θ
+            chain[rep-burnin, end] = accept
         end    
     end
     return chain
