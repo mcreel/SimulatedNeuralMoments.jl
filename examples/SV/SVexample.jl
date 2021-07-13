@@ -4,13 +4,8 @@ using BSON:@load
 using DelimitedFiles
 
 # get the things to define the structure for the model
-# For your own models, you will need to supply the functions
-# found in MNlib.jl, using the same formats
 include("SVlib.jl")
-lb, ub = PriorSupport()
-
-# get the things to define the structure for the model
-include("SVlib.jl")
+function main()
 lb, ub = PriorSupport()
 
 # fill in the structure that defines the model
@@ -44,4 +39,5 @@ prettyprint(median(chain,dims=1)[:], cnames)
 plot(chn)
 #savefig("chain.png")
 #writedlm("chain.txt", chain)
-
+end
+main()

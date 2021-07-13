@@ -3,10 +3,6 @@ using BSON:@save
 using BSON:@load
 
 # get the things to define the structure for the model
-# For your own models, you will need to supply the functions
-# found in MNlib.jl, using the same formats
-# I recommend starting julia with "julia --project -t X" where X is 
-# the number of physical cores available, then, include this file.
 include("CKlib.jl") # contains the functions for the DSGE model
 function main()
 lb, ub = PriorSupport()

@@ -28,7 +28,7 @@ end
 
 # These are the candidate auxiliary statistics for ABC estimation of
 # the simple DSGE model of Creel and Kristensen (2013)
-function auxstat(data)
+@views function auxstat(data)
     # check for nan, inf, no variation, or negative, all are reasons to reject
     if bad_data(data)
         return zeros(45)
@@ -132,7 +132,6 @@ function Prior(θ)
     InSupport(θ) ? 1.0 : 0.0
 end    
 
-
 function ParamsAndSS(params)
     α = 0.33
     δ = 0.025
@@ -151,5 +150,4 @@ function ParamsAndSS(params)
     ss = [0.0, 0.0, kss, yss, css, nss, rss, wss, MUCss, MULss]
     return p, ss
 end   
-
 

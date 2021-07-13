@@ -14,7 +14,7 @@ function Wrapper()
     @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
     data = dgp(TrueParameters(), dsge, 1, rand(1:Int64(1e12)))[1]
     m = NeuralMoments(auxstat(data), model, nnmodel, nninfo)
-    @time chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo; verbosity=false)
+    @time chain, junk, junk = MCMC(m, 5500, model, nnmodel, nninfo; verbosity=false, do_cue = true)
     Analyze(chain[501:end,:])
 end
 

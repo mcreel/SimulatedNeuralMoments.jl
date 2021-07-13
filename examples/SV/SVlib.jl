@@ -9,7 +9,7 @@ function auxstat(θ, reps)
 end
 
 # method for a given sample
-function auxstat(y)
+@views function auxstat(y)
 	s = std(y)
 	y = abs.(y)
 	m = mean(y)
@@ -92,7 +92,7 @@ end
 # returns the variable (or matrix), lagged p times,
 # with the first p rows filled with ones (to avoid divide errors)
 # remember to drop those rows before doing analysis
-function lag(x,p)
+@views function lag(x,p)
 	n = size(x,1)
         k = size(x,2)
 	lagged_x = [ones(p,k); x[1:n-p,:]]
@@ -101,7 +101,7 @@ end
 # returns the variable (or matrix), lagged from 1 to p times,
 # with the first p rows filled with ones (to avoid divide errors)
 # remember to drop those rows before doing analysis
-function  lags(x,p)
+@views function  lags(x,p)
 	n = size(x,1)
 	k = size(x,2)
 	lagged_x = zeros(eltype(x),n,p*k)
@@ -112,7 +112,7 @@ function  lags(x,p)
 end	
  
 # compute moving average using p most recent values, including current value
-function ma(x, p)
+@views function ma(x, p)
     m = zeros(size(x))
     for i = p:size(x,1)
         m[i] = mean(x[i-p+1:i])
@@ -124,7 +124,7 @@ end
 # Corsi, Fulvio. "A simple approximate long-memory model
 # of realized volatility." Journal of Financial Econometrics 7,
 # no. 2 (2009): 174-196.
-function HAR(y)
+@views function HAR(y)
     ylags = lags(y,10)
     X = [ones(size(y,1)) ylags[:,1]  mean(ylags[:,1:4],dims=2) mean(ylags[:,1:10],dims=2)]
     # drop missings
