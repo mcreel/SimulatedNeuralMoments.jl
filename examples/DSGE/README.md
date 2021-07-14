@@ -50,7 +50,7 @@ one using a continuously updated weight matrix (see the do_cue option in src/MCM
 
 Doing 500 Monte Carlo replications, by running ```mpirun -np 21 julia --project DSGEmontecarlo.jl``` the following results were obtained for the coverage of confidence intervals defined by quantiles of the MCMC chain, for each of the seven estimated parameters:
 
-### First, for the fixed weight matrix option:###
+### First, for the fixed weight matrix option: ###
 ![CIs](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/DSGE/mcresults.png)
 
 Some of these coverage values are statistically significantly different from what is expected for truly accurate confidence intervals, but most are not, and the departures from correct coverage are not large.
