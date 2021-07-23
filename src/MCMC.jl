@@ -38,7 +38,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, tu
         end 
         chain = mcmc(θinit, ChainLength, burnin, model.prior, lnL, Proposal, verbosity, nthreads)
         # adjust tuning to try to keep acceptance rate between 0.25 - 0.35
-        if j < MC_loops
+        if j <= tuningloops
             accept = mean(chain[:,end])
             if accept > 0.3
                 tuning *= 1.1
