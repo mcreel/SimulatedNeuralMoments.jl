@@ -4,7 +4,7 @@ using Statistics, Random
 
 # method that generates the sample
 function auxstat(θ, reps)
-    data = [SVmodel(θ, rand(1:Int64(1e12))) for i = 1:reps]  # reps draws of data
+    data = collect(SVmodel(θ, rand(1:Int64(1e12))) for i = 1:reps)  # reps draws of data
     auxstat.(data)
 end
 
