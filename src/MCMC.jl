@@ -4,7 +4,7 @@ using LinearAlgebra, Statistics #, Optim
 # the main MCMC routine, does several short chains to tune proposal
 # then a longer final chain
 # covreps: replications used to compute weight matrix (the R in the paper, eqn. 5)
-function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, tuningloops = 10, verbosity = false, do_cue = false, nthreads=1) #, rt=0.25)
+function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, tuningloops = 10, verbosity = false, do_cue = false, burnin = 0, nthreads=1) #, rt=0.25)
     nParams = size(model.lb,1)
     # make sure these are defined at this scope
     Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 
@@ -36,7 +36,7 @@ function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, tu
         else
             θinit = θnn
         end 
-        chain = mcmc(θinit, ChainLength, 0, model.prior, lnL, Proposal, verbosity, nthreads)
+        chain = mcmc(θinit, ChainLength, burnin, model.prior, lnL, Proposal, verbosity, nthreads)
         # adjust tuning to try to keep acceptance rate between 0.25 - 0.35
         if j < MC_loops
             accept = mean(chain[:,end])
