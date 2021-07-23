@@ -75,6 +75,16 @@ function NeweyWest(Z,nlags=0)
     return omegahat
 end
 
+
+# method using threads and symmetric proposal
+@views function mcmc(θ, reps::Int64, burnin::Int64, Prior::Function, lnL::Function, Proposal::Function, report::Bool, nthreads::Int64)
+    chain = zeros(Int(reps*nthreads), size(θ,1)+1)
+    Threads.@threads for t = 1:nthreads # collect the results from the threads
+        chain[t*reps-reps+1:t*reps,:] = mcmc(θ, reps, burnin, Prior, lnL, Proposal, report) 
+    end    
+    return chain
+end
+
 # MH method for symmetric proposal (as is the case with SNM methods)
 # the main loop
 @views function mcmc(θ, reps::Int64, burnin::Int64, Prior::Function, lnL::Function, Proposal::Function, report::Bool=true)
