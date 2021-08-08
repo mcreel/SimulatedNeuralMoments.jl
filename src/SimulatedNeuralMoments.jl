@@ -1,5 +1,4 @@
 module SimulatedNeuralMoments
-using OhMyREPL
 # the type that holds the model specifics
 struct SNMmodel
     modelname::String # name of model
