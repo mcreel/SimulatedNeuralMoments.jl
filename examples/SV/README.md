@@ -3,7 +3,7 @@ The main purpose of this example is to show how to use the methods with real dat
 
 The first block loads packages and sets up the structure that defines the SV model:
 
-```
+```julia
 using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots, DelimitedFiles
 using BSON:@save
 using BSON:@load
@@ -20,7 +20,7 @@ model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, Prio
 ```
 
 Next, we train the net, or use the pre-trained net which I have kindly provided you:
-```
+```julia
 # train the net, and save it and the transformation info
 #nnmodel, nninfo = MakeNeuralMoments(model)
 #@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
@@ -28,7 +28,7 @@ Next, we train the net, or use the pre-trained net which I have kindly provided 
 ```
 Next, we load some data.  The data was created using the commented lines. Once we have the data, we make some plots, and then we compute the neural
 moments:
-```
+```julia
 # draw a sample at the design parameters
 #y = SVmodel(TrueParameters(), 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
 y = readdlm("svdata.txt") # load a data set
