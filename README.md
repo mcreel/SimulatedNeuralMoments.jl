@@ -20,7 +20,7 @@ To use the MNexample.jl file, start Julia from its directory, and, if you do not
 
 First, we train a neural net to recognize the parameters, given a vector of statistics:
 
-```
+```julia
 using SimulatedNeuralMoments, MCMCChains, StatsPlots
 using BSON:@save
 using BSON:@load
@@ -39,7 +39,7 @@ nnmodel, nninfo = MakeNeuralMoments(model, Epochs=10)
 ```
 
 Then we can make one sample draw of the statistics at a given parameter vector, and use the statistics to estimate the parameters, to see how well we do:
-```
+```julia
 θ = TrueParameters() # this is defined in MNlib.jl
 
 # illustrate basic NN point estimation
@@ -47,7 +47,7 @@ m = NeuralMoments(θ, 1, model, nnmodel, nninfo) # the estimate
 ```
 
 Then, we sample from the posterior, using the neural net point estimate as the statistic for ABC or GMM-like inference:
-```
+```julia
 # draw a chain of length 10000, and get the extremum estimator
 chain, θhat = MCMC(m, 10000, model, nnmodel, nninfo, verbosity=true)
 
@@ -59,7 +59,7 @@ println("SNM estimation, true parameters (a draw from prior) and extremum estima
 prettyprint([θ θhat], cnames)
 ```
 For reference, the true parameter values are
-```
+```julia
 julia> TrueParameters()'
 1×5 adjoint(::Vector{Float64}) with eltype Float64:
  1.0  1.0  0.2  1.8  0.4
