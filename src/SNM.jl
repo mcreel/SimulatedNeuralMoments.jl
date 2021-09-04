@@ -20,14 +20,14 @@ end
 # estimate covariance
 function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
-    cov([min.(max.(NeuralMoments(z[i], model, nnmodel, nninfo), model.lb), model.ub) for i = 1:reps])
+    cov([min.(max.(NeuralMoments(z[i], model, nnmodel, nninfo), model.lb'), model.ub') for i = 1:reps])
 end
 
 # moments and covariance
 function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
     Zs = [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
-    mean(Zs), cov(min.(max.(Zs,model.lb),model.ub))
+    mean(Zs), cov(min.(max.(Zs,model.lb'),model.ub'))
 end
     
 # method with identity weight
