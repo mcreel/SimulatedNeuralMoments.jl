@@ -27,7 +27,7 @@ end
 function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
     Zs = [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
-    m = mean(Zs), 
+    m = mean(Zs) 
     c = cov([min.(max.(Zs[i], model.lb), model.ub) for i = 1:reps])
     m, c
 end
