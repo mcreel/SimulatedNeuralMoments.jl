@@ -28,7 +28,7 @@ plot(p1, p2, layout=(2,1))
 m = NeuralMoments(auxstat(y), model, nnmodel, nninfo)
 @show m
 ## draw a chain of length 10000 plus 500 burnin
-chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=false)
+chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, do_cue=false, verbosity=false)
 chain = chain[501:end,:]
 # visualize results
 chn = Chains(chain, ["ϕ", "ρ", "σ"])
