@@ -6,6 +6,6 @@ using StatsPlots
 beta = nnmodel.layers[1].W # get first layer betas
 z = maximum(abs.(beta),dims=1);
 heatmap(z, xlabel="statistic", title="Importance of inputs, bright=high, dark=low")
-savefig("ImportanceOfStatistics.svg")
+savefig("ImportanceOfStatistics.png")
 
 
