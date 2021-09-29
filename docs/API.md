@@ -63,7 +63,7 @@ This function returns a MCMC chain and the extremmum estimator. The arguments ar
   * verbosity: boolean. Controls display of intermediate information.
   * burnin: Int64. Number of MCMC steps discarded from chain.
   * do_cue: boolean. Whether or not to use continuously updating GMM criterion. Default is no, in which case the two-step version of the GMM
-      criterion is used. The two-step version is considerably faster, but the CUE version leads to more accurate confidence intervl coverage, and
+      criterion is used. The two-step version is considerably faster, but the CUE version leads to more accurate confidence interval coverage, and
       is recommended when it is computationally feasible.
  
 
