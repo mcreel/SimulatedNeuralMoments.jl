@@ -9,7 +9,7 @@ For the Mixture of Normals model presented below, the confidence interval covera
 1000 replications is 
 ![MNmontecarlo](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/montecarlo.png)
 
-which verifies that, for this model and this experimental design, the methods lead to reliable inferences on parameters. These results can be replicated using the MNexample2.jl script in the examples/MN directory. The working paper referenced above contains additional examples which also confirm the reliability of inferences.
+which verifies that, for this model and this experimental design, the methods lead to reliable inferences on parameters. These results can be replicated using the MNexample2.jl script in the examples/MN directory. The paper referenced above contains additional examples which also confirm the reliability of inferences.
 
 By way of documentation, there is an explanation of the API in the docs directory, and here's a run through the MNexample.jl file, in examples/MN, which estimates the parameters of a Gaussian Mixture model. This example can serve as a template of how to use the package. See also the README.md in the examples/SV directory.
 
