@@ -52,14 +52,18 @@ net.
   permit.
 
 ## The function MCMC
-```function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; verbosity = false, rt=0.5)```
+```function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, tuningloops = 10, verbosity = false, do_cue = false, burnin = 0, nthreads=1, tuning = 1.0) ```
 This function returns a MCMC chain and the extremmum estimator. The arguments are:
-  * θnn: A vector of Float64. The value of the neural statistic obtained from the real sample data. 
+  * θnn: A vector of Float64. The starting value for the chain. It is recommended to use the neural statistic obtained from the real sample data. 
   * length: Int64. The length of the MCMC chain.
   * model: of type SNMmodel, as discussed above.
   * nnmodel and nninfo: the trained net, and the transformation information. These are obtained as the outputs of MakeNeuralMoments.
+  * covreps: Int64. The number of replications used to compute the covariance matrix of the proposal density.
+  * tuning loops: Int64. The number of short MCMC chains generated to tune the proposal density.
   * verbosity: boolean. Controls display of intermediate information.
-  * rt: the temperature reduction factor for the simulated annealing minimization that is used to compute
-  the extremum estimator.
+  * burnin: Int64. Number of MCMC steps discarded from chain.
+  * do_cue: boolean. Whether or not to use continuously updating GMM criterion. Default is no, in which case the two-step version of the GMM
+      criterion is used. The two-step version is considerably faster, but the CUE version leads to more accurate confidence intervl coverage, and
+      is recommended when it is computationally feasible.
  
 
