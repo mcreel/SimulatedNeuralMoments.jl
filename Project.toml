@@ -1,7 +1,7 @@
 name = "SimulatedNeuralMoments"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
 authors = ["Michael Creel <michael.creel@uab.es> and contributors"]
-version = "0.4.0"
+version = "0.2.0"
 
 [deps]
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
@@ -10,16 +10,15 @@ Optim = "429524aa-4258-5aef-a3af-852621145aeb"
 PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 
 [compat]
-Flux = "0.11.4"
-Optim = "1.2.2"
+Flux = "0.11.6"
+Optim = "1.4.1"
 PrettyTables = "0.10.1"
-StatsBase = "0.33.2"
-julia = "1.5 - 2.0"
+StatsBase = "0.33.10"
+julia = "1.5 - 1.7"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
