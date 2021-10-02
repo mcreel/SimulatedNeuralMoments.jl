@@ -1040,9 +1040,11 @@ version = "1.0.3"
 
 [[SimulatedNeuralMoments]]
 deps = ["Flux", "LinearAlgebra", "Optim", "PrettyTables", "Printf", "Random", "Statistics", "StatsBase"]
-git-tree-sha1 = "200bcf4e38a9333a8b302baed55b5a449a1954bc"
+git-tree-sha1 = "6d99e6479dd4395f2bf72f725ceca95967bc4b63"
+repo-rev = "main"
+repo-url = "https://github.com/mcreel/SimulatedNeuralMoments.jl.git"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
-version = "0.1.0"
+version = "0.2.0"
 
 [[Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
