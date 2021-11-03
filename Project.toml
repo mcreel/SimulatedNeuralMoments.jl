@@ -1,7 +1,7 @@
 name = "SimulatedNeuralMoments"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
 authors = ["Michael Creel <michael.creel@uab.es> and contributors"]
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
