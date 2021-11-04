@@ -1,7 +1,6 @@
 using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots, DelimitedFiles
 using BSON:@save
 using BSON:@load
-using DelimitedFiles
 
 # get the things to define the structure for the model
 include("SVlib.jl")
