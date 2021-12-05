@@ -4,7 +4,7 @@ using LinearAlgebra, Statistics #, Optim
 # the main MCMC routine, does several short chains to tune proposal
 # then a longer final chain
 # covreps: replications used to compute weight matrix (the R in the paper, eqn. 5)
-function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, tuningloops = 10, verbosity = false, do_cue = false, burnin = 0, nthreads=1, tuning = 1.0) #, rt=0.25)
+@views function MCMC(θnn, length, model::SNMmodel, nnmodel, nninfo; covreps = 1000, tuningloops = 10, verbosity = false, do_cue = false, burnin = 0, nthreads=1, tuning = 1.0) #, rt=0.25)
     nParams = size(model.lb,1)
     # make sure these are defined at this scope
     Σ = EstimateΣ(θnn, covreps, model, nnmodel, nninfo) 

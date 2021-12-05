@@ -49,7 +49,7 @@ function dstats(x, rnames="";short=false, silent=false)
 end
 
 # Newey-West covariance estimator
-function NeweyWest(Z,nlags=0)
+@views function NeweyWest(Z,nlags=0)
 #=
     Returns the Newey-West estimator of the asymptotic variance matrix
     INPUTS: Z, a nxk matrix with rows the vector zt'
