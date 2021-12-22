@@ -58,7 +58,7 @@ end
 =#
     n,k = size(Z)
     # de-mean the variables
-    Z = Z .- mean(Z,dims=1)
+    Z .-= mean(Z,dims=1)
     omegahat = Z'*Z/n # sample variance
     # automatic lags?
     if nlags == 0
@@ -110,12 +110,12 @@ end
             end
         end
         if report
-            naccept = naccept .+ changed .* Int.(accept)
+            naccept .+= changed .* Int.(accept)
         end    
         if (mod(rep,reportevery)==0 && report)
             println("current parameters: ", round.(θ,digits=3))
             println("  acceptance rates: ", round.(naccept/reportevery,digits=3))
-            naccept = naccept - naccept
+            naccept -= naccept
         end    
         if rep > burnin
             chain[rep-burnin,:] = vcat(θ, accept)
