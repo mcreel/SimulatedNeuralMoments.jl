@@ -27,7 +27,7 @@ plot(p1, p2, layout=(2,1))
 m = NeuralMoments(auxstat(y), model, nnmodel, nninfo)
 @show m
 ## draw a chain of length 10000 plus 500 burnin
-chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, do_cue=false, verbosity=false)
+chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, do_cue=true, verbosity=true)
 chain = chain[501:end,:]
 # visualize results
 chn = Chains(chain, ["ϕ", "ρ", "σ"])
@@ -36,7 +36,7 @@ println("SNM estimation, estimated pos. median")
 cnames = ["pos. median"] 
 prettyprint(median(chain,dims=1)[:], cnames)
 plot(chn)
-#savefig("chain.png")
-#writedlm("chain.txt", chain)
+savefig("chain.png")
+writedlm("chain.txt", chain)
 end
 main()

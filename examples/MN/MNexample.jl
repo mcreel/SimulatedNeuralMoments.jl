@@ -23,7 +23,7 @@ cnames = ["true", "estimate"]
 println("Basic NN estimation, true parameters and estimates")
 prettyprint([θ m], cnames)
 # draw a chain of length 10000 plus 500 burnin
-chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, verbosity=true)
+chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, do_cue=true, verbosity=true)
 chain = chain[501:end,:]
 # visualize results
 chn = Chains(chain, ["μ₁","μ₂","σ₁","σ₂","p"])

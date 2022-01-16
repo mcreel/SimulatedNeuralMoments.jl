@@ -18,7 +18,7 @@ function main()
     results = zeros(R, 20)
     Threads.@threads for r = 1:R
         m = NeuralMoments(TrueParameters(), 1, model, nnmodel, nninfo) # the estimate
-        chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo)
+        chain, junk, junk = MCMC(m, 10500, model, nnmodel, nninfo, do_cue=true)
         println("r: ", r)
         results[r,:] = vcat(median(chain[501:end,:], dims=1)[:], Analyze(chain))
     end
