@@ -28,7 +28,7 @@ chain = chain[501:end,:]
 # visualize results
 chn = Chains(chain, ["μ₁","μ₂","σ₁","σ₂","p"])
 display(chn)
-plot(chn)
+display(plot(chn))
 savefig("chain.png")
 println("SNM estimation: true params and posterior median")
 cnames = ["true", "pos. median"] 

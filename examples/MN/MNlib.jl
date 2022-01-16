@@ -1,4 +1,4 @@
-using Statistics
+using Statistics, StatsBase
 
 function dgp(θ, rndseed=1234)
     n = 1000

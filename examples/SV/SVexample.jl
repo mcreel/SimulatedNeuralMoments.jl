@@ -35,8 +35,8 @@ display(chn)
 println("SNM estimation, estimated pos. median")
 cnames = ["pos. median"] 
 prettyprint(median(chain,dims=1)[:], cnames)
-plot(chn)
-savefig("chain.png")
-writedlm("chain.txt", chain)
+display(plot(chn))
+#savefig("chain.png")
+#writedlm("chain.txt", chain)
 end
 main()
