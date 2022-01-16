@@ -14,7 +14,7 @@ function NeuralMoments(θ, reps, model::SNMmodel, nnmodel, nninfo)
 end        
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
-    min.(max.(Float64.(nnmodel(TransformStats((z[:])', nninfo)')), model.lb) model.ub)
+    min.(max.(Float64.(nnmodel(TransformStats((z[:])', nninfo)')), model.lb), model.ub)
 end        
 
 # estimate covariance
