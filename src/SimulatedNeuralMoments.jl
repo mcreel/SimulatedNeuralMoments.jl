@@ -8,14 +8,11 @@ struct SNMmodel
     prior::Function # function that evaluates the prior at draw
     priordraw::Function # function that returns a draw from prior
     auxstat::Function # function that returns an array of draws of statistic
+    samplesize::Int64 # number of observations in data set
 end
 
 include("MakeNeuralMoments.jl")
-include("FromEconometrics.jl")
 include("SNM.jl")
-include("MCMC.jl")
 export SNMmodel, MakeNeuralMoments
-export prettyprint, dstats
-export TransformStats, NeuralMoments, EstimateΣ, H
-export MCMC
+export TransformStats, NeuralMoments, EstimateΣ, mΣ
 end
