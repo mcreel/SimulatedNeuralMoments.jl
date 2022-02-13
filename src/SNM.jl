@@ -1,4 +1,5 @@
 # bounds by quantiles, and standardizes and normalizes around median
+using LinearAlgebra
 function TransformStats(data, info)
     q01,q50,q99,iqr = info
     data = max.(data, q01')
