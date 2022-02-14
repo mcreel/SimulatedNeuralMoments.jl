@@ -35,11 +35,11 @@ m = D2R(m, model)
 
 S = 200
 covreps = 1000
-length = 5000
-nchains = 3
+length = 2500
+nchains = 4
 burnin = 0
-tuning = 10.
-junk, Σp = mΣ(θinit, covreps, model, nnmodel, nninfo) 
+tuning = 20.
+junk, Σp = mΣ(θinit, covreps, model, nnmodel, nninfo, false) 
 
 @model function MSM(m, S, model)
     # create the prior: the product of the following array of marginal priors
@@ -50,22 +50,19 @@ junk, Σp = mΣ(θinit, covreps, model, nnmodel, nninfo)
         return
     end    
     # sample from the model, at the trial parameter value, and compute statistics
-    mbar, Σ = TmΣ(θ, S, model, nnmodel, nninfo)
+    mbar, Σ = mΣ(θ, S, model, nnmodel, nninfo)
     m ~ MvNormal(mbar, Σ)
 end
 
-#chain = sample(MSM(m, S, model),
-#    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
-#    MCMCThreads(), length+burnin, nchains, init_params=θinit; param_names=["α","ρ","σ"])
 chain = sample(MSM(m, S, model),
     MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
-    length+burnin, init_params=θinit)
+    MCMCThreads(), length+burnin, nchains, init_params=θinit)
 chain = chain[burnin+1:end,:,:]
 #end
 #chain = main()
 display(chain)
 display(plot(chain))
-chain = Array(chain)
-acceptance = size(unique(chain[:,1]),1)[1] / size(chain,1)
+chain2 = Array(chain)
+acceptance = size(unique(chain2[:,1]),1)[1] / size(chain2,1)
 println("acceptance rate: $acceptance")
 
