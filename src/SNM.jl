@@ -32,6 +32,6 @@ function TmΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
 end
      
 function D2R(z, model)
-    z = (z .- model.lb) ./ model.ub
+    z = (z .- model.lb .+ 0.001) ./ (model.ub .+ 0.001)
     z = -log.(1.0 ./ z .- 1.0)
 end    
