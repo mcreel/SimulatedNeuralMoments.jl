@@ -31,6 +31,6 @@ function TmΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     m, c
 end
      
-function D2R(z, model)
-    z .= quantile.(Normal(), (z .- model.lb ) ./ model.ub)
+function D2R(z)
+    z = -log.(1.0 ./ z .- 1.0)
 end    
