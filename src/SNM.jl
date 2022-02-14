@@ -16,7 +16,7 @@ end
 # estimate covariance
 function EstimateΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
-    cov([sqrt(model.samplesize).*NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
+    cov([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
 end
 
 # moments and covariance
