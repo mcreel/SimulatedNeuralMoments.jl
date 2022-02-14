@@ -25,12 +25,13 @@ end
 # moments and covariance
 function TmΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
-    Zs = D2R.([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps])
+    Zs = D2R.([NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps], model)
     m = mean(Zs)[:] 
     c = Symmetric(cov(Zs))
     m, c
 end
      
-function D2R(z)
+function D2R(z, model)
+    z = (z .- model.lb) ./ model.ub
     z = -log.(1.0 ./ z .- 1.0)
 end    
