@@ -10,7 +10,7 @@ end
 
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
-    min.(max.(nnmodel(TransformStats((z[:])', nninfo)'), lb),ub)
+    min.(max.(nnmodel(TransformStats((z[:])', nninfo)'), model.lb), model.ub)
 end        
 
 # moments and covariance
