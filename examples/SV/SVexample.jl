@@ -36,13 +36,12 @@ length = 1000
 nchains = 3
 burnin = 0
 tuning = 1.
-Σp = diagm(abs.(m)/10.)
-#Σp = EstimateΣ(m, covreps, model, nnmodel, nninfo) 
-m = sqrt(model.samplesize).*m
+junk, Σ = mΣ(m, covreps, model, nnmodel, nninfo) 
 
 @model function MSM(m, S, model)
     # create the prior: the product of the following array of marginal priors
     θ  ~ @Prior()
+    α, ρ, σ = θ
     if !InSupport(θ)
         Turing.@addlogprob! -Inf
         # Exit the model evaluation early
@@ -57,7 +56,7 @@ end
 #    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
 #    MCMCThreads(), length+burnin, nchains, init_params=θinit; param_names=["α","ρ","σ"])
 chain = sample(MSM(m, S, model),
-    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
+    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σ))),
     length+burnin, init_params=θinit; param_names=["α","ρ","σ"])
 chain = chain[burnin+1:end,:,:]
 #end
