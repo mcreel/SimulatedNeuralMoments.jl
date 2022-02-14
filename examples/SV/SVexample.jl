@@ -30,18 +30,17 @@ m = NeuralMoments(auxstat(y), model, nnmodel, nninfo)
 m = m[:]
 θinit = m
 @show m
-S = 20
-covreps = 200
-length = 1000
+S = 200
+covreps = 1000
+length = 5000
 nchains = 3
-burnin = 0
-tuning = 1.
-junk, Σ = mΣ(m, covreps, model, nnmodel, nninfo) 
+burnin = 1000
+tuning = 10.
+junk, Σp = mΣ(m, covreps, model, nnmodel, nninfo) 
 
 @model function MSM(m, S, model)
     # create the prior: the product of the following array of marginal priors
     θ  ~ @Prior()
-    α, ρ, σ = θ
     if !InSupport(θ)
         Turing.@addlogprob! -Inf
         # Exit the model evaluation early
@@ -56,8 +55,8 @@ end
 #    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
 #    MCMCThreads(), length+burnin, nchains, init_params=θinit; param_names=["α","ρ","σ"])
 chain = sample(MSM(m, S, model),
-    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σ))),
-    length+burnin, init_params=θinit; param_names=["α","ρ","σ"])
+    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
+    length+burnin, init_params=θinit)
 chain = chain[burnin+1:end,:,:]
 #end
 #chain = main()
