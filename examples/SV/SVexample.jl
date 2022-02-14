@@ -51,7 +51,8 @@ junk, Σp = mΣ(θinit, covreps, model, nnmodel, nninfo)
     end    
     # sample from the model, at the trial parameter value, and compute statistics
     mbar, Σ = TmΣ(θ, S, model, nnmodel, nninfo)
-@show Σ
+    @show θ 
+    @show Σ
     m ~ MvNormal(mbar, Σ)
 end
 
