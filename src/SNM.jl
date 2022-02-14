@@ -26,14 +26,12 @@ end
 function TmΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
     Zs = [D2R(NeuralMoments(z[i], model, nnmodel, nninfo), model) for i = 1:reps]
-    m = mean(Zs)[:] 
-    c = Symmetric(cov(Zs))
-    m, c, Zs
+    mean(Zs)[:], Symmetric(cov(Zs))
 end
      
 function D2R(z, model)
     z = z .- model.lb
     z = z ./ model.ub
-    z = 0.999 .*z .+ 0.0005
+    z = 0.9999 .*z .+ 0.00005
     z = log.(z ./(1.0 .-z))
 end
