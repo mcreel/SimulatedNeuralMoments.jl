@@ -14,5 +14,5 @@ end
 include("MakeNeuralMoments.jl")
 include("SNM.jl")
 export SNMmodel, MakeNeuralMoments
-export TransformStats, NeuralMoments, EstimateΣ, mΣ
+export TransformStats, NeuralMoments, EstimateΣ, mΣ, TmΣ, D2R
 end
