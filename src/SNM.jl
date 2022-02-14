@@ -28,10 +28,12 @@ function TmΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     Zs = [D2R(NeuralMoments(z[i], model, nnmodel, nninfo), model) for i = 1:reps]
     m = mean(Zs)[:] 
     c = Symmetric(cov(Zs))
-    m, c
+    m, c, Zs
 end
      
 function D2R(z, model)
-    z = (z .- model.lb .+ 0.001) ./ (model.ub .+ 0.001)
-    z = -log.(1.0 ./ z .- 1.0)
-end    
+    z = z .- model.lb
+    z = z ./ model.ub
+    z = 0.999 .*z .+ 0.0005
+    z = log.(z ./(1.0 .-z))
+end
