@@ -30,6 +30,9 @@ m = NeuralMoments(auxstat(y), model, nnmodel, nninfo)
 m = m[:]
 θinit = m
 @show m
+m = D2R(m)
+@show m
+#=
 S = 200
 covreps = 1000
 length = 5000
@@ -65,3 +68,4 @@ display(plot(chain))
 chain = Array(chain)
 acceptance = size(unique(chain[:,1]),1)[1] / size(chain,1)
 println("acceptance rate: $acceptance")
+=#

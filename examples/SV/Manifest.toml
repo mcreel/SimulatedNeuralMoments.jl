@@ -1257,8 +1257,8 @@ version = "1.0.3"
 
 [[deps.SimulatedNeuralMoments]]
 deps = ["Flux", "LinearAlgebra", "PrettyTables", "Printf", "Random", "Statistics"]
-git-tree-sha1 = "89c7c632dbc3f45424bb28eaac9da3637af38d0c"
-repo-rev = "turing"
+git-tree-sha1 = "ee96d716487a3120d307eb69adedd4082462704d"
+repo-rev = "turing+parameterize"
 repo-url = "/home/michael/git/SimulatedNeuralMoments.jl"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
 version = "0.3.0"
