@@ -59,12 +59,10 @@ function PriorSupport()
     lb,ub
 end    
 
-# prior checks that we're in the bounds, and that the unconditional std. dev. of log vol is not too high
-# returns 1 if this is true, zero otherwise. Value is not important, as it's constant
-function Prior(θ)
-    InSupport(θ) ? 1.0 : 0.0
+# prior should be an array of distributions, one for each parameter
+macro Prior()
+    return :( arraydist([Uniform(model.lb[i], model.ub[i]) for i = 1:size(model.lb,1)]) )
 end
-
 # check if parameter is in support. In this case, we require
 # the bounds, and that the unconditional variance of the volatility
 # shock be limited

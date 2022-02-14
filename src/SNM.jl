@@ -10,7 +10,7 @@ end
 
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
-    min.(max.(Float64.(nnmodel(TransformStats((z[:])', nninfo)')), model.lb), model.ub)
+    nnmodel(TransformStats((z[:])', nninfo)')
 end        
 
 # estimate covariance
@@ -23,7 +23,7 @@ end
 function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
     Zs = sqrt(model.samplesize) .* [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
-    m = mean(Zs) 
+    m = mean(Zs)[:] 
     c = Symmetric(cov(Zs))
     m, c
 end
