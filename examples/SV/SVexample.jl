@@ -28,18 +28,18 @@ plot(p1, p2, layout=(2,1))
 # define the neural moments using the real data
 m = NeuralMoments(auxstat(y), model, nnmodel, nninfo)
 m = m[:]
-θinit = m
+θinit = copy(m)
 @show m
-m = D2R(m)
+m = D2R(m, model)
 @show m
-#=
+
 S = 200
 covreps = 1000
 length = 5000
 nchains = 3
 burnin = 1000
 tuning = 10.
-junk, Σp = mΣ(m, covreps, model, nnmodel, nninfo) 
+junk, Σp = mΣ(θinit, covreps, model, nnmodel, nninfo) 
 
 @model function MSM(m, S, model)
     # create the prior: the product of the following array of marginal priors
@@ -50,7 +50,8 @@ junk, Σp = mΣ(m, covreps, model, nnmodel, nninfo)
         return
     end    
     # sample from the model, at the trial parameter value, and compute statistics
-    mbar, Σ = mΣ(θ, S, model, nnmodel, nninfo)
+    mbar, Σ = TmΣ(θ, S, model, nnmodel, nninfo)
+@show Σ
     m ~ MvNormal(mbar, Σ)
 end
 
@@ -68,4 +69,4 @@ display(plot(chain))
 chain = Array(chain)
 acceptance = size(unique(chain[:,1]),1)[1] / size(chain,1)
 println("acceptance rate: $acceptance")
-=#
+
