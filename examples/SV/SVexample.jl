@@ -37,7 +37,7 @@ S = 200
 covreps = 1000
 length = 5000
 nchains = 3
-burnin = 1000
+burnin = 0
 tuning = 10.
 junk, Σp = mΣ(θinit, covreps, model, nnmodel, nninfo) 
 
