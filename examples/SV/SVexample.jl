@@ -5,11 +5,11 @@ using BSON:@load
 
 # get the things to define the structure for the model
 include("SVlib.jl")
-function main()
+#function main()
 lb, ub = PriorSupport()
 
 # fill in the structure that defines the model
-model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, PriorDraw, auxstat)
+model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, PriorDraw, auxstat, 500)
 
 # train the net, and save it and the transformation info
 #nnmodel, nninfo = MakeNeuralMoments(model)
@@ -28,14 +28,16 @@ plot(p1, p2, layout=(2,1))
 # define the neural moments using the real data
 m = NeuralMoments(auxstat(y), model, nnmodel, nninfo)
 m = m[:]
+θinit = m
 @show m
-
 S = 200
 covreps = 1000
 length = 1000
 nchains = 3
 burnin = 1000
-tuning = 2*sqrt(500)
+tuning = 1.0
+Σp = EstimateΣ(m, covreps, model, nnmodel, nninfo) 
+m = sqrt(model.samplesize).*m
 
 @model function MSM(m, S, model)
     # create the prior: the product of the following array of marginal priors
@@ -45,19 +47,18 @@ tuning = 2*sqrt(500)
         # Exit the model evaluation early
         return
     end    # sample from the model, at the trial parameter value, and compute statistics
-    mbar, Σ = SimulatedNeuralMoments.mΣ(θ, S, model, nnmodel, nninfo)
+    mbar, Σ = mΣ(θ, S, model, nnmodel, nninfo)
     mbar = vec(mbar)
     m ~ MvNormal(mbar, Σ)
 end
 
-# get covariance of proposal
-Σ = EstimateΣ(m, covreps, model, nnmodel, nninfo) 
-proposal = MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning.*Σ)))
-chain = sample(MSM(m, S, model), init_params=m, proposal,
-        MCMCThreads(), length+burnin, nchains; param_names=["α","ρ","σ"])
+
+chain = sample(MSM(m, S, model), init_params=θinit,
+    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning.*Σp))),
+    MCMCThreads(), length+burnin, nchains; param_names=["α","ρ","σ"])
 chain = chain[burnin+1:end,:,:]
-end
-chain = main()
+#end
+#chain = main()
 display(chain)
 display(plot(chain))
 chain = Array(chain)

@@ -177,9 +177,9 @@ version = "0.10.13"
 
 [[deps.CloseOpenIntervals]]
 deps = ["ArrayInterface", "Static"]
-git-tree-sha1 = "7b8f09d58294dc8aa13d91a8544b37c8a1dcbc06"
+git-tree-sha1 = "03dc838350fbd448fca0b99285ed4d60fc229b72"
 uuid = "fb6a15b2-703c-40df-9091-08a04967cfa9"
-version = "0.1.4"
+version = "0.1.5"
 
 [[deps.Clustering]]
 deps = ["Distances", "LinearAlgebra", "NearestNeighbors", "Printf", "SparseArrays", "Statistics", "StatsBase"]
@@ -1257,7 +1257,9 @@ version = "1.0.3"
 
 [[deps.SimulatedNeuralMoments]]
 deps = ["Flux", "LinearAlgebra", "PrettyTables", "Printf", "Random", "Statistics"]
-git-tree-sha1 = "6954928ad401413029928b9d87089ce26e789dea"
+git-tree-sha1 = "5fea52a75e79bd6777134626301ff3b6cb7e4ff6"
+repo-rev = "turing"
+repo-url = "https://github.com/mcreel/SimulatedNeuralMoments.jl.git"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
 version = "0.3.0"
 
