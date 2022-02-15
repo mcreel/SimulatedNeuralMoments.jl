@@ -1,6 +1,5 @@
 module SimulatedNeuralMoments
 using LinearAlgebra
-#include("MakeNeuralMoments.jl")
 
 # the type that holds the model specifics
 struct SNMmodel
@@ -13,6 +12,8 @@ struct SNMmodel
     auxstat::Function # function that returns an array of draws of statistic
     samplesize::Int64 # number of observations in data set
 end
+
+include("MakeNeuralMoments.jl")
 
 function TransformStats(data, info)
     q01,q50,q99,iqr = info
@@ -47,5 +48,5 @@ function D2R(z, model)
 end
 
 export SNMmodel, MakeNeuralMoments
-export TransformStats, NeuralMoments, EstimateΣ, mΣ, D2R
+export TransformStats, NeuralMoments, mΣ, D2R
 end
