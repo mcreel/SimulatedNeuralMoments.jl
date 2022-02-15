@@ -17,14 +17,14 @@ include("MakeNeuralMoments.jl")
 
 function TransformStats(data, info)
     q01,q50,q99,iqr = info
-    data = max.(data, q01')
-    data = min.(data, q99')
-    data = (data .- q50') ./ iqr'
+    data .= max.(data, q01)
+    data .= min.(data, q99)
+    data .= (data .- q50) ./ iqr
 end
 
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
-    min.(max.(nnmodel(TransformStats((z[:])', nninfo)'), model.lb), model.ub)[:]
+    min.(max.(nnmodel(TransformStats((z[:]), nninfo)), model.lb), model.ub)
 end        
 
 # moments and covariance
@@ -35,7 +35,7 @@ function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo, transform=true)
     else
         Zs = [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
     end
-    mean(Zs)[:], Symmetric(cov(Zs))
+    mean(Zs), Symmetric(cov(Zs))
 end
 
 # maps from parameter space to Euclidean space
