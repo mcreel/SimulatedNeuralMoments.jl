@@ -1,6 +1,6 @@
 module SimulatedNeuralMoments
 using LinearAlgebra
-include("MakeNeuralMoments.jl")
+#include("MakeNeuralMoments.jl")
 
 # the type that holds the model specifics
 struct SNMmodel
