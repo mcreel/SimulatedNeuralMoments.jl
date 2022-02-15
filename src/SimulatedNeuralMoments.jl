@@ -35,9 +35,7 @@ function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo, transform=true)
     else
         Zs = [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
     end
-    m = mean(Zs)[:]
-    c = Symmetric(cov(Zs))
-    m, c
+    mean(Zs)[:], Symmetric(cov(Zs))
 end
 
 # maps from parameter space to Euclidean space
@@ -45,7 +43,7 @@ function D2R(z, model)
     z .-= model.lb
     z ./= model.ub
     z .*=  0.9999
-    z .+0 0.00005
+    z .+ 0.00005
     z .= log.(z ./(1.0 .-z))
 end
 
