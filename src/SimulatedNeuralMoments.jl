@@ -1,4 +1,6 @@
 module SimulatedNeuralMoments
+using LinearAlgebra
+include("MakeNeuralMoments.jl")
 
 # the type that holds the model specifics
 struct SNMmodel
@@ -12,16 +14,11 @@ struct SNMmodel
     samplesize::Int64 # number of observations in data set
 end
 
-include("MakeNeuralMoments.jl")
-
-# bounds by quantiles, and standardizes and normalizes around median
-using LinearAlgebra
 function TransformStats(data, info)
     q01,q50,q99,iqr = info
     data = max.(data, q01')
     data = min.(data, q99')
     data = (data .- q50') ./ iqr'
-    return data
 end
 
 # neural moments given statistic
