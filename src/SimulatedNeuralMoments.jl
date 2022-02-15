@@ -35,7 +35,9 @@ function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo, transform=true)
     else
         Zs = [NeuralMoments(z[i], model, nnmodel, nninfo) for i = 1:reps]
     end
-    mean(Zs)[:], Symmetric(cov(Zs))
+    m = mean(Zs)[:]
+    c = Symmetric(cov(Zs))
+    m, c
 end
 
 # maps from parameter space to Euclidean space
