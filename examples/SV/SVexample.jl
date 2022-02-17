@@ -1,10 +1,10 @@
-using Flux, MCMCChains, StatsPlots, DelimitedFiles
+using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots, DelimitedFiles
 using Turing, AdvancedMH, LinearAlgebra
 using BSON:@save
 using BSON:@load
 
 # get the things to define the structure for the model
-include("SNM.jl")
+#include("SNM.jl")
 include("SVlib.jl")
 include("MakeNeuralMoments.jl")
 
@@ -12,7 +12,7 @@ include("MakeNeuralMoments.jl")
 lb, ub = PriorSupport()
 
 # fill in the structure that defines the model
-model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, PriorDraw, auxstat, 500)
+model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, auxstat)
 
 # train the net, and save it and the transformation info
 transf = bijector(@Prior) # transforms draws from prior to draws from  ℛⁿ 
@@ -31,20 +31,19 @@ plot(p1, p2, layout=(2,1))
 #savefig("data.png")
 
 # define the neural moments using the real data
-m = NeuralMoments(auxstat(y), model, nnmodel, nninfo)
+m = NeuralMoments(auxstat(y), nnmodel, nninfo)
 # the raw NN parameter estimate
-θ = invlink(@Prior, m)
+θhat = invlink(@Prior, m)
 θt_init = m
-S = 200
+S = 100
 covreps = 1000
 length = 2500
 nchains = 4
 burnin = 500
-tuning = 1.0
-junk, Σp = mΣ(θ, covreps, model, nnmodel, nninfo) 
+tuning = 1.5
+junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo) 
 
 @model function MSM(m, S, model)
-    # create the prior: the product of the following array of marginal priors
     θt ~ transformed_prior
     if !InSupport(invlink(@Prior, θt))
         Turing.@addlogprob! -Inf
@@ -53,19 +52,19 @@ junk, Σp = mΣ(θ, covreps, model, nnmodel, nninfo)
     end    
     # sample from the model, at the trial parameter value, and compute statistics
     mbar, Σ = mΣ(invlink(@Prior,θt), S, model, nnmodel, nninfo)
-    Σ = Symmetric(Σ)
-    m ~ MvNormal(mbar, Σ)
+    m ~ MvNormal(mbar, Symmetric(Σ))
 end
 
-#chain = sample(MSM(m, S, model),
-#    MH(:θ => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
-#    MCMCThreads(), length, nchains, init_params=θinit; discard_initial=burnin)
+chain = sample(MSM(m, S, model),
+    MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
+    MCMCThreads(), length, nchains; init_params=θt_init, discard_initial=burnin)
 
 # single thread
+#=
 chain = sample(MSM(m, S, model),
     MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
     length; init_params = θt_init, discard_initial=burnin)
-
+=#
 #end
 #chain = main()
 display(chain)

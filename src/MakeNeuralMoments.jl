@@ -4,7 +4,7 @@
 using Statistics, Flux
 using Base.Iterators
 
-function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
+function MakeNeuralMoments(model::SNMmodel, transf;TrainTestSize=1, Epochs=1000)
     data = 0.0
     datadesign = 0.0
     nParams = size(model.lb,1)
@@ -21,7 +21,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
             θ = model.priordraw()
             W = model.auxstat(θ,1)[1]
         end    
-        params[s,:] = θ
+        params[s,:] = transf(θ)
         statistics[s,:] = W
     end
     # transform stats to robustify against outliers
@@ -37,7 +37,9 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
         iqr[i] = q[4] - q[2]
     end
     nninfo = (q01, q50, q99, iqr) 
-    statistics = TransformStats(statistics, nninfo)
+    for i = 1: size(statistics,1)
+        statistics[i,:] .= TransformStats(statistics[i,:], nninfo)
+    end    
     # train net
     TrainingProportion = 0.5 # size of training/testing
     params = Float32.(params)
@@ -89,10 +91,10 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
             prettyprint(reshape(round.(rmse,digits=3),1,nParams))
             println(" ")
             println("dstats prediction of parameters:")
-            dstats(pred'; short=true);
+            dstats(pred')
             println(" ")
             println("dstats prediction error:")
-            dstats(error'; short=true);
+            dstats(error')
         end
     end
     bestmodel, nninfo
