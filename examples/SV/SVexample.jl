@@ -4,9 +4,7 @@ using BSON:@save
 using BSON:@load
 
 # get the things to define the structure for the model
-#include("SNM.jl")
 include("SVlib.jl")
-include("MakeNeuralMoments.jl")
 
 #function main()
 lb, ub = PriorSupport()
