@@ -1,5 +1,4 @@
-module SimulatedNeuralMoments
-using LinearAlgebra
+
 
 # the type that holds the model specifics
 struct SNMmodel
@@ -13,7 +12,7 @@ struct SNMmodel
     samplesize::Int64 # number of observations in data set
 end
 
-include("MakeNeuralMoments.jl")
+#include("MakeNeuralMoments.jl")
 
 function TransformStats(data, info)
     q01,q50,q99,iqr = info
@@ -24,10 +23,11 @@ end
 
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
-    min.(max.(nnmodel(TransformStats((z[:]), nninfo)), model.lb), model.ub)
+    min.(max.(nnmodel(TransformStats!((z[:]), nninfo)), model.lb), model.ub)
 end        
 
 # moments and covariance
+using LinearAlgebra
 function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo, transform=true)
     z = model.auxstat(θ, reps) 
     if transform 
@@ -60,6 +60,51 @@ function R2D(z, model)
     z .+= model.lb
 end    
 
-export SNMmodel, MakeNeuralMoments
-export TransformStats, NeuralMoments, mΣ, D2R
+
+using PrettyTables, Printf
+
+function prettyprint(a, cnames="", rnames="")
+if rnames !=""
+    rnames = rnames[:]
+    a = [rnames a]
+    if cnames != ""
+        cnames = cnames[:]
+        cnames = vcat("", cnames)
+    end    
+end
+if cnames !=""
+    pretty_table(a; header=(cnames), formatters=ft_printf("%12.5f"))
+else
+    pretty_table(a; formatters=ft_printf("%12.5f"))
+end
+end
+
+function dstats(x, rnames="";short=false, silent=false)
+    k = size(x,2)
+    if rnames==""
+        rnames = 1:k
+        rnames = rnames'
+    end
+    m = mean(x,dims=1)
+    mm = median(x,dims=1)
+    s = std(x,dims=1)
+    sk = m-m
+    kt = m-m
+    mn = minimum(x,dims=1)
+    mx = maximum(x,dims=1)
+    q05 = fill(0.0,k)
+    q25 = fill(0.0,k)
+    q75 = fill(0.0,k)
+    q95 = fill(0.0,k)
+    if short == false
+        for i = 1:size(x,2) q05[i], q25[i], q75[i],q95[i] = quantile(x[:,i], [0.05,0.25,0.75,0.95]) end
+        cnames = ["  mean", " median","  std", "IQR", "min", "max", "q05", "q95"]
+        stats = [m' mm' s' (q75-q25) mn' mx' q05 q95] 
+        if !silent prettyprint(stats, cnames, rnames) end
+    else
+        cnames = ["  mean", " median", "  std", "min", "max"]
+        stats = [m' mm' s' mn' mx'] 
+        if !silent prettyprint(stats, cnames, rnames) end
+    end
+    return stats
 end
