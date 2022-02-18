@@ -1,9 +1,0 @@
-sample transformed parameters directly
-in MCMC
-
-
-NeuralMoments takes transformed parameters, untransforms them, passes untransformed params to dgp
-to get stats, which are passed through NN to get predicted
-transformed params
-
-MCMC samples transformed parameters, and NN moments give s

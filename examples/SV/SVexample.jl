@@ -1,5 +1,6 @@
-using Flux, MCMCChains, StatsPlots, DelimitedFiles
-using Turing, AdvancedMH, LinearAlgebra
+using SimulatedNeuralMoments
+using Flux, Turing, MCMCChains, AdvancedMH
+using StatsPlots, DelimitedFiles, LinearAlgebra
 using BSON:@save
 using BSON:@load
 
@@ -7,8 +8,9 @@ using BSON:@load
 include("SimulatedNeuralMoments.jl")
 include("SVlib.jl")
 
-#function main()
-lb, ub = PriorSupport()
+function main()
+
+lb, ub = PriorSupport() # bounds of support
 
 # fill in the structure that defines the model
 model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, auxstat)
@@ -21,8 +23,8 @@ transformed_prior = transformed(@Prior, transf) # the transformed prior
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
 # draw a sample at the design parameters, or use an existing data set
-#y = SVmodel(TrueParameters()) # draw a sample of 500 obsns. at design parameters
-y = readdlm("svdata.txt") # load a data set
+y = SVmodel(TrueParameters()) # draw a sample of 500 obsns. at design parameters
+#y = readdlm("svdata.txt") # load a data set
 n = size(y,1)
 p1 = plot(y)
 p2 = density(y)
@@ -39,6 +41,7 @@ length = 500
 nchains = 4
 burnin = 50
 tuning = 1.5
+# the covariance of the proposal (scaled by tuning)
 junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo)
 
 @model function MSM(m, S, model)
@@ -67,8 +70,7 @@ chain2 = Array(chain)
 acceptance = size(unique(chain2[:,1]),1)[1] / size(chain2,1)
 println("acceptance rate: $acceptance")
 chain
-#end
-#chain = main()
+end
+chain = main()
 display(chain)
 display(plot(chain))
-

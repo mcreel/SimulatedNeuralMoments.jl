@@ -3,8 +3,8 @@ module SimulatedNeuralMoments
 # the type that holds the model specifics
 struct SNMmodel
     modelname::String # name of model
-    lb::Vector # vector of lower bounds. Can be -Inf, if desired
-    ub::Vector # vector of upper bounds. Can be inf, if desired
+    lb # vector of lower bounds. Can be -Inf, if desired
+    ub # vector of upper bounds. Can be inf, if desired
     insupport::Function # function that checks if a draw is valid
     priordraw::Function # function that returns a draw from prior
     auxstat::Function # function that returns an array of draws of statistic
