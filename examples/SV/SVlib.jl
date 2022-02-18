@@ -4,8 +4,7 @@ using Statistics, Random
 
 # method that generates the sample
 function auxstat(θ, reps)
-    data = collect(SVmodel(θ, rand(1:Int64(1e12))) for i = 1:reps)  # reps draws of data
-    auxstat.(data)
+    auxstat.([SVmodel(θ, rand(1:Int64(1e12))) for i = 1:reps])  # reps draws of data
 end
 
 # method for a given sample
@@ -39,9 +38,8 @@ function SVmodel(θ, rndseed=1234)
     if InSupport(θ)
         @inbounds for t = 1:burnin+n
             h = ρ*hlag + σ*randn()
-            y = ϕ*exp(h/2.0)*randn()
             if t > burnin 
-                ys[t-burnin] = y
+                ys[t-burnin] = ϕ*exp(h/2.0)*randn()
             end    
             hlag = h
         end
@@ -60,8 +58,9 @@ function PriorSupport()
 end    
 
 # prior should be an array of distributions, one for each parameter
+lb, ub = PriorSupport() # need these in Prior
 macro Prior()
-    return :( arraydist([Uniform(model.lb[i], model.ub[i]) for i = 1:size(model.lb,1)]) )
+    return :( arraydist([Uniform(lb[i], ub[i]) for i = 1:size(lb,1)]) )
 end
 # check if parameter is in support. In this case, we require
 # the bounds, and that the unconditional variance of the volatility

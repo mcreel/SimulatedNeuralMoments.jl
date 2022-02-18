@@ -66,15 +66,15 @@ uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
 
 [[deps.Arpack]]
 deps = ["Arpack_jll", "Libdl", "LinearAlgebra", "Logging"]
-git-tree-sha1 = "91ca22c4b8437da89b030f08d71db55a379ce958"
+git-tree-sha1 = "288d58589d4249a63095f3f41ece91bf34c32c19"
 uuid = "7d9fca2a-8960-54d3-9f78-7d1dccf2cb97"
-version = "0.5.3"
+version = "0.5.0"
 
 [[deps.Arpack_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "OpenBLAS_jll", "Pkg"]
-git-tree-sha1 = "5ba6c757e8feccf03a1554dfaf3e26b3cfc7fd5e"
+git-tree-sha1 = "4c31b0101997beb213a9e6c39116b052e73ca38c"
 uuid = "68821587-b530-5797-8361-c406ea357684"
-version = "3.5.1+1"
+version = "3.8.0+0"
 
 [[deps.ArrayInterface]]
 deps = ["Compat", "IfElse", "LinearAlgebra", "Requires", "SparseArrays", "Static"]
@@ -318,9 +318,9 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.Distributions]]
 deps = ["ChainRulesCore", "DensityInterface", "FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test"]
-git-tree-sha1 = "38012bf3553d01255e83928eec9c998e19adfddf"
+git-tree-sha1 = "9d3c0c762d4666db9187f363a76b47f7346e673b"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
-version = "0.25.48"
+version = "0.25.49"
 
 [[deps.DistributionsAD]]
 deps = ["Adapt", "ChainRules", "ChainRulesCore", "Compat", "DiffRules", "Distributions", "FillArrays", "LinearAlgebra", "NaNMath", "PDMats", "Random", "Requires", "SpecialFunctions", "StaticArrays", "StatsBase", "StatsFuns", "ZygoteRules"]
@@ -667,9 +667,9 @@ version = "1.3.0"
 
 [[deps.Latexify]]
 deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "Printf", "Requires"]
-git-tree-sha1 = "a8f4f279b6fa3c3c4f1adadd78a621b13a506bce"
+git-tree-sha1 = "25d90d444b608666143d7e276c17be6f5f3e9bb9"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-version = "0.15.9"
+version = "0.15.10"
 
 [[deps.LazyArtifacts]]
 deps = ["Artifacts", "Pkg"]
@@ -1166,14 +1166,6 @@ git-tree-sha1 = "91eddf657aca81df9ae6ceb20b959ae5653ad1de"
 uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "1.0.3"
 
-[[deps.SimulatedNeuralMoments]]
-deps = ["Distributions", "Flux", "LinearAlgebra", "PrettyTables", "Printf", "Random", "Statistics"]
-git-tree-sha1 = "2abe0aadac261416a11db7dadabbe0f0d808821d"
-repo-rev = "turing+parameterize"
-repo-url = "/home/michael/git/SimulatedNeuralMoments.jl"
-uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
-version = "0.3.0"
-
 [[deps.Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 
@@ -1299,9 +1291,9 @@ version = "0.5.15"
 
 [[deps.Tracker]]
 deps = ["Adapt", "DiffRules", "ForwardDiff", "LinearAlgebra", "LogExpFunctions", "MacroTools", "NNlib", "NaNMath", "Printf", "Random", "Requires", "SpecialFunctions", "Statistics"]
-git-tree-sha1 = "7b00adbe4216b919d487d82a852c48f378c6ed37"
+git-tree-sha1 = "434a953e6ad7abf6a07a1e0b99baaa704753cec0"
 uuid = "9f7883ad-71c0-57eb-9f7f-b5c9e6d3789c"
-version = "0.2.18"
+version = "0.2.19"
 
 [[deps.TranscodingStreams]]
 deps = ["Random", "Test"]
