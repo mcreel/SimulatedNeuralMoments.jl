@@ -34,6 +34,8 @@ plot(p1, p2, layout=(2,1))
 m = NeuralMoments(auxstat(y), nnmodel, nninfo)
 # the raw NN parameter estimate
 θhat = invlink(@Prior, m)
+# setting for sampling
+names = [":α", ":ρ", ":σ"]
 S = 100
 covreps = 1000
 length = 1250
@@ -72,7 +74,7 @@ println("acceptance rate: $acceptance")
 for i = 1:size(chain,1)
     chain[i,:] = invlink(@Prior, chain[i,:])
 end
-chain = Chains(chain, [:α, :ρ, :σ])
+chain = Chains(chain, names)
 chain
 end
 chain = main()
