@@ -4,8 +4,7 @@ using StatsPlots, DelimitedFiles, LinearAlgebra
 using BSON:@save
 using BSON:@load
 
-# get the things to define the structure for the model
-include("SimulatedNeuralMoments.jl")
+# the model-specific code
 include("SVlib.jl")
 
 function main()
@@ -37,10 +36,10 @@ m = NeuralMoments(auxstat(y), nnmodel, nninfo)
 θhat = invlink(@Prior, m)
 S = 100
 covreps = 1000
-length = 500
+length = 1250
 nchains = 4
-burnin = 50
-tuning = 1.5
+burnin = 0
+tuning = 1.8
 # the covariance of the proposal (scaled by tuning)
 junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo)
 
@@ -66,11 +65,17 @@ chain = sample(MSM(m, S, model),
     length; init_params = m, discard_initial=burnin)
 =#
 
-chain2 = Array(chain)
-acceptance = size(unique(chain2[:,1]),1)[1] / size(chain2,1)
+# transform back to original domain
+chain = Array(chain)
+acceptance = size(unique(chain[:,1]),1)[1] / size(chain,1)
 println("acceptance rate: $acceptance")
+for i = 1:size(chain,1)
+    chain[i,:] = invlink(@Prior, chain[i,:])
+end
+chain = Chains(chain, [:α, :ρ, :σ])
 chain
 end
 chain = main()
+
 display(chain)
 display(plot(chain))
