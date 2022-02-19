@@ -82,7 +82,7 @@ end
 # the trained net and the information for transforming the inputs
 using Statistics, Flux
 using Base.Iterators
-function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
+function MakeNeuralMoments(model::SNMmodel, transf;TrainTestSize=1, Epochs=1000)
     data = 0.0
     datadesign = 0.0
     nParams = size(model.lb,1)
@@ -99,7 +99,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
             θ = model.priordraw()
             W = model.auxstat(θ,1)[1]
         end    
-        params[s,:] = θ
+        params[s,:] = transf(θ)
         statistics[s,:] = W
     end
     # transform stats to robustify against outliers
@@ -176,9 +176,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
         end
     end
     bestmodel, nninfo
-end
-
-export SNMmodel, MakeNeuralMoments
+endexport SNMmodel, MakeNeuralMoments
 export prettyprint, dstats
 export TransformStats, NeuralMoments, mΣ
 end
