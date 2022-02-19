@@ -176,7 +176,9 @@ function MakeNeuralMoments(model::SNMmodel, transf;TrainTestSize=1, Epochs=1000)
         end
     end
     bestmodel, nninfo
-endexport SNMmodel, MakeNeuralMoments
+end
+
+export SNMmodel, MakeNeuralMoments
 export prettyprint, dstats
 export TransformStats, NeuralMoments, mΣ
 end
