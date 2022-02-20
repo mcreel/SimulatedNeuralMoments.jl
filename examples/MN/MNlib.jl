@@ -42,8 +42,10 @@ function InSupport(θ)
     all(θ .>= lb) & all(θ .<= ub)
 end
 
-function Prior(θ)
-    InSupport(θ) ? 1.0 : 0.0
-end    
+# prior should be an array of distributions, one for each parameter
+lb, ub = PriorSupport() # need these in Prior
+macro Prior()
+    return :( arraydist([Uniform(lb[i], ub[i]) for i = 1:size(lb,1)]) )
+end
 
 
