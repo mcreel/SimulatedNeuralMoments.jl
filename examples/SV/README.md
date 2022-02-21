@@ -50,7 +50,7 @@ m = NeuralMoments(auxstat(y), nnmodel, nninfo)
 θhat = invlink(@Prior, m)
 ```
 
-## set up the controls for MH sampling using Turing:
+## Set up the controls for MH sampling using Turing:
 ```julia
 # setting for sampling
 names = [":α", ":ρ", ":σ"]
@@ -64,7 +64,7 @@ tuning = 1.8
 junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo)
 ```
 
-## define the likelihood for the Bayesian model
+## Define the likelihood for the Bayesian model
 which, in combination with the prior, defines the posterior from which Turing will sample:
 ```julia
 @model function MSM(m, S, model)
@@ -87,7 +87,7 @@ chain = sample(MSM(m, S, model),
     MCMCThreads(), length, nchains; init_params=m, discard_initial=burnin)
 ```
 
-## Tansform the parameters of the chain back to the original parameter space:
+## Transform the parameters of the chain back to the original parameter space:
 ```julia
 chain = Array(chain)
 acceptance = size(unique(chain[:,1]),1)[1] / size(chain,1)
