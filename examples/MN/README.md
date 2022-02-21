@@ -15,7 +15,7 @@ For your own models, you will need to supply the functions found in MNlib.jl, us
 ```julia
 # fill in the structure that defines the model
 lb, ub = PriorSupport() # bounds of support
-model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, auxstat)
+model = SNMmodel("Mixture of normals example", lb, ub, InSupport, PriorDraw, auxstat)
 ```
 
 ## Train the net
@@ -30,11 +30,9 @@ transformed_prior = transformed(@Prior, transf) # the transformed prior
 ```
 
 ## Data
-Next, we load some data, either from a file, or by creating new simulated data.
+Next, we create some new simulated data.
 ```julia
-# draw a sample at the design parameters, or use an existing data set
-y = MNmodel(TrueParameters()) # draw a sample of 500 obsns. at design parameters
-#y = readdlm("svdata.txt") # load a data set
+y = MNmodel(TrueParameters()) # draw a sample at design parameters
 n = size(y,1)
 p1 = plot(y)
 p2 = density(y)
@@ -53,7 +51,7 @@ m = NeuralMoments(auxstat(y), nnmodel, nninfo)
 ## Set up the controls for MH sampling using Turing:
 ```julia
 # setting for sampling
-names = [":α", ":ρ", ":σ"]
+names = [":μ₁", ":μ₂", ":σ₁" , ":σ₂" , "prob"]
 S = 100
 covreps = 1000
 length = 1250
