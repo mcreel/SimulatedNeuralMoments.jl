@@ -1,3 +1,4 @@
+# This still needs to be updated, it doesn't work with the code in main.
 # this replicates the results in the paper-
 # it can use threads, so set JULIA_NUM_THREADS
 # appropriately for your system.
