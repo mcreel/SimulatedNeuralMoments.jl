@@ -82,7 +82,7 @@ end
 # the trained net and the information for transforming the inputs
 using Statistics, Flux
 using Base.Iterators
-function MakeNeuralMoments(model::SNMmodel, transf;TrainTestSize=1, Epochs=1000)
+function MakeNeuralMoments(model::SNMmodel, transf; TrainTestSize=1, Epochs=1000)
     data = 0.0
     datadesign = 0.0
     nParams = size(model.lb,1)
@@ -178,8 +178,6 @@ function MakeNeuralMoments(model::SNMmodel, transf;TrainTestSize=1, Epochs=1000)
     bestmodel, nninfo
 end
 
-export SNMmodel, MakeNeuralMoments
-export prettyprint, dstats
-export TransformStats, NeuralMoments, mΣ
+export SNMmodel, MakeNeuralMoments, NeuralMoments, mΣ
 end
 

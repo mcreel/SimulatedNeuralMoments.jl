@@ -9,9 +9,8 @@ include("SVlib.jl")
 
 function main()
 
-lb, ub = PriorSupport() # bounds of support
-
 # fill in the structure that defines the model
+lb, ub = PriorSupport() # bounds of support
 model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, auxstat)
 
 # train the net, and save it and the transformation info
@@ -34,6 +33,7 @@ plot(p1, p2, layout=(2,1))
 m = NeuralMoments(auxstat(y), nnmodel, nninfo)
 # the raw NN parameter estimate
 θhat = invlink(@Prior, m)
+
 # setting for sampling
 names = [":α", ":ρ", ":σ"]
 S = 100
@@ -57,7 +57,7 @@ junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo)
 end
 
 chain = sample(MSM(m, S, model),
-    MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
+    MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(size(m,1)), tuning*Σp))),
     MCMCThreads(), length, nchains; init_params=m, discard_initial=burnin)
 
 # single thread
@@ -81,3 +81,4 @@ chain = main()
 
 display(chain)
 display(plot(chain))
+#savefig("chain.png")

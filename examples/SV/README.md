@@ -1,50 +1,102 @@
 # SVexample.jl
 The main purpose of this example is to show how to use the methods with real data. To run the file, go to its directory, and start Julia using julia --proj, and then instantiate the project to get all needed packages.
 
-The first block loads packages and sets up the structure that defines the SV model:
+The first block loads packages:
 
 ```julia
-using SimulatedNeuralMoments, Flux, MCMCChains, StatsPlots, DelimitedFiles
+using SimulatedNeuralMoments
+using Flux, Turing, MCMCChains, AdvancedMH
+using StatsPlots, DelimitedFiles, LinearAlgebra
 using BSON:@save
 using BSON:@load
-using DelimitedFiles
-
-# get the things to define the structure for the model
-# For your own models, you will need to supply the functions
-# found in MNlib.jl, using the same formats
-include("SVlib.jl")
-lb, ub = PriorSupport()
-
-# fill in the structure that defines the model
-model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, Prior, PriorDraw, auxstat)
 ```
 
-Next, we train the net, or use the pre-trained net which I have kindly provided you:
+# get the things to define the structure for the model
+# For your own models, you will need to supply the functions found in SVlib.jl, using the same formats
+```julia
+# fill in the structure that defines the model
+lb, ub = PriorSupport() # bounds of support
+model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, auxstat)
+```
+
+Next, we train the net, if you uncomment the relevant lines, or use the pre-trained net which I have kindly provided you. Training the net takes about 10 minute, if you would like to try it.
 ```julia
 # train the net, and save it and the transformation info
-#nnmodel, nninfo = MakeNeuralMoments(model)
+transf = bijector(@Prior) # transforms draws from prior to draws from  ℛⁿ 
+transformed_prior = transformed(@Prior, transf) # the transformed prior
+#nnmodel, nninfo = MakeNeuralMoments(model, transf)
 #@save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 ```
-Next, we load some data.  The data was created using the commented lines. Once we have the data, we make some plots, and then we compute the neural
-moments:
+
+Next, we load some data, either from a file, or by creating new simulated data.
 ```julia
-# draw a sample at the design parameters
-#y = SVmodel(TrueParameters(), 500, 100) # draw a sample of 500 obsns. at design parameters (discard 100 burnin observations)
-y = readdlm("svdata.txt") # load a data set
+# draw a sample at the design parameters, or use an existing data set
+y = SVmodel(TrueParameters()) # draw a sample of 500 obsns. at design parameters
+#y = readdlm("svdata.txt") # load a data set
+n = size(y,1)
 p1 = plot(y)
 p2 = density(y)
 plot(p1, p2, layout=(2,1))
-#savefig("data.png")
-
-# define the neural moments using the real data
-z = auxstat(y)
-m = NeuralMoments(z, model, nnmodel, nninfo)
 ```
 
-The rest of the example is like the mixture of normals example. In the end, we get a MCMC
-chain that looks something like
+Next, we set up sampling. We first get the estimated transformed parameters, and the estimated parameters in untransformed form:
+```julia
+# define the neural moments using the real data
+m = NeuralMoments(auxstat(y), nnmodel, nninfo)
+# the raw NN parameter estimate
+θhat = invlink(@Prior, m)
+```
 
+We set up the controls for MH sampling using Turing:
+```julia
+# setting for sampling
+names = [":α", ":ρ", ":σ"]
+S = 100
+covreps = 1000
+length = 1250
+nchains = 4
+burnin = 0
+tuning = 1.8
+# the covariance of the proposal (scaled by tuning)
+junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo)
+```
+
+We define the likelihood for the Bayesian model, which, in combination with the prior, defines the posterior from which Turing will sample:
+```julia
+@model function MSM(m, S, model)
+    θt ~ transformed_prior
+    if !InSupport(invlink(@Prior, θt))
+        Turing.@addlogprob! -Inf
+        return
+    end
+    # sample from the model, at the trial parameter value, and compute statistics
+    mbar, Σ = mΣ(invlink(@Prior,θt), S, model, nnmodel, nninfo)
+    m ~ MvNormal(mbar, Symmetric(Σ))
+end
+```
+
+We sample from the posterior, using Metropolis-Hasting, and a random walk multivariate normal proposal. This proposal is effective, because it is an estimate of the asymptotic distribution of the estimated neural moments, m, from above:
+```julia
+chain = sample(MSM(m, S, model),
+    MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(size(m,1)), tuning*Σp))),
+    MCMCThreads(), length, nchains; init_params=m, discard_initial=burnin)
+```
+
+Finally, we transform the parameters of the chain back to the original parameter space:
+```julia
+chain = Array(chain)
+acceptance = size(unique(chain[:,1]),1)[1] / size(chain,1)
+println("acceptance rate: $acceptance")
+for i = 1:size(chain,1)
+    chain[i,:] = invlink(@Prior, chain[i,:])
+end
+chain = Chains(chain, names)
+chain
+```
+
+Finally, we will see something like
+![SVsummary](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/SV/summary.png)
 ![SVchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/SV/chain.png)
 
 

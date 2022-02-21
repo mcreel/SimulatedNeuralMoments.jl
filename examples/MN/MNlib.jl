@@ -1,6 +1,6 @@
 using Statistics, StatsBase
 
-function dgp(θ, rndseed=1234)
+function MNmodel(θ, rndseed=1234)
     n = 1000
     μ1, μ2, σ1, σ2, prob = θ
     d1=randn(n).*σ1 .+ μ1
@@ -19,7 +19,7 @@ function auxstat(data)
 end
 
 function auxstat(θ, reps)
-    auxstat.([dgp(θ, rand(1:Int64(1e12))) for i = 1:reps]) 
+    auxstat.([MNmodel(θ, rand(1:Int64(1e12))) for i = 1:reps]) 
 end
 
 function TrueParameters()
