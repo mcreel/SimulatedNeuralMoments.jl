@@ -30,9 +30,7 @@ function SVmodel(θ, rndseed=1234)
     Random.seed!(rndseed)
     n = 500
     burnin = 100
-    ϕ = θ[1]
-    ρ = θ[2]
-    σ = θ[3]
+    ϕ, ρ, σ = θ
     hlag = 0.0
     ys = zeros(n)
     if InSupport(θ)
