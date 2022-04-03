@@ -7,7 +7,7 @@ using BSON:@load
 # the model-specific code
 include("MNlib.jl")
 
-#function main()
+function main()
 
 # fill in the structure that defines the model
 lb, ub = PriorSupport() # bounds of support
@@ -38,8 +38,8 @@ m = NeuralMoments(auxstat(y), nnmodel, nninfo)
 names = ["μ1", "μ2 ", "σ1", "σ2", "prob"]
 S = 100
 covreps = 1000
-length = 5000
-nchains = 1 
+length = 1500
+nchains = 4 
 burnin = 0
 tuning = 1.0
 # the covariance of the proposal (scaled by tuning)
@@ -56,16 +56,17 @@ junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo)
     m ~ MvNormal(mbar, Symmetric(Σ))
 end
 
-# Not working, for some reason ???
+ 
 chain = sample(MSM(m, S, model),
     MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(size(m,1)), tuning*Σp))),
-    MCMCThreads(), length, nchains;  init_params=m, discard_initial=burnin)
-#
-# single thread
-chain = sample(MSM(m, S, model),
-    MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(size(m,1)), tuning*Σp))),
-    length; init_params=m, discard_initial=burnin)
+    MCMCThreads(), length, nchains;  init_params=Iterators.repeated(m), discard_initial=burnin)
 
+# single thread
+#=
+chain = sample(MSM(m, S, model),
+    MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(size(m,1)), tuning*Σp))),
+    length*nchains; init_params=m, discard_initial=burnin)
+=#
 # transform back to original domain
 chain = Array(chain)
 acceptance = size(unique(chain[:,1]),1)[1] / size(chain,1)
@@ -75,8 +76,8 @@ for i = 1:size(chain,1)
 end
 chain = Chains(chain, names)
 chain
-#end
-#chain = main()
+end
+chain = main()
 
 display(chain)
 display(plot(chain))

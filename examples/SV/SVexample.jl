@@ -58,13 +58,13 @@ end
 
 chain = sample(MSM(m, S, model),
     MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(size(m,1)), tuning*Σp))),
-    MCMCThreads(), length, nchains; init_params=m, discard_initial=burnin)
+    MCMCThreads(), length, nchains; init_params=Iterators.repeated(m), discard_initial=burnin)
 
 # single thread
 #=
 chain = sample(MSM(m, S, model),
     MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(3), tuning*Σp))),
-    length; init_params = m, discard_initial=burnin)
+    length*nthreads; init_params = m, discard_initial=burnin)
 =#
 
 # transform back to original domain
