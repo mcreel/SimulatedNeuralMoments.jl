@@ -56,11 +56,11 @@ junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo)
     m ~ MvNormal(mbar, Symmetric(Σ))
 end
 
-#= Not working, for some reason ???
+# Not working, for some reason ???
 chain = sample(MSM(m, S, model),
     MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(size(m,1)), tuning*Σp))),
     MCMCThreads(), length, nchains;  init_params=m, discard_initial=burnin)
-=#
+#
 # single thread
 chain = sample(MSM(m, S, model),
     MH(:θt => AdvancedMH.RandomWalkProposal(MvNormal(zeros(size(m,1)), tuning*Σp))),
