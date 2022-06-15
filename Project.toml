@@ -1,7 +1,7 @@
 name = "SimulatedNeuralMoments"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
 authors = ["Michael Creel <michael.creel@uab.es> and contributors"]
-version = "1.0.1"
+version = "1.0.2"
 
 [deps]
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
