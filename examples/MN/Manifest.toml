@@ -1272,11 +1272,11 @@ version = "1.0.3"
 
 [[deps.SimulatedNeuralMoments]]
 deps = ["Flux", "LinearAlgebra", "PrettyTables", "Printf", "Random", "Statistics"]
-git-tree-sha1 = "dc8a14da5bf7de5746074e89685b61a3ee25812b"
+git-tree-sha1 = "c03aba8d071ca91c5a8b46e1ebab76d2d06ff95f"
 repo-rev = "main"
 repo-url = "../.."
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
-version = "1.0.1"
+version = "1.0.2"
 
 [[deps.Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"

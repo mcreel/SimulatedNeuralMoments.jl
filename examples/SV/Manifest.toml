@@ -161,9 +161,9 @@ version = "0.4.2"
 
 [[deps.CUDA]]
 deps = ["AbstractFFTs", "Adapt", "BFloat16s", "CEnum", "CompilerSupportLibraries_jll", "ExprTools", "GPUArrays", "GPUCompiler", "LLVM", "LazyArtifacts", "Libdl", "LinearAlgebra", "Logging", "Printf", "Random", "Random123", "RandomNumbers", "Reexport", "Requires", "SparseArrays", "SpecialFunctions", "TimerOutputs"]
-git-tree-sha1 = "925a16b909fdae16920c1319feadecffb6695b9d"
+git-tree-sha1 = "e4e5ece72fa2f108fb20c3c5538a5fa9ef3d668a"
 uuid = "052768ef-5323-5732-b1bb-66c8b64840ba"
-version = "3.10.1"
+version = "3.11.0"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -528,9 +528,9 @@ version = "8.3.2"
 
 [[deps.GPUCompiler]]
 deps = ["ExprTools", "InteractiveUtils", "LLVM", "Libdl", "Logging", "TimerOutputs", "UUIDs"]
-git-tree-sha1 = "d8c5999631e1dc18d767883f621639c838f8e632"
+git-tree-sha1 = "21b5d9da260afa6a8638ba2aaa0edbbb671c37bd"
 uuid = "61eb1bfa-7361-4325-ad38-22787b887f55"
-version = "0.15.2"
+version = "0.16.0"
 
 [[deps.GR]]
 deps = ["Base64", "DelimitedFiles", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Printf", "Random", "RelocatableFolders", "Serialization", "Sockets", "Test", "UUIDs"]
@@ -1272,11 +1272,11 @@ version = "1.0.3"
 
 [[deps.SimulatedNeuralMoments]]
 deps = ["Flux", "LinearAlgebra", "PrettyTables", "Printf", "Random", "Statistics"]
-git-tree-sha1 = "dc8a14da5bf7de5746074e89685b61a3ee25812b"
+git-tree-sha1 = "c03aba8d071ca91c5a8b46e1ebab76d2d06ff95f"
 repo-rev = "main"
-repo-url = "../.."
+repo-url = "https://github.com/mcreel/SimulatedNeuralMoments.jl.git"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
-version = "1.0.1"
+version = "1.0.2"
 
 [[deps.Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
