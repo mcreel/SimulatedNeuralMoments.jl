@@ -82,54 +82,54 @@ end
 # the trained net and the information for transforming the inputs
 using Statistics, Flux
 using Base.Iterators
-function MakeNeuralMoments(model::SNMmodel, transf; TrainTestSize=1, Epochs=1000)
+@views function MakeNeuralMoments(model::SNMmodel, transf; TrainTestSize=1, Epochs=1000)
     data = 0.0
     datadesign = 0.0
     nParams = size(model.lb,1)
     # training and testing
     if (TrainTestSize == 1) TrainTestSize = Int64(2*nParams*1e4); end # use a default size if none provided
-    params = zeros(TrainTestSize,nParams)
-    statistics = zeros(TrainTestSize,size(model.auxstat(model.lb,1)[1],1))
+    params = zeros(nParams, TrainTestSize)
+    nStats = size(model.auxstat(model.lb,1)[1],1) 
+    statistics = zeros(nStats, TrainTestSize)
     Threads.@threads for s = 1:TrainTestSize
         ok = false
         θ = model.priordraw()
-        W = (model.auxstat(θ,1))[1]
+        W = model.auxstat(θ,1)[1]
         # repeat draw if necessary
         while any(isnan.(W))
             θ = model.priordraw()
             W = model.auxstat(θ,1)[1]
         end    
-        params[s,:] = transf(θ)
-        statistics[s,:] = W
+        params[:,s] = transf(θ)
+        statistics[:,s] = W
     end
     # transform stats to robustify against outliers
-    q50 = zeros(size(statistics,2))
+    q50 = zeros(nStats)
     q01 = similar(q50)
     q99 = similar(q50)
     iqr = similar(q50)
-    for i = 1:size(statistics,2)
-        q = quantile(statistics[:,i],[0.01, 0.25, 0.5, 0.75, 0.99])
+    for i = 1:nStats
+        q = quantile(statistics[i,:],[0.01, 0.25, 0.5, 0.75, 0.99])
         q01[i] = q[1]
         q50[i] = q[3]
         q99[i] = q[5]
         iqr[i] = q[4] - q[2]
     end
     nninfo = (q01, q50, q99, iqr) 
-    for i = 1: size(statistics,1)
-        statistics[i,:] .= TransformStats(statistics[i,:], nninfo)
+    for i = 1: nStats
+        statistics[:,i] .= TransformStats(statistics[:,i], nninfo)
     end    
     # train net
     TrainingProportion = 0.5 # size of training/testing
     params = Float32.(params)
-    s = Float32.(std(params, dims=1)')
+    s = Float32.(std(params, dims=2))
     statistics = Float32.(statistics)
     trainsize = Int(TrainingProportion*TrainTestSize)
-    yin = params[1:trainsize, :]'
-    yout = params[trainsize+1:end, :]'
-    xin = statistics[1:trainsize, :]'
-    xout = statistics[trainsize+1:end, :]'
+    yin = params[:,1:trainsize]
+    yout = params[:,trainsize+1:end]
+    xin = statistics[:,1:trainsize]
+    xout = statistics[:,trainsize+1:end]
     # define the neural net
-    nStats = size(xin,1)
     NNmodel = Chain(
         Dense(nStats, 10*nParams, tanh),
         Dense(10*nParams, 3*nParams, tanh),
