@@ -1,4 +1,5 @@
-using SimulatedNeuralMoments, Flux, Test, LinearAlgebra
+#using SimulatedNeuralMoments, 
+using Flux, Test, LinearAlgebra
 using BSON:@load
 cd(@__DIR__)
 @testset "SimulatedNeuralMoments.jl" begin
