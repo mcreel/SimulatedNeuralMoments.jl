@@ -3,10 +3,10 @@ using Flux, Test, LinearAlgebra
 using BSON:@load
 cd(@__DIR__)
 @testset "SimulatedNeuralMoments.jl" begin
-    @load "../examples/SV/neuralmodel.bson" nnmodel nninfo
-    include("../examples/SV/SVlib.jl")
+    @load "neuralmodel.bson" nnmodel nninfo
+    include("SVlib.jl")
     z = zeros(11)
-   lb, ub = PriorSupport() # bounds of support
+    lb, ub = PriorSupport() # bounds of support
     model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, auxstat)
     m, Σp = mΣ((lb+ub)./2.0, 100, model, nnmodel, nninfo)
     @test size(NeuralMoments(zeros(11), nnmodel, nninfo),1) == 3
