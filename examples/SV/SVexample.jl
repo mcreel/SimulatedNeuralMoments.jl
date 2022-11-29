@@ -18,7 +18,7 @@ transf = bijector(@Prior) # transforms draws from prior to draws from  ℛⁿ
 transformed_prior = transformed(@Prior, transf) # the transformed prior
 nnmodel, nninfo = MakeNeuralMoments(model, transf, TrainTestSize=10000)
 @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
-@load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
+#@load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
 # draw a sample at the design parameters, or use an existing data set
 y = SVmodel(TrueParameters()) # draw a sample of 500 obsns. at design parameters
@@ -77,7 +77,8 @@ end
 chain = Chains(chain, names)
 display(chain)
 display(plot(chain))
-return chain, mbar, Σp
+#savefig("chain.png")
+return chain, θhat, Σp
 end
 
-#savefig("chain.png")
+
