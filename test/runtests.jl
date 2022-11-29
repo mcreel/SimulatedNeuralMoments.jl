@@ -1,5 +1,5 @@
 #using SimulatedNeuralMoments, 
-using Flux, Test, LinearAlgebra
+using Flux, Test, LinearAlgebra, Statistics
 using BSON:@load
 
 @testset "SimulatedNeuralMoments.jl" begin
@@ -7,5 +7,5 @@ using BSON:@load
     chain, θhat, Σp = SVexample(TrainTestSize=5000, Epochs=200)
     @test size(θhat,1) == 3
     @test size(Σp) == (3,3)
-    @tesit isposdef(cov(chain))
+    @test isposdef(cov(chain))
 end

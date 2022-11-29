@@ -75,10 +75,9 @@ for i = 1:size(chain,1)
     chain[i,:] = invlink(@Prior, chain[i,:])
 end
 chain = Chains(chain, names)
-chain
-end
-chain = main()
-
 display(chain)
 display(plot(chain))
-#savefig("chain.png")
+#savefig("chain.png")end
+chain = main()
+
+
