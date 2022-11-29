@@ -16,7 +16,7 @@ model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, 
 # train the net, and save it and the transformation info
 transf = bijector(@Prior) # transforms draws from prior to draws from  ℛⁿ 
 transformed_prior = transformed(@Prior, transf) # the transformed prior
-nnmodel, nninfo = MakeNeuralMoments(model, transf, TrainTestSize=10000Epochs=500)
+nnmodel, nninfo = MakeNeuralMoments(model, transf, TrainTestSize=TrainTestSize, Epochs=Epochs)
 @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 #@load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
