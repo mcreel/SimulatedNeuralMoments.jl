@@ -7,5 +7,4 @@ using BSON:@load
     chain, θhat, Σp = SVexample(5000, 200) # fast run
     @test size(θhat,1) == 3
     @test size(Σp) == (3,3)
-    @test isposdef(cov(chain))
 end
