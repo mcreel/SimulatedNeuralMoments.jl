@@ -7,7 +7,7 @@ using BSON:@load
 # the model-specific code
 include("SVlib.jl")
 
-function main()
+function SVexample(TrainTestSize=1, Epochs=1000)
 
 # fill in the structure that defines the model
 lb, ub = PriorSupport() # bounds of support
@@ -16,7 +16,7 @@ model = SNMmodel("Stochastic Volatility example", lb, ub, InSupport, PriorDraw, 
 # train the net, and save it and the transformation info
 transf = bijector(@Prior) # transforms draws from prior to draws from  ℛⁿ 
 transformed_prior = transformed(@Prior, transf) # the transformed prior
-nnmodel, nninfo = MakeNeuralMoments(model, transf, TrainTestSize=10000)
+nnmodel, nninfo = MakeNeuralMoments(model, transf, TrainTestSize=10000Epochs=500)
 @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 #@load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
