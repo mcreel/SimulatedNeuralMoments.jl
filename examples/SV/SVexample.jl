@@ -81,4 +81,3 @@ display(plot(chain))
 return chain, θhat, Σp
 end
 
-
