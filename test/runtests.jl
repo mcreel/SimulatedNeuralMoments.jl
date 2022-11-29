@@ -4,7 +4,7 @@ using BSON:@load
 
 @testset "SimulatedNeuralMoments.jl" begin
     include("../examples/SV/SVexample.jl")
-    chain, θhat, Σp = SVexample(TrainTestSize=5000, Epochs=200)
+    chain, θhat, Σp = SVexample(5000, 200) # fast run
     @test size(θhat,1) == 3
     @test size(Σp) == (3,3)
     @test isposdef(cov(chain))
