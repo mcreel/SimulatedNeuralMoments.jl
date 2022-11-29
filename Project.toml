@@ -4,6 +4,7 @@ authors = ["Michael Creel <michael.creel@uab.es> and contributors"]
 version = "1.0.3"
 
 [deps]
+AdvancedMH = "5b7e9947-ddc0-4b3f-9b55-0d8042f74170"
 BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"

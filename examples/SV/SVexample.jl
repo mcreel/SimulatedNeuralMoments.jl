@@ -75,9 +75,9 @@ for i = 1:size(chain,1)
     chain[i,:] = invlink(@Prior, chain[i,:])
 end
 chain = Chains(chain, names)
-chain
+return chain, mbar, Σp
 end
-chain = main()
+chain, mbar, Σp = main()
 
 display(chain)
 display(plot(chain))
