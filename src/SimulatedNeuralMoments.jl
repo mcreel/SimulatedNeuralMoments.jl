@@ -149,7 +149,7 @@ using Base.Iterators
         if i < 20
             opt = Momentum() # the optimizer
         else
-            opt = AdamW() # the optimizer
+            opt = Adam() # the optimizer
         end 
         Flux.train!(loss, Flux.params(NNmodel), batches, opt)
         current = loss(xout,yout)

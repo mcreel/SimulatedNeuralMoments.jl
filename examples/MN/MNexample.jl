@@ -7,7 +7,7 @@ using BSON:@load
 # the model-specific code
 include("MNlib.jl")
 
-function MNexample(TrainTestSize=10000, Epochs=500)
+function MNexample(TrainTestSize=1, Epochs=1000)
 
     # fill in the structure that defines the model
     lb, ub = PriorSupport() # bounds of support
