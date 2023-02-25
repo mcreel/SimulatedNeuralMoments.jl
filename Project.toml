@@ -1,7 +1,7 @@
 name = "SimulatedNeuralMoments"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
 authors = ["Michael Creel <michael.creel@uab.es> and contributors"]
-version = "1.0.4"
+version = "1.0.5"
 
 [deps]
 AdvancedMH = "5b7e9947-ddc0-4b3f-9b55-0d8042f74170"
@@ -26,7 +26,7 @@ MCMCChains = "5.5"
 PrettyTables = "2.0"
 StatsPlots = "0.15"
 Turing = "0.22"
-julia = "1.5 - 1.8"
+julia = "1.5"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
