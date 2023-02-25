@@ -25,8 +25,8 @@ Flux = "0.13"
 MCMCChains = "5.5"
 PrettyTables = "2.0"
 StatsPlots = "0.15"
-Turing = "0.22-0.24"
-julia = "1.5-1.8"
+Turing = "0.22 - 0.24"
+julia = "1.5 - 1.8"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
