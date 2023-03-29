@@ -30,12 +30,12 @@ plot(p1, p2, layout=(2,1))
 #savefig("data.png")
 
 # define the neural moments using the real data
-m = NeuralMoments(auxstat(y), nnmodel, nninfo)
+m = Float32.(NeuralMoments(auxstat(y), nnmodel, nninfo))
 # the raw NN parameter estimate
 θhat = invlink(@Prior, m)
 
 # setting for sampling
-names = [":α", ":ρ", ":σ"]
+names = ["α", "ρ", "σ"]
 S = 100
 covreps = 1000
 length = 1250

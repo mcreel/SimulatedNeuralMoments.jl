@@ -30,7 +30,7 @@ function MNexample(TrainTestSize=1, Epochs=1000)
     #savefig("data.png")
 
     # define the neural moments using the real data
-    m = NeuralMoments(auxstat(y), nnmodel, nninfo)
+    m = Float32.(NeuralMoments(auxstat(y), nnmodel, nninfo))
     # the raw NN parameter estimate
     θhat = invlink(@Prior, m)
 
@@ -40,7 +40,7 @@ function MNexample(TrainTestSize=1, Epochs=1000)
     covreps = 1000
     length = 1500
     nchains = 4 
-    burnin = 0
+    burnin = 100
     tuning = 1.0
     # the covariance of the proposal (scaled by tuning)
     junk, Σp = mΣ(θhat, covreps, model, nnmodel, nninfo)
