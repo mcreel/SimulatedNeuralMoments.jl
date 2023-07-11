@@ -4,6 +4,7 @@ using BSON:@load
 cd(@__DIR__)
 
 @testset "SV" begin
+    @info "running SV model with a small sample"
     include("../examples/SV/SVexample.jl")
     chain, θhat, Σp = SVexample(1000, 100) # fast run
     @test size(θhat,1) == 3
@@ -11,6 +12,7 @@ cd(@__DIR__)
 end
 
 @testset "MN" begin
+    @info "running the MN model with a small sample" 
     include("../examples/MN/MNexample.jl")
     chain, θhat, Σp = MNexample(1000, 100) # fast run
     @test size(θhat,1) == 5

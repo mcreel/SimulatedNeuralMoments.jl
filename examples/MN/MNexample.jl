@@ -80,6 +80,5 @@ function MNexample(TrainTestSize=1, Epochs=1000)
     display(plot(chain))
     #savefig("chain.png")end
 end
-chain = MNexample()
 
 
