@@ -31,53 +31,6 @@ function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     mean(Zs), Symmetric(cov(Zs))
 end
 
-using PrettyTables, Printf
-function prettyprint(a, cnames="", rnames="")
-if rnames !=""
-    rnames = rnames[:]
-    a = [rnames a]
-    if cnames != ""
-        cnames = cnames[:]
-        cnames = vcat("", cnames)
-    end    
-end
-if cnames !=""
-    pretty_table(a; header=(cnames), formatters=ft_printf("%12.5f"))
-else
-    pretty_table(a; formatters=ft_printf("%12.5f"))
-end
-end
-
-function dstats(x, rnames="";short=false, silent=false)
-    k = size(x,2)
-    if rnames==""
-        rnames = 1:k
-        rnames = rnames'
-    end
-    m = mean(x,dims=1)
-    mm = median(x,dims=1)
-    s = std(x,dims=1)
-    sk = m-m
-    kt = m-m
-    mn = minimum(x,dims=1)
-    mx = maximum(x,dims=1)
-    q05 = fill(0.0,k)
-    q25 = fill(0.0,k)
-    q75 = fill(0.0,k)
-    q95 = fill(0.0,k)
-    if short == false
-        for i = 1:size(x,2) q05[i], q25[i], q75[i],q95[i] = quantile(x[:,i], [0.05,0.25,0.75,0.95]) end
-        cnames = ["  mean", " median","  std", "IQR", "min", "max", "q05", "q95"]
-        stats = [m' mm' s' (q75-q25) mn' mx' q05 q95] 
-        if !silent prettyprint(stats, cnames, rnames) end
-    else
-        cnames = ["  mean", " median", "  std", "min", "max"]
-        stats = [m' mm' s' mn' mx'] 
-        if !silent prettyprint(stats, cnames, rnames) end
-    end
-    return stats
-end
-
 # simulates data from prior, trains and tests the net, and returns
 # the trained net and the information for transforming the inputs
 using Statistics, Flux
@@ -135,7 +88,7 @@ using Base.Iterators
         Dense(10*nParams, 3*nParams, tanh),
         Dense(3*nParams, nParams)
     )
-    loss(x,y) = Flux.huber_loss(NNmodel(x)./s, y./s; δ=0.1) # Define the loss function
+    loss(x,y) = Flux.huber_loss(NNmodel(x)./s, y./s; delta=0.1) # Define the loss function
     # monitor training
     function monitor(e)
         println("epoch $(lpad(e, 4)): (training) loss = $(round(loss(xin,yin); digits=4)) (testing) loss = $(round(loss(xout,yout); digits=4))| ")
@@ -158,21 +111,12 @@ using Base.Iterators
             bestmodel = NNmodel
             xx = xout
             yy = yout
-            println("________________________________________________________________________________________________")
             monitor(i)
             pred = NNmodel(xx)
             error = yy .- pred
             results = [pred;error]
             rmse = sqrt.(mean(error.^Float32(2.0),dims=2))
-            println(" ")
-            println("RMSE for model parameters ")
-            prettyprint(reshape(round.(rmse,digits=3),1,nParams))
-            println(" ")
-            println("dstats prediction of parameters:")
-            dstats(pred')
-            println(" ")
-            println("dstats prediction error:")
-            dstats(error')
+            @info "RMSE for model parameters $rmse" 
         end
     end
     bestmodel, nninfo
