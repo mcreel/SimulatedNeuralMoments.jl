@@ -26,6 +26,7 @@ Flux = "0.13"
 MCMCChains = "6.0"
 PrettyTables = "2.0"
 StatsPlots = "0.15"
+StatsBase = "0.33"
 Turing = "0.22, 0.23, 0.24"
 julia = "1.5 - 1.9"
 
