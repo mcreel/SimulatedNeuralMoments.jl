@@ -78,7 +78,8 @@ function MNexample(TrainTestSize=1, Epochs=1000)
 
     display(chain)
     display(plot(chain))
-    #savefig("chain.png")end
+    #savefig("chain.png")
+    return chain, θhat, Σp
 end
 
 
