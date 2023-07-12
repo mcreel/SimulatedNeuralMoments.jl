@@ -1,7 +1,7 @@
 name = "SimulatedNeuralMoments"
 uuid = "43b7c8c0-5622-45b8-90a3-338fc50d2232"
 authors = ["Michael Creel <michael.creel@uab.es> and contributors"]
-version = "1.0.6"
+version = "1.0.7"
 
 [deps]
 AdvancedMH = "5b7e9947-ddc0-4b3f-9b55-0d8042f74170"
