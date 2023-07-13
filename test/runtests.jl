@@ -1,9 +1,9 @@
 #using SimulatedNeuralMoments, 
-using Flux, Test, LinearAlgebra, Statistics
-using BSON:@load
+using Test, LinearAlgebra, Statistics
 cd(@__DIR__)
 
 @testset "SimulatedNeuralMoments" begin
+    
     @info "running SV model with a small sample"
     include("../examples/SV/SVexample.jl")
     chain, θhat, Σp = SVexample(1000, 100) # fast run
@@ -14,5 +14,5 @@ cd(@__DIR__)
     include("../examples/MN/MNexample.jl")
     chain, θhat, Σp = MNexample(1000, 100) # fast run
     @test size(θhat,1) == 5
-    @test size(Σp) == (5,5)
+    @test size(Σp) == (5,5)    
 end

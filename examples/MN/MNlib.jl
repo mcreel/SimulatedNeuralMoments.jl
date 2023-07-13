@@ -13,8 +13,8 @@ function MNmodel(θ, rndseed=1234)
 end
 
 function auxstat(data)
-    r = 0.0 : 0.1 : 1.0
-    sqrt(1000.).*vcat(mean(data), std(data), skewness(data), kurtosis(data),
+    r = 0.1 : 0.1 : 0.9
+    vcat(mean(data), std(data), skewness(data), kurtosis(data), 
         quantile.(Ref(data),r))
 end
 
@@ -42,10 +42,9 @@ function InSupport(θ)
     all(θ .>= lb) & all(θ .<= ub)
 end
 
-# prior should be an array of distributions, one for each parameter
-lb, ub = PriorSupport() # need these in Prior
-macro Prior()
-    return :( arraydist([Uniform(lb[i], ub[i]) for i = 1:size(lb,1)]) )
+# prior is flat over support, so return 1 if inside
+function Prior(θ)
+    InSupport(θ) ? 1.0 : 0.0
 end
 
 

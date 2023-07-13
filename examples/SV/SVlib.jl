@@ -55,11 +55,11 @@ function PriorSupport()
     lb,ub
 end    
 
-# prior should be an array of distributions, one for each parameter
-lb, ub = PriorSupport() # need these in Prior
-macro Prior()
-    return :( arraydist([Uniform(lb[i], ub[i]) for i = 1:size(lb,1)]) )
+# prior is uniform, so just return a 1 if in support
+function Prior(θ)
+    InSupport(θ) ? 1.0 : 0.0
 end
+
 # check if parameter is in support. In this case, we require
 # the bounds, and that the unconditional variance of the volatility
 # shock be limited
