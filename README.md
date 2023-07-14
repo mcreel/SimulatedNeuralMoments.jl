@@ -12,7 +12,6 @@ With a trained net, we can feed in statistics computed from real data, and obtai
 
 ABC/MSM draws from the posterior are done using Turing.jl, concretely MCMC using Metropolis-Hastings sampling. The likelihood is an estimate of the asymptotic Gaussian distribution of the transformed statistics, which is justified due to the central limit theorem applying to the statistics. The proposal density is also the same Gaussian density, estimated at the transformed statistics corresponding to the real data. Because the proposal and the likelihood are identical, at the true parameter values, random walk MH sampling is effective, because MCMC concentrates around the true parameter values, as the sample size becomes large.
 
-Please see the docs, in the link at the top, and the READMEs for the two examples to see how this all works. To run the two examples, using small training and testing samples, do ``using Pkg; Pkg.test("SimulatedNeuralMoments")``
-* [Stochastic volatility model](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/SV/README.md)
-* [Mixture of normals model](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MN/README.md)
+Please see the docs, in the link at the top, and the README for the two examples to see how this all works.
+* [example models](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/README.md)
 
