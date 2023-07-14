@@ -93,17 +93,7 @@ This function computes the MSM-CUE log likelihood at the parameter value θ.
 the log likelihood, a Float64
 
 ## the function mcmc
-```mcmc(
-    θ, # the initial value
-    length,
-    lnL, 
-    model::SNMmodel,
-    nnmodel,
-    nninfo,
-    proposal,
-    burnin::Int=100,
-    verbosity::Int=10
-    )```
+```mcmc(θ, length, lnL, model::SNMmodel, nnmodel, nninfo, proposal, burnin=100, verbosity=10)```
 ### the inputs are
 * θ: the parameter vector used to initialize the chain
 * length: the desired length of chain, not counting burnin
