@@ -1,15 +1,4 @@
-using SimulatedNeuralMoments
-using Flux, MCMCChains
-using StatsPlots, Distributions
-using DelimitedFiles, LinearAlgebra
-using BSON:@save
-using BSON:@load
-
-# the model-specific code: chose one
-#include("SVlib.jl")
-include("MNlib.jl")
-
-function example(TrainTestSize=1, Epochs=200, saveplot=false)
+function runme(TrainTestSize=1, Epochs=200, saveplot=false)
 
 # generate some data, and get sample size 
 y = dgp(TrueParameters()) # draw a sample at design parameters
@@ -66,7 +55,7 @@ chain = Chains(chain[:,1:end-1], names) # convert to Chains type, drop acc. rate
 display(chain)
 t = TrueParameters()'
 println()
-println("for comparison, the true parameters are $t")
+printstyled("For comparison, the true parameters are $t", color=:green)
 println()
 display(plot(chain))
 if saveplot

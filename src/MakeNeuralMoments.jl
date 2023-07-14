@@ -55,7 +55,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
         Dense(10*nParams, 3*nParams, tanh),
         Dense(3*nParams, nParams)
     )
-    loss(x,y) = Flux.huber_loss(NNmodel(x)./s, y./s; δ=0.1) # Define the loss function
+    loss(x,y) = Flux.huber_loss(NNmodel(x)./s, y./s; delta=0.1) # Define the loss function
     # monitor training
     function monitor(e)
         println("epoch $(lpad(e, 4)): training loss = $(round(loss(xin,yin); digits=4)) testing loss = $(round(loss(xout,yout); digits=4)) ")
