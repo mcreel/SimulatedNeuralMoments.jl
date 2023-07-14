@@ -70,7 +70,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
         if i < 20
             opt = Momentum() # the optimizer
         else
-            opt = ADAMW() # the optimizer
+            opt = AdamW() # the optimizer
         end 
         Flux.train!(loss, Flux.params(NNmodel), batches, opt)
         current = loss(xout,yout)
