@@ -9,12 +9,12 @@ The main purpose of these examples is to show how to use the methods with real d
 You will end up with something like the following:
 
 ## SV: stochastic volatility model
-![SVchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/example/SVchain.png)
-![SVresults](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/example/SVresults.png)
+![SVchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/SVchain.png)
+![SVresults](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/SVresults.png)
 
 ## MN: mixture of normals model
-![MNchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/example/MNchain.png)
-![MNresults](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/example/MNresults.png)
+![MNchain](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MNchain.png)
+![MNresults](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/examples/MNresults.png)
 
 
 
