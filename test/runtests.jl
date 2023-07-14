@@ -1,18 +1,13 @@
 #using SimulatedNeuralMoments, 
-using Test, LinearAlgebra, Statistics
+using Test
 cd(@__DIR__)
 
 @testset "SimulatedNeuralMoments" begin
     
-    @info "running SV model with a small sample"
-    include("../examples/SV/SVexample.jl")
-    chain, θhat, Σp = SVexample(1000, 100) # fast run
-    @test size(θhat,1) == 3
-    @test size(Σp) == (3,3)
-
-    @info "running the MN model with a small sample" 
-    include("../examples/MN/MNexample.jl")
-    chain, θhat, Σp = MNexample(1000, 100) # fast run
-    @test size(θhat,1) == 5
-    @test size(Σp) == (5,5)    
+    @info "running example model with a small sample"
+    include("../example/example.jl")
+    acceptance, rmse = example(1000, 100, false) # fast run
+    @test rmse < 0.2
+    @test acceptance > 0.1
+    @test acceptance < 0.5
 end

@@ -2,9 +2,11 @@
 
 using Statistics, Random
 
+whichdgp = "Stochastic volatility model"
+
 # method that generates the sample
 function auxstat(θ, reps)
-    auxstat.([SVmodel(θ, rand(1:Int64(1e12))) for i = 1:reps])  # reps draws of data
+    auxstat.([dgp(θ, rand(1:Int64(1e12))) for i = 1:reps])  # reps draws of data
 end
 
 # method for a given sample
@@ -26,7 +28,7 @@ end
 	stats = sqrt(size(y,1)) .* vcat(m, s, s2, k, c, c1, HAR(y))
 end
 
-function SVmodel(θ, rndseed=1234)
+function dgp(θ, rndseed=1234)
     Random.seed!(rndseed)
     n = 500
     burnin = 100

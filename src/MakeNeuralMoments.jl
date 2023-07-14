@@ -3,7 +3,6 @@
 
 using Statistics, Flux
 using Base.Iterators
-include("FromEconometrics.jl")
 
 function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     data = 0.0
@@ -59,13 +58,14 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     loss(x,y) = Flux.huber_loss(NNmodel(x)./s, y./s; δ=0.1) # Define the loss function
     # monitor training
     function monitor(e)
-        println("epoch $(lpad(e, 4)): (training) loss = $(round(loss(xin,yin); digits=4)) (testing) loss = $(round(loss(xout,yout); digits=4))| ")
+        println("epoch $(lpad(e, 4)): training loss = $(round(loss(xin,yin); digits=4)) testing loss = $(round(loss(xout,yout); digits=4)) ")
     end
     # do the training
     bestsofar = 1.0e10
     pred = 0.0 # define it here to have it outside the for loop
     batches = [(xin[:,ind],yin[:,ind])  for ind in partition(1:size(yin,2), 50)]
     bestmodel = 0.0
+    @info "starting training of the net"
     for i = 1:Epochs
         if i < 20
             opt = Momentum() # the optimizer
@@ -74,20 +74,12 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
         end 
         Flux.train!(loss, Flux.params(NNmodel), batches, opt)
         current = loss(xout,yout)
+        # keep track of best model
         if current < bestsofar
             bestsofar = current
             bestmodel = NNmodel
-            xx = xout
-            yy = yout
-            println("________________________________________________________________________________________________")
-            monitor(i)
-            pred = NNmodel(xx)
-            error = yy .- pred
-            results = [pred;error]
-            rmse = sqrt.(mean(error.^Float32(2.0),dims=2))
-            println(" ")
-            println("epoch $i:  RMSE for model parameters ", round.(rmse, digits=3))
         end
+        mod(i, 10) == 0 ? monitor(i) : nothing
     end
     bestmodel, nninfo
 end

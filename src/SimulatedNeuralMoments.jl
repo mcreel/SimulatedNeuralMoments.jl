@@ -12,9 +12,7 @@ struct SNMmodel
     auxstat::Function # function that returns an array of draws of statistic
 end
 
-# define functions 
-
-# bounds by quantiles, and standardizes and normalizes around median
+# transformation to compactify the statistics, before training the net
 function TransformStats(data, info)
     q01,q50,q99,iqr = info
     data = max.(data, q01')
@@ -25,10 +23,10 @@ end
 
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
-    min.(max.(Float64.(nnmodel(TransformStats((z[:])', nninfo)')), model.lb), model.ub)
+    min.(max.(Float64.(nnmodel(Float32.(TransformStats((z[:])', nninfo))')), model.lb), model.ub)
 end        
 
-# mean and covariance of output of NN, given draw from prior
+# mean and covariance of output of NN computed using reps draws at θ
 using LinearAlgebra
 function mΣ(θ, reps, model::SNMmodel, nnmodel, nninfo)
     z = model.auxstat(θ, reps) 
@@ -41,8 +39,10 @@ using LinearAlgebra
 function snmobj(θ, m, reps, model::SNMmodel, nnmodel, nninfo)
     model.insupport(θ) || return -Inf
     mbar, Σ = mΣ(θ, reps, model, nnmodel, nninfo)  
+    n = model.samplesize
+    Σ *= n*(1+1/reps) # scale for better numerical accuracy
     isposdef(Σ) || return -Inf
-    x = m - mbar
+    x = sqrt(n)*(m - mbar)
     LinearAlgebra.inv!(cholesky!(Σ))
     -0.5*dot(x,Σ,x)
 end

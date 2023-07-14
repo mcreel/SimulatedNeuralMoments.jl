@@ -17,6 +17,7 @@
     acceptance_rate = 1f0
     chain = zeros(length, size(θ, 1) + 2)
     totreps = length+burnin
+    @info "starting the MCMC run"
     for i ∈ 1:totreps
         θᵗ = proposal(θ) # new trial value
         pθᵗ = model.prior(θᵗ) # prior at trial
@@ -33,12 +34,12 @@
         end
         # Add to chain if burnin is passed
         if i > burnin
-            chain[i-burnin,:] = vcat(θ, accept, Lₙθ)
+            chain[i-burnin,:] = vcat(θ, Lₙθ, accept)
         end
         # Report
         if verbosity > 0 && mod(i, verbosity) == 0 && i > burnin
             acceptance_rate = naccept / i
-            println("iter $i of $totreps  params: ", round.(θ, digits=3), " acc.: ", round(acceptance_rate, digits=3))
+            println("iter $i of $totreps ", round.(θ, digits=3), " acc. rate: ", round(acceptance_rate, digits=3))
         end
     end
     return chain
