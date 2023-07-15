@@ -10,7 +10,7 @@ The innovation is that the moment conditions are based on statistics that are fi
 
 The net is trained using many simulated draws from the prior, to get parameters, and the statistics resulting from a sample from the model at each parameter draw. With a large set of draws of parameter/statistics, the net is trained, using the statistics as the inputs, and the parameters as the outputs, using the Flux.jl machine learning package. 
 
-With a trained net, we can feed in statistics computed from real data, and obtain estimated parameters that generated the statistics. These estimated parameters then used as the statistics upon which ABC/MSM is based.
+With a trained net, we can feed in statistics computed from real data, and obtain estimates of the parameters that generated the statistics. These estimated parameters then used as the statistics upon which ABC/MSM is based.
 
 ABC/MSM draws from the posterior are done using MCMC with Metropolis-Hastings sampling. The proposal density is the same as the likelihood, but estimated at the point estimate from the net that corresponds to the real data. Because the proposal and the likelihood are of the same form, random walk MH sampling is effective for this application.
 
