@@ -64,7 +64,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     bestsofar = 1.0e10
     pred = 0.0 # define it here to have it outside the for loop
     batches = [(xin[:,ind],yin[:,ind])  for ind in partition(1:size(yin,2), 50)]
-    bestmodel = 0.0
+    bestmodel = NNmodel
     @info "starting training of the net"
     for i = 1:Epochs
         if i < 20
