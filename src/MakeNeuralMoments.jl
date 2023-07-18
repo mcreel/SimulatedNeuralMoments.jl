@@ -61,13 +61,14 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     
     # define at this scope
     bestmodel = NNmodel # holds best model using validation data
-    bestsofar = 1.0e10 # loss of best model
+    bestsofar = 1e10 # loss of best model
     opt_state = Flux.setup(Flux.Momentum(), NNmodel)
-
+    oldbest = 1e10
+    stagnation = 0
     @info "starting training of the net"
-    for i = 1:Epochs
+    for epoch = 1:Epochs
         # change from Momentum to AdamW after 20 epochs
-        i > 20 ? opt_state = Flux.setup(Flux.AdamW(), NNmodel) : nothing
+        epoch > 20 ? opt_state = Flux.setup(Flux.AdamW(), NNmodel) : nothing
         # do the training
         Flux.train!(NNmodel, batches, opt_state) do m, x, y
             Flux.huber_loss(m(x)./s, y./s, delta=0.1)
@@ -79,7 +80,27 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
             bestsofar = current
             bestmodel = NNmodel
         end
-        mod(i, 10) == 0 ? println("iter: $i, current val. loss: $current, best so far: $bestsofar") : nothing
+        if mod(epoch, 10) == 0
+            ingreen = false
+            if bestsofar < oldbest
+                ingreen = true
+                oldbest = bestsofar
+                stagnation = 0
+            else stagnation += 1    
+            end
+            stagnation > 10 ? break : nothing
+            err = yout - bestmodel(xout)
+            rmse = round.((sqrt.(mean(err.^2.0, dims=2)) ./s)', digits=3)
+            printstyled("epoch: $epoch, current loss: ", color=:yellow)
+            printstyled("$current ", color=:blue)
+            printstyled("best loss: ", color=:yellow)
+            if ingreen
+                printstyled("$bestsofar\n", color=:green)
+            else    
+                printstyled("$bestsofar\n", color=:blue)
+            end
+            println("relative rmse.: $rmse")
+        end    
     end
     bestmodel, nninfo, params, statistics
 end

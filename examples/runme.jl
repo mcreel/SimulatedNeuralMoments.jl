@@ -1,4 +1,4 @@
-function runme(TrainTestSize=1, Epochs=200, saveplot=false)
+function runme(TrainTestSize=1, Epochs=1000, saveplot=false)
 
 # generate some data, and get sample size 
 y = dgp(TrueParameters()) # draw a sample at design parameters
