@@ -37,17 +37,17 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
         iqr[i] = q[4] - q[2]
     end
     nninfo = (q01, q50, q99, iqr) 
-    statistics = TransformStats(statistics, nninfo)
+    transf_stats = TransformStats(statistics, nninfo)
     # train net
     TrainingProportion = 0.5 # size of training/testing
     params = Float32.(params)
     s = Float32.(std(params, dims=1)')
-    statistics = Float32.(statistics)
+    transf_stats = Float32.(transf_stats)
     trainsize = Int(TrainingProportion*TrainTestSize)
     yin = params[1:trainsize, :]'
     yout = params[trainsize+1:end, :]'
-    xin = statistics[1:trainsize, :]'
-    xout = statistics[trainsize+1:end, :]'
+    xin = transf_stats[1:trainsize, :]'
+    xout = transf_stats[trainsize+1:end, :]'
     # define the neural net
     nStats = size(xin,1)
     NNmodel = Chain(
@@ -55,31 +55,31 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
         Dense(10*nParams, 3*nParams, tanh),
         Dense(3*nParams, nParams)
     )
-    loss(x,y) = Flux.huber_loss(NNmodel(x)./s, y./s; delta=0.1) # Define the loss function
-    # monitor training
-    function monitor(e)
-        println("epoch $(lpad(e, 4)): training loss = $(round(loss(xin,yin); digits=4)) testing loss = $(round(loss(xout,yout); digits=4)) ")
-    end
-    # do the training
-    bestsofar = 1.0e10
-    pred = 0.0 # define it here to have it outside the for loop
+    
+    # make the batches
     batches = [(xin[:,ind],yin[:,ind])  for ind in partition(1:size(yin,2), 50)]
-    bestmodel = NNmodel
+    
+    # define at this scope
+    bestmodel = NNmodel # holds best model using validation data
+    bestsofar = 1.0e10 # loss of best model
+    opt_state = Flux.setup(Flux.Momentum(), NNmodel)
+
     @info "starting training of the net"
     for i = 1:Epochs
-        if i < 20
-            opt = Momentum() # the optimizer
-        else
-            opt = AdamW() # the optimizer
-        end 
-        Flux.train!(loss, Flux.params(NNmodel), batches, opt)
-        current = loss(xout,yout)
+        # change from Momentum to AdamW after 20 epochs
+        i > 20 ? opt_state = Flux.setup(Flux.AdamW(), NNmodel) : nothing
+        # do the training
+        Flux.train!(NNmodel, batches, opt_state) do m, x, y
+            Flux.huber_loss(m(x)./s, y./s, delta=0.1)
+        end
+        # get validation loss, and update best model if improvement
+        current = Flux.huber_loss(NNmodel(xout)./s, yout./s, delta=0.1)
         # keep track of best model
         if current < bestsofar
             bestsofar = current
             bestmodel = NNmodel
         end
-        mod(i, 10) == 0 ? monitor(i) : nothing
+        mod(i, 10) == 0 ? println("iter: $i, current val. loss: $current, best so far: $bestsofar") : nothing
     end
-    bestmodel, nninfo
+    bestmodel, nninfo, params, statistics
 end

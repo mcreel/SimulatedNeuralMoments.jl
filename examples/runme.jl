@@ -9,7 +9,7 @@ lb, ub = PriorSupport() # bounds of support
 model = SNMmodel(whichdgp, n, lb, ub, InSupport, Prior, PriorDraw, auxstat)
 
 # train the net, and save it and the transformation info
-nnmodel, nninfo = MakeNeuralMoments(model, TrainTestSize=TrainTestSize, Epochs=Epochs)
+nnmodel, nninfo, junk, junk = MakeNeuralMoments(model, TrainTestSize=TrainTestSize, Epochs=Epochs)
 #  @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 #  @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 

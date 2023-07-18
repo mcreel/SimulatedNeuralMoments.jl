@@ -54,6 +54,9 @@ The file example.jl the examples directory show how to use this type.
 ### Outputs
 * nnmodel: the trained neural net. A Flux.jl chain, which the trained parameters of the net.
 * nninfo: the infomation needed to transform a raw vector of statistics, from auxstat, to be used as an input to the neural net.
+* params: array of Float32, the parameters drawn from the prior used to train the model
+* stats: array of Float64: the statistics from auxstat that correspond to each parameter
+vector in params. Useful for checking for outliers, etc.
 
 ## The function NeuralMoments
 ```NeuralMoments(z, model, nnmodel, nninfo```
