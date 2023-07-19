@@ -9,20 +9,28 @@ lb, ub = PriorSupport() # bounds of support
 model = SNMmodel(whichdgp, n, lb, ub, InSupport, Prior, PriorDraw, auxstat)
 
 # train the net, and save it and the transformation info
-nnmodel, nninfo, junk, junk = MakeNeuralMoments(model, TrainTestSize=TrainTestSize, Epochs=Epochs)
+nnmodel, nninfo, params, stats, transf_stats = MakeNeuralMoments(model, TrainTestSize=TrainTestSize, Epochs=Epochs)
+
+# example transformed stats to ensure that outliers
+# have been controlled. We want to see some distance between the whiskers.
+for i = 1:size(transf_stats,2)
+    display(boxplot(transf_stats[:,i],title="statistic $i"))
+    sleep(3)
+end
+
 #  @save "neuralmodel.bson" nnmodel nninfo  # use this line to save the trained neural net 
 #  @load "neuralmodel.bson" nnmodel nninfo # use this to load a trained net
 
 # define the neural moments using the data
 θnn = NeuralMoments(auxstat(y), model, nnmodel, nninfo)[:]
 
-# settings
+# settings for MCMC
 whichdgp == "Stochastic volatility model" ? names = ["α", "ρ", "σ", "lnℒ "] :    names = ["μ1", "μ2 ", "σ1", "σ2", "prob", "lnℒ "]
 S = 100
 covreps = 500
 length = 5000
 burnin = 1000
-verbosity = 10 # show results every X draws
+verbosity = 100 # show results every X draws
 tuning = 1.0
 
 # define the proposal
@@ -38,8 +46,8 @@ lnL = θ -> snmobj(θ, θnn, S, model, nnmodel, nninfo)
 chain = mcmc(θnn, 1000, lnL, model, nnmodel, nninfo, proposal, burnin, verbosity)
 Σp = cov(chain[:,1:end-2])
 acceptance = mean(chain[:,end])
-acceptance < 0.2 ? tuning =0.75 : nothing
-acceptance > 0.3 ? tuning =1.5 : nothing
+acceptance < 0.2 ? tuning = 0.75 : nothing
+acceptance > 0.3 ? tuning = 1.50 : nothing
 proposal2(θ) = rand(MvNormal(θ, tuning*Σp))
 
 # final chain using second round proposal

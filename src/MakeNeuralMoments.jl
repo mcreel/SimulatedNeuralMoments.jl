@@ -102,5 +102,5 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
             println("relative rmse.: $rmse")
         end    
     end
-    bestmodel, nninfo, params, statistics
+    bestmodel, nninfo, params, statistics, transf_stats
 end
