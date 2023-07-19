@@ -1,7 +1,7 @@
 # SNM examples
 The main purpose of these examples is to show how to use the methods with real data. The examples will run one of two models, a stochastic volatility model with 3 parameters, or a mixture of normals model with five parameters.
 
-There is a video that explains the example at [example](https://youtu.be/Ps-gl8Hz-20).
+There is a video that explains the example [at this link](https://youtu.be/Ps-gl8Hz-20).
 
 To run the example yourself, I suggest:
 1. download the whole SimulatedNeuralMoments package using git clone or as a zip file

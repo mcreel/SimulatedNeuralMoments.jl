@@ -4,6 +4,10 @@
 
 [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/API.md)
 
+
+Here's an[explanatory video](https://youtu.be/Ps-gl8Hz-20) that show the basic features of
+the package.
+
 A package for Bayesian Method of Simulated Moments estimation, following Kim, Jae-Young. "Limited information likelihood and Bayesian analysis." Journal of Econometrics 107.1-2 (2002): 175-193 and Chernozhukov, Victor, and Han Hong. "An MCMC approach to classical estimation." Journal of econometrics 115.2 (2003): 293-346. These methods are similar to some forms of Approximate Bayesian Computing.
 
 The innovation is that the moment conditions are based on statistics that are filtered through a trained neural net, so that the filtered moments are exactly identifying. The methods lead to reliable inferences, in the sense that confidence intervals or credible intervals based on quantiles of MCMC chains contain true parameters at a proportion close to the nominal level, in addition to point estimators having low bias and RMSE. The evidence to support these claims is in the papers "Neural nets for indirect inference", Econometrics and Statistics, 2017, https://doi.org/10.1016/j.ecosta.2016.11.008 and "Inference Using Simulated Neural Moments" Econometrics, 2021, https://doi.org/10.3390/econometrics9040035.
