@@ -55,9 +55,9 @@ if !testmode # refine tuning if this is not simply a test run
     acceptance < 0.2 ? tuning = 0.75 : nothing
     acceptance > 0.3 ? tuning = 1.50 : nothing
     proposal2(θ) = rand(MvNormal(θ, tuning*Σp))
+    # final chain using second round proposal
+    chain = mcmc(θnn, length, lnL, model, nnmodel, nninfo, proposal2, burnin, verbosity)
 end
-# final chain using second round proposal
-chain = mcmc(θnn, length, lnL, model, nnmodel, nninfo, proposal2, burnin, verbosity)
 
 # get the summary info
 acceptance = mean(chain[:,end])
