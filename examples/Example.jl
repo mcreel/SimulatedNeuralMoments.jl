@@ -19,7 +19,7 @@ if !@isdefined(testmode)
 else
     whichmodel = testmode[1]
     TrainTestSize = testmode[2]
-    Epochs = testmodel[3]
+    Epochs = testmode[3]
     saveplot = false
     include(whichmodel)
     refineproposal = false
