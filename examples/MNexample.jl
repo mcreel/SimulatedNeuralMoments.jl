@@ -1,8 +1,3 @@
-using Pkg
-Pkg.activate(@__DIR__)
-Pkg.resolve()
-Pkg.update()
-Pkg.instantiate()
 using SimulatedNeuralMoments
 using Flux, MCMCChains
 using StatsPlots, Distributions
