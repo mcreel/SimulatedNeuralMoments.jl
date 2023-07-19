@@ -1,4 +1,4 @@
-function runme(TrainTestSize=1, Epochs=1000, saveplot=false)
+function runme(TrainTestSize=1, Epochs=1000, saveplot=false, testmode=false)
 
 # generate some data, and get sample size 
 y = dgp(TrueParameters()) # draw a sample at design parameters
@@ -32,6 +32,11 @@ length = 5000
 burnin = 1000
 verbosity = 100 # show results every X draws
 tuning = 1.0
+if testmode
+    length = 1000
+    burnin = 100
+    covreps = 100
+end    
 
 # define the proposal
 junk, Σp = mΣ(θnn, covreps, model, nnmodel, nninfo)
@@ -44,12 +49,13 @@ lnL = θ -> snmobj(θ, θnn, S, model, nnmodel, nninfo)
 # tuning the chain and creating a good proposal may
 # need care - this is just an example!
 chain = mcmc(θnn, 1000, lnL, model, nnmodel, nninfo, proposal, burnin, verbosity)
-Σp = cov(chain[:,1:end-2])
-acceptance = mean(chain[:,end])
-acceptance < 0.2 ? tuning = 0.75 : nothing
-acceptance > 0.3 ? tuning = 1.50 : nothing
-proposal2(θ) = rand(MvNormal(θ, tuning*Σp))
-
+if !testmode # refine tuning if this is not simply a test run
+    Σp = cov(chain[:,1:end-2])
+    acceptance = mean(chain[:,end])
+    acceptance < 0.2 ? tuning = 0.75 : nothing
+    acceptance > 0.3 ? tuning = 1.50 : nothing
+    proposal2(θ) = rand(MvNormal(θ, tuning*Σp))
+end
 # final chain using second round proposal
 chain = mcmc(θnn, length, lnL, model, nnmodel, nninfo, proposal2, burnin, verbosity)
 

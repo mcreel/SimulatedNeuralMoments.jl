@@ -6,14 +6,14 @@ cd(@__DIR__)
     
     @info "running MN example with a small sample"
     include("../examples/MNexample.jl")
-    acceptance, rmse = runme(10000,100,false) # fast run
+    acceptance, rmse = runme(10000,100,false,true) # fast run
     @test rmse < 0.2
     @test acceptance > 0.1
     @test acceptance < 0.5
 
     @info "running MN example with a small sample"
     include("../examples/SVexample.jl")
-    acceptance, rmse = runme(10000,100,false) # fast run
+    acceptance, rmse = runme(10000,100,false, true) # fast run
     @test rmse < 0.2
     @test acceptance > 0.1
     @test acceptance < 0.5
