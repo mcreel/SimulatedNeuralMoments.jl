@@ -14,6 +14,7 @@ if !@isdefined(testmode)
     #include("MNlib.jl")
     TrainTestSize=1
     Epochs = 1000
+    refineproposal = true 
     saveplot = false # change, if you like
 else
     whichmodel = testmode[1]
@@ -21,6 +22,7 @@ else
     Epochs = testmodel[3]
     saveplot = false
     include(whichmodel)
+    refineproposal = false
 end 
 
 ## generate some data, and get sample size 
@@ -80,7 +82,7 @@ lnL = θ -> snmobj(θ, θnn, S, model, nnmodel, nninfo)
 chain = mcmc(θnn, 1000, lnL, model, nnmodel, nninfo, proposal, burnin, verbosity)
 
 ## refine tuning if this is not simply a test run
-if !@isdefined(testmode) 
+if refineproposal
     @info "refining the tuning, and running the final chain"
     Σp = cov(chain[:,1:end-2])
     acceptance = mean(chain[:,end])
