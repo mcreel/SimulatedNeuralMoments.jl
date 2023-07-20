@@ -2,7 +2,8 @@
 [![testing](https://github.com/mcreel/SimulatedNeuralMoments.jl/actions/workflows/testing.yml/badge.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/actions/workflows/testing.yml)
 (Testing is done with the latest stable release of Julia, on Linux, Windows, and MacOS)
 
-[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/API.md
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/API.md)
+
 
 
 **Click on the following image to see an explanatory video:**
