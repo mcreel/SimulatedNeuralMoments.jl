@@ -4,10 +4,10 @@
 
 [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/API.md)
 
-[![Watch the video](https://img.youtube.com/vi/Ps-gl8Hz-20&t=99s/hqdefault.jpg)](https://www.youtube.com/embed/Ps-gl8Hz-20&t=99s)
+[![Watch the video](https://img.youtube.com/vi/Ps-gl8Hz-20/hqdefault.jpg)](https://www.youtube.com/embed/Ps-gl8Hz-20)
 
-[<img src="https://img.youtube.com/vi/Ps-gl8Hz-20&t=99s/hqdefault.jpg" width="600" height="300"
-/>](https://www.youtube.com/embed/Ps-gl8Hz-20&t=99s)
+[<img src="https://img.youtube.com/vi/Ps-gl8Hz-20/hqdefault.jpg" width="600" height="300"
+/>](https://www.youtube.com/embed/Ps-gl8Hz-20)
 
 
 
