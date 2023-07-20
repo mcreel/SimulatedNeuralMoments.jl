@@ -2,13 +2,13 @@
 [![testing](https://github.com/mcreel/SimulatedNeuralMoments.jl/actions/workflows/testing.yml/badge.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/actions/workflows/testing.yml)
 (Testing is done with the latest stable release of Julia, on Linux, Windows, and MacOS)
 
-[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/API.md)
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/API.md
+
+
+**Click on the following image to see an explanatory video:
 
 [![Watch the video](https://img.youtube.com/vi/Ps-gl8Hz-20/hqdefault.jpg)](https://www.youtube.com/embed/Ps-gl8Hz-20)
 
-
-Here's an [explanatory video](https://youtu.be/Ps-gl8Hz-20) that show the basic features of
-the package.
 
 A package for Bayesian Method of Simulated Moments estimation, following Kim, Jae-Young. "Limited information likelihood and Bayesian analysis." Journal of Econometrics 107.1-2 (2002): 175-193 and Chernozhukov, Victor, and Han Hong. "An MCMC approach to classical estimation." Journal of econometrics 115.2 (2003): 293-346. These methods are similar to some forms of Approximate Bayesian Computing.
 
