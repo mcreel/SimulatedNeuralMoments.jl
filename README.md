@@ -6,10 +6,6 @@
 
 [![Watch the video](https://img.youtube.com/vi/Ps-gl8Hz-20/hqdefault.jpg)](https://www.youtube.com/embed/Ps-gl8Hz-20)
 
-[<img src="https://img.youtube.com/vi/Ps-gl8Hz-20/hqdefault.jpg" width="600" height="300"
-/>](https://www.youtube.com/embed/Ps-gl8Hz-20)
-
-
 
 Here's an [explanatory video](https://youtu.be/Ps-gl8Hz-20) that show the basic features of
 the package.
