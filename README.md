@@ -5,7 +5,7 @@
 [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/mcreel/SimulatedNeuralMoments.jl/blob/main/docs/API.md
 
 
-**Click on the following image to see an explanatory video:
+**Click on the following image to see an explanatory video:**
 
 [![Watch the video](https://img.youtube.com/vi/Ps-gl8Hz-20/hqdefault.jpg)](https://www.youtube.com/embed/Ps-gl8Hz-20)
 
