@@ -62,15 +62,15 @@ function Prior(θ)
     InSupport(θ) ? 1.0 : 0.0
 end
 
-# check if parameter is in support.
+# check if parameter is in support, and that uncond. var. of vol. is reasonable
 function InSupport(θ)
     lb,ub = PriorSupport()
-    all(θ .>= lb) & all(θ .<= ub)
+    all(θ .>= lb) & all(θ .<= ub) && (θ[3]/sqrt(1.0 - θ[2]^2.0) < 5.0)   
 end
 
-# limits unconditional variance of volatility to 5.0
-function GoodData(θ)
-    InSupport(θ) ?  (θ[3]/sqrt(1.0 - θ[2]^2.0) < 5.0) : false
+# no data check for this model
+function GoodData(z)
+    true
 end
 
 function PriorDraw()

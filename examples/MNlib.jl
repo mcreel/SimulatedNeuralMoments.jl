@@ -45,7 +45,7 @@ function InSupport(θ)
 end
 
 # no checks needed
-function GoodData(θ)
+function GoodData(z)
     true
 end    
 
