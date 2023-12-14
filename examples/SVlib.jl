@@ -70,7 +70,7 @@ end
 
 # limits unconditional variance of volatility to 5.0
 function GoodData(θ)
-	(θ[3]/sqrt(1.0 - θ[2]^2.0) < 5.0)
+    InSupport(θ) ?  (θ[3]/sqrt(1.0 - θ[2]^2.0) < 5.0) : false
 end
 
 function PriorDraw()
