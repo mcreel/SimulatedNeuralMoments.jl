@@ -44,6 +44,11 @@ function InSupport(θ)
     all(θ .>= lb) & all(θ .<= ub)
 end
 
+# no checks needed
+function GoodData(θ)
+    true
+end    
+
 # prior is flat over support, so return 1 if inside
 function Prior(θ)
     InSupport(θ) ? 1.0 : 0.0

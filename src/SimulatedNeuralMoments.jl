@@ -6,6 +6,7 @@ struct SNMmodel
     samplesize::Int64 # sample size of model
     lb # vector of lower bounds. Can be -Inf, if desired
     ub # vector of upper bounds. Can be inf, if desired
+    gooddata::Function # a function that checks if data is good
     insupport::Function # function that checks if a draw is valid
     prior::Function # the prior, for MCMC
     priordraw::Function # function that returns a draw from prior
@@ -23,7 +24,11 @@ end
 
 # neural moments given statistic
 function NeuralMoments(z, model::SNMmodel, nnmodel, nninfo)
-    min.(max.(Float64.(nnmodel(Float32.(TransformStats((z[:])', nninfo))')), model.lb), model.ub)
+    if model.gooddata(z)
+        return min.(max.(Float64.(nnmodel(Float32.(TransformStats((z[:])', nninfo))')), model.lb), model.ub)
+    else
+        return fill(NaN, size(model.lb,1))
+    end    
 end        
 
 # mean and covariance of output of NN computed using reps draws at θ
@@ -39,6 +44,7 @@ using LinearAlgebra
 function snmobj(θ, m, reps, model::SNMmodel, nnmodel, nninfo)
     model.insupport(θ) || return -Inf
     mbar, Σ = mΣ(θ, reps, model, nnmodel, nninfo)  
+    !any(isnan.(mbar)) && !any(isnan.(Σ)) || return -Inf # bad data check
     n = model.samplesize
     Σ *= n*(1+1/reps) # scale for better numerical accuracy
     isposdef(Σ) || return -Inf

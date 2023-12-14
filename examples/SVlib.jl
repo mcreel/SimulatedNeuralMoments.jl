@@ -62,16 +62,15 @@ function Prior(θ)
     InSupport(θ) ? 1.0 : 0.0
 end
 
-# check if parameter is in support. In this case, we require
-# the bounds, and that the unconditional variance of the volatility
-# shock be limited
+# check if parameter is in support.
 function InSupport(θ)
     lb,ub = PriorSupport()
-    if all(θ .>= lb) & all(θ .<= ub)
-	return  (θ[3]/sqrt(1.0 - θ[2]^2.0) < 5.0)
-    else
-    return false
-    end	
+    all(θ .>= lb) & all(θ .<= ub)
+end
+
+# limits unconditional variance of volatility to 5.0
+function GoodData(θ)
+	(θ[3]/sqrt(1.0 - θ[2]^2.0) < 5.0)
 end
 
 function PriorDraw()

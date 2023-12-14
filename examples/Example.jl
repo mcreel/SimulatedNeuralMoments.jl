@@ -31,7 +31,7 @@ n = size(y,1)
 
 # fill in the structure that defines the model
 lb, ub = PriorSupport() # bounds of support
-model = SNMmodel(whichdgp, n, lb, ub, InSupport, Prior, PriorDraw, auxstat)
+model = SNMmodel(whichdgp, n, lb, ub, GoodData, InSupport, Prior, PriorDraw, auxstat)
 
 ## train the net, and save it and the transformation info
 @info "sampling from prior and training the net"
