@@ -26,8 +26,8 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     end
     # transform stats to robustify against outliers
     q50 = zeros(size(statistics,2))
-    q01 = similar(q50)
-    q99 = similar(q50)
+    q005 = similar(q50)
+    q995 = similar(q50)
     iqr = similar(q50)
     for i = 1:size(statistics,2)
         q = quantile(statistics[:,i],[0.005, 0.25, 0.5, 0.75, 0.995])
