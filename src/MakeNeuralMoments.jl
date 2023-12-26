@@ -30,13 +30,13 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     q99 = similar(q50)
     iqr = similar(q50)
     for i = 1:size(statistics,2)
-        q = quantile(statistics[:,i],[0.01, 0.25, 0.5, 0.75, 0.99])
-        q01[i] = q[1]
+        q = quantile(statistics[:,i],[0.005, 0.25, 0.5, 0.75, 0.995])
+        q005[i] = q[1]
         q50[i] = q[3]
-        q99[i] = q[5]
+        q995[i] = q[5]
         iqr[i] = q[4] - q[2]
     end
-    nninfo = (q01, q50, q99, iqr) 
+    nninfo = (q005, q50, q995, iqr) 
     transf_stats = TransformStats(statistics, nninfo)
     # train net
     TrainingProportion = 0.5 # size of training/testing
@@ -51,13 +51,13 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
     # define the neural net
     nStats = size(xin,1)
     NNmodel = Chain(
-        Dense(nStats, 10*nParams, tanh),
-        Dense(10*nParams, 3*nParams, tanh),
+        Dense(nStats, 10*nParams, hardtanh),
+        Dense(10*nParams, 3*nParams, hardtanh),
         Dense(3*nParams, nParams)
     )
     
     # make the batches
-    batches = [(xin[:,ind],yin[:,ind])  for ind in partition(1:size(yin,2), 50)]
+    batches = [(xin[:,ind],yin[:,ind])  for ind in partition(1:size(yin,2), 100)]
     
     # define at this scope
     bestmodel = NNmodel # holds best model using validation data
@@ -88,7 +88,7 @@ function MakeNeuralMoments(model::SNMmodel;TrainTestSize=1, Epochs=1000)
                 stagnation = 0
             else stagnation += 1    
             end
-            stagnation > 10 ? break : nothing
+            stagnation > 100 ? break : nothing
             err = yout - bestmodel(xout)
             rmse = round.((sqrt.(mean(err.^2.0, dims=2)) ./s)', digits=3)
             printstyled("epoch: $epoch, current loss: ", color=:yellow)
